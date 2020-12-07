@@ -51,13 +51,19 @@
 											</div>
 											<div class="form-group">
 												{{ Form::label('full_name', trans('messages.full-name')) }}
-												{{ Form::text('full_name', $user->name, ["placeholder" => "Jay Siku",
+												{{ Form::text('full_name', $user->name, ["placeholder" => "Name",
+													'class' => 'form-control']) }}
+											</div>
+											<div class="form-group">
+												{{ Form::label('phone', trans('messages.phone-address')) }}
+												{{ Form::text('phone', Input::old('phone'), 
+													["placeholder" => "Phone numbe",
 													'class' => 'form-control']) }}
 											</div>
 											<div class="form-group">
 												{{ Form::label('email', trans('messages.email-address')) }}
 												{{ Form::email('email', Input::old('email'), 
-													["placeholder" => "j.siku@ilabafrica.ac.ke",
+													["placeholder" => "email@chub.com",
 													'class' => 'form-control']) }}
 											</div>
 											<div class="form-group">

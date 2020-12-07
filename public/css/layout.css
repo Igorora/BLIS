@@ -128,6 +128,9 @@ label, input {
 .form-inline label {
     line-height: 34px;
 }
+.wardBed{
+	display: none;
+}
 
 /*
 *
@@ -667,3 +670,7 @@ table.table.report-table-border > tbody > tr > td{
         opacity: .8;
     }
     /*** End button colors ***/
+    .borderless tr td {
+    border: none !important;
+    padding: 4px !important;
+    }

@@ -57,7 +57,7 @@
 				</thead>
 				<tbody>
 					<?php $i = 1;?> 
-					@if (!empty($reportData)){
+					@if (!empty($reportData))
 						@foreach($reportData as $row)
 						<tr>
 							<td>{{$i++}}</td>							

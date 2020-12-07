@@ -32,15 +32,19 @@
 		        </div>
 			</div>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-4 text-center">
 	    	<div class="row">
 				<div class="col-sm-3">
 				  	{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 		                array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
 		        </div>
-		        <div class="col-sm-1">
-					{{Form::submit(trans('messages.export-to-word'), 
-			    		array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}
+		        <div class="col-sm-6 ">
+                    {{ Form::button("<span class='glyphicon glyphicon-download-alt'></span> PDF",
+			                    array('class' => 'btn btn-success', 'id' => 'pdf')) }}
+                </div>
+		        <div  >
+					{{-- {{Form::submit(trans('messages.export-to-word'), 
+			    		array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}} --}}
 				</div>
 			</div>
 		</div>
@@ -121,7 +125,7 @@
 	{{ Form::close() }}
 </div>
 <br />
-<div class="panel panel-primary">
+<div class="panel panel-primary" id="patientReport" data-report="Daily log from {{$from}} to {{$to}}">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span> {{ trans('messages.daily-log') }} - {{ trans('messages.test-records') }}
 	</div>
@@ -188,16 +192,16 @@
 						<td>{{ $test->specimen->specimentype->name }}</td>
 						<td>{{ $test->specimen->time_accepted }}</td>
 						<td>{{ $test->testType->name }}</td>
-						<td>{{ $test->testedBy->name or trans('messages.pending') }}</td>
+						<td>{{ $test->tested_by? $test->testedBy->name : trans('messages.pending') }}</td>
 						<td>
 							@foreach($test->testResults as $result)
-								<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+								<p><strong>{{Measure::find($result->measure_id)->name }}</strong>: {{$result->result}}</p>
 							@endforeach
 						</td>
 						<td>{{ $test->interpretation }}</td>
 						<td>{{ $test->time_completed or trans('messages.pending') }}</td>
-						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending') }}</td>
-						<td>{{ $test->isCompleted()?$test->getFormattedTurnaroundTime():trans('messages.pending') }}</td>
+						<td>{{ $test->verified_by?$test->verifiedBy->name : trans('messages.verification-pending') }}</td>
+						<td>{{ $test->isCompleted() ||  $test->isVerified()?$test->getFormattedTurnaroundTime():trans('messages.pending') }}</td>
 					</tr>
 					@empty
 					<tr><td colspan="13">{{trans('messages.no-records-found')}}</td></tr>

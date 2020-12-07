@@ -87,8 +87,9 @@
                 <?php $selection_interval = array("","","");?>
                 <?php $selection_interval[$value->interval] = "selected='selected'"; ?>
                 <select class="col-md-3 interval" name="">
-                    <option value="0" {{ $selection_interval[0] }}>Months</option>
                     <option value="1" {{ $selection_interval[1] }}>Years</option>
+					<option value="0" {{ $selection_interval[0] }}>Months</option>
+                    
                     <option value="2" {{ $selection_interval[2] }}>Days</option>
                 </select>
                 <span class="col-md-1">:</span>
@@ -129,4 +130,7 @@
     <div class="hidden freetextInputLoader">
         <p class="freetextInput" >{{trans('messages.freetext-measure-config-input-message')}}</p>
     </div><!-- freetextInput -->
+	<div class="hidden largetextInputLoader">
+        <p class="largetextInput" >{{trans('messages.largetext-measure-config-input-message')}}</p>
+    </div><!-- largetextInput -->
 @show

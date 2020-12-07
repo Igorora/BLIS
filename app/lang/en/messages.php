@@ -1,14 +1,12 @@
 <?php
-/** 
+
+/**
  *   To aid quick referencing, keep entries in the same section ALPHABETICALLY ORDERED
  */
-
 return array(
-
-    /** 
+    /**
      *   Generic names
      */
-
     'actions' => 'Actions',
     'add-another' => 'Add Another',
     'back' => 'Previous Page',
@@ -24,7 +22,8 @@ return array(
     'email' => 'Email',
     'female' => 'Female',
     'for' => 'For',
-    'email-address' => 'Email Address',
+    'phone-address' => 'Phonel number',
+	'email-address' => 'Email Address',
     'gender' => 'Gender',
     'field-required' => 'This field is required',
     'full-name' => 'Full Name',
@@ -52,20 +51,18 @@ return array(
     'refer' => 'Refer',
     'in' => 'In',
     'out' => 'Out',
-    'add'   =>  'Add',
-    'new'   =>  'New',
-    'edit'  =>  'Edit',
+    'add' => 'Add',
+    'new' => 'New',
+    'edit' => 'Edit',
     'reorder' => 'Reorder',
-
-    /** 
+    /**
      *   Generic phrases
      */
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
     'court-of-arms' => 'Court of Arms',
-
-    /** 
+    /**
      *   User
      */
     'create-user' => 'Create User',
@@ -76,7 +73,7 @@ return array(
     'edit-user-details' => 'Edit User Details',
     'edit-profile' => 'Edit Profile',
     'failure-creating-user' => 'Failed to create user.',
-    'incorrect-current-passord' => 'Incorrect \''.trans('validation.attributes.current_password').'\' Entered',
+    'incorrect-current-passord' => 'Incorrect \'' . trans('validation.attributes.current_password') . '\' Entered',
     'invalid-login' => 'Username and/or password invalid.',
     'new-password' => 'New Password',
     'new-user' => 'New User',
@@ -87,11 +84,9 @@ return array(
     'success-deleting-user' => 'The user was successfully deleted!',
     'user-details' => 'User Details',
     'user-profile-edit-success' => 'The user details were successfully updated!',
-
-    /** 
+    /**
      *  Patient
      */
-
     'age' => 'Age',
     'create-patient' => 'Create Patient',
     'date-created' => 'Registration Date',
@@ -110,8 +105,7 @@ return array(
     'patient-number' => 'Patient No.',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
-    
-    /** 
+    /**
      *   Specimen
      */
     'not-paid' => 'Not Paid',
@@ -154,11 +148,10 @@ return array(
     'originating-from' => 'Originating From',
     'referred-by' => 'Referred by',
     'recieved-by' => 'Recieved by',
-
-    /** 
+    /**
      *   Test Catalog
      */
-    /*Measure*/
+    /* Measure */
     'add-new-measure-range' => 'Add New Range',
     'add-new-measure' => 'Add New Measure',
     'agemax' => 'Age Max',
@@ -169,6 +162,7 @@ return array(
     'edit-measure-details' => 'Edit Measure Details',
     'failure-test-measure-in-use' => 'This Measure is in use',
     'freetext-measure-config-input-message' => 'A text box will appear for results entry',
+	'largetext-measure-config-input-message' => 'A text area will appear for results entry',
     'list-measures' => 'List Measures',
     'measure' => 'Measure|Measures',
     'measure-age-range' => 'Age Range',
@@ -187,16 +181,12 @@ return array(
     'success-updating-measure' => 'The measure details were successfully updated!',
     'update-measure' => 'Update Measure',
     'value' => 'Value',
-
-    /*Specimen Type*/
-
+    /* Specimen Type */
     'failure-specimen-type-in-use' => 'This Specimen Type is in use',
     'success-creating-specimen-type' => 'Successfully created specimen type!',
     'success-deleting-specimen-type' => 'Successfully deleted the Specimen Type!',
     'success-updating-specimen-type' => 'The specimen type details were successfully updated!',
-
-    /*Specimen Rejection*/
-    
+    /* Specimen Rejection */
     'add-rejection-reason' => 'Add New Rejection Reason',
     'edit-rejection-reason' => ' Edit Rejection Reason',
     'failure-specimen-rejection-reason-in-use' => 'This Rejection Reason is in Use',
@@ -204,9 +194,7 @@ return array(
     'success-creating-rejection-reason' => 'Rejection Reason Successfully Created',
     'success-deleting-rejection-reason' => 'Rejection Reason Successfully Deleted',
     'success-updating-rejection-reason' => 'Rejection Reason Successfully Updated',
-
-    /*Test Categories*/
-
+    /* Test Categories */
     'create-test-category' => 'Create Lab Section',
     'edit-test-category' => 'Edit Lab Section',
     'failure-test-category-in-use' => 'This category is a group of Test Types in use',
@@ -216,9 +204,7 @@ return array(
     'test-category' => 'Lab Section|Lab Sections',
     'test-category-details' => 'Lab Section Details',
     'list-test-categories' => 'List Lab Sections',
-
-    /* Test Types*/
-
+    /* Test Types */
     'compatible-specimen' => 'Compatible Specimen',
     'create-test-type' => 'Create Test Type',
     'edit-test-type' => 'Edit Test Type',
@@ -231,13 +217,11 @@ return array(
     'success-creating-test-type' => 'Successfully created Test Type.',
     'success-deleting-test-type' => 'The Test Type was successfully deleted.',
     'success-updating-test-type' => 'The Test Type details were successfully updated.',
-    'target-turnaround-time' => 'Target Turnaround Time',
+    'target-turnaround-time' => 'Target Turnaround Time in hours',
     'test-type' => 'Test Type|Test Types',
     'test-type-details' => 'Test Type Details',
     'orderable-test' => 'Can order test',
-
     /* Drugs */
-
     'drug' => 'Drug|Drugs',
     'create-drug' => 'Create Drug',
     'edit-drug' => 'Edit Drug',
@@ -247,9 +231,7 @@ return array(
     'success-updating-drug' => 'The Drug was successfully updated!',
     'drug-details' => 'Drug Details',
     'list-drugs' => 'List Drugs',
-
     /* Organisms */
-
     'organism' => 'Organism|Organisms',
     'create-organism' => 'Create Organism',
     'edit-organism' => 'Edit Organism',
@@ -262,22 +244,20 @@ return array(
     'compatible-drugs' => 'Compatible Drugs',
     'no-compatible-drugs' => 'No compatible drugs found for this organism.',
     /* Culture worksheet */
-    'culture-worksheet' =>  'CULTURE WORKSHEET',
-    'culture-work-up' =>  'CULTURE OBSERVATIONS AND WORK-UP',
-    'show-culture-worksheet'    =>  'Show Culture Worksheet?',
-    'select-organisms'  =>  'Select Organisms',
-    'date'  =>  'Date',
-    'tech-initials' =>  'Tech Initials',
-    'observations-and-work-up'  =>  'Observations and work-up',
-    'susceptibility-test-results'   =>  'SUSCEPTIBILITY TEST RESULTS',
-    'select-isolates'   =>  'Select Isolated Organisms',
-    'zone-size' =>  'Zone size (mm)',
-    'interp'    =>  'Interpretation (S, I, R)',
-
+    'culture-worksheet' => 'CULTURE WORKSHEET',
+    'culture-work-up' => 'CULTURE OBSERVATIONS AND WORK-UP',
+    'show-culture-worksheet' => 'Show Culture Worksheet?',
+    'select-organisms' => 'Select Organisms',
+    'date' => 'Date',
+    'tech-initials' => 'Tech Initials',
+    'observations-and-work-up' => 'Observations and work-up',
+    'susceptibility-test-results' => 'SUSCEPTIBILITY TEST RESULTS',
+    'select-isolates' => 'Select Isolated Organisms',
+    'zone-size' => 'Zone size (mm)',
+    'interp' => 'Interpretation (S, I, R)',
     /**
      *  Tests
      */
-
     'all' => 'All',
     'create-new-test' => 'Create New Test',
     'completed' => 'Test Completed',
@@ -324,12 +304,14 @@ return array(
     'patient-lab-number' => 'Lab No.',
     'visit-number' => 'Visit No.',
     'visit-type' => 'Visit Type',
+    'visit_amount' => 'Paid amount',
+	'clinicinfo'=> 'Clinical information',
+    'department' => 'Requesting department',
     'previous-results' => 'Previous results',
     'current-result' => 'Current result',
     'audit-report' => 'Audit Report',
     'entered-by' => 'Entered by',
-
-    /** 
+    /**
      *   Tests search panel
      */
     'empty-search' => 'Your search did not match any test record!',
@@ -337,8 +319,6 @@ return array(
     'search' => 'Search',
     'search-patient-placeholder' => 'Enter patient name or ID',
     'to' => 'To',
-
-
     /**
      *   Tests Results
      */
@@ -350,11 +330,16 @@ return array(
     'success-saving-results' => 'The results have been successfully saved!',
     'success-verifying-results' => 'The results have been successfully verified!',
     'test-results' => 'Results',
-
-    /** 
+	
+				/**
+     *   Tests Rec
+     */
+					'success-Lab-request-submited'=>'Lab request submited for testing',
+					
+					
+    /**
      *   Access Controls
      */
-
     'access-controls' => 'Access Controls',
     'assign-roles' => 'Assign Roles',
     'assign-roles-to-users' => 'Assign roles to Users',
@@ -369,21 +354,20 @@ return array(
     'success-deleting-role' => 'Roles successfully deleted!',
     'success-updating-role' => 'Roles successfully updated!',
     'user-accounts' => 'User Accounts',
-
-    /** 
+    /**
      *   Reports
      */
     'aggregate-reports' => 'Aggregate Reports',
-    'collected-by'  =>  'Collected By',
+    'collected-by' => 'Collected By',
     'count' => 'Count|Counts',
     'daily-log' => 'Daily Log',
     'daily-reports' => 'Daily Reports',
-    'date-checked'  =>  'Date Checked',
+    'date-checked' => 'Date Checked',
     'date-tested' => 'Date Tested',
     'date-verified' => 'Date Verified',
     'export-to-pdf' => 'Export to PDF',
     'export-to-word' => 'Export to Word',
-    'hospital-number'   =>  'Hospital number',
+    'hospital-number' => 'Hospital number',
     'include-pending-tests' => 'Include Pending Tests',
     'include-range-visualization' => 'Include Range Visualization',
     'no-records-found' => 'No records found.',
@@ -391,74 +375,73 @@ return array(
     'prevalence-rates' => 'Prevalence Rates',
     'report' => 'Report|Reports',
     'print' => 'Print',
-    'rejected-by'   =>  'Rejected by',
-    'requesting-facility-department' => 'Requesting Facility/Department',
+    'rejected-by' => 'Rejected by',
+    'requesting-facility-department' => 'Requesting Facility/Department/Clinician',
     'results-entry-date' => 'Results Entry Date',
     'statutory-reports' => 'Statutory Reports',
     'test-results-values' => 'Test:Result',
     'view-report' => 'View Report',
     'view-visit-report' => 'View visit report',
     'view-test-report' => 'View test report',
-    'test-records'  =>  'Test Records',
-    'patient-records' =>    'Patient Records',
-    'rejected-specimen' =>  'Rejected Specimen Records',
-    'show-hide' =>  'Show/Hide Summary',
-    'total-visits'  =>  'Total Visits',
-    'summary'   =>  'Summary',
-    'daily-visits' =>  'Daily visits',
-    'pending-only'  =>  'Pending Tests Only',
-    'all-tests' =>  'All Tests',
-    'date-rejected' =>  'Date Rejected',
-    'complete-tests'    =>  'Complete Tests',
-    'total-specimen'    =>  'Total Specimen',
-    'positive'  =>  'Positive',
-    'negative'  =>  'Negative',
-    'prevalence-rates-label'    =>  'Cummulative Percentage (%)',
-    'no-match'  =>  'Your filter did not match any records.',
-    'check-date-range'  =>  'Please check your dates range and try again!',
-    'time-in-years' =>  'Time(yrs)',
-    'time-in-months'    =>  'Time(months)',
-    'time-in-weeks' =>  'Time(weeks)',
-    'time-in-days'  =>  'Time(Days)',
-    'for-the-year'  =>  'For the Year',
+    'test-records' => 'Test Records',
+    'patient-records' => 'Patient Records',
+    'rejected-specimen' => 'Rejected Specimen Records',
+    'show-hide' => 'Show/Hide Summary',
+    'total-visits' => 'Total Visits',
+    'summary' => 'Summary',
+    'daily-visits' => 'Daily visits',
+    'pending-only' => 'Pending Tests Only',
+    'all-tests' => 'All Tests',
+    'date-rejected' => 'Date Rejected',
+    'complete-tests' => 'Complete Tests',
+    'total-specimen' => 'Total Specimen',
+    'positive' => 'Positive',
+    'negative' => 'Negative',
+    'prevalence-rates-label' => 'Cummulative Percentage (%)',
+    'no-match' => 'Your filter did not match any records.',
+    'check-date-range' => 'Please check your dates range and try again!',
+    'time-in-years' => 'Time(yrs)',
+    'time-in-months' => 'Time(months)',
+    'time-in-weeks' => 'Time(weeks)',
+    'time-in-days' => 'Time(Days)',
+    'for-the-year' => 'For the Year',
     'select-lab-section' => 'Select Lab Section',
-    'select-test-type'  =>  'Select Test Type',
-    'pending-tests' =>  'Pending Tests',
-    'ungrouped-test-counts' =>  'Test Counts (Ungrouped)',
-    'grouped-test-counts' =>  'Test Counts (Grouped)',
-    'ungrouped-specimen-counts' =>  'Specimen Counts (Ungrouped)',
-    'grouped-specimen-counts' =>  'Specimen Counts (Grouped)',
-    'select-date'   =>  'Select Date',
-    'checked-by'    =>  'Checked by',
-    'patient-report-no' =>  'Form No. BDHL-QUA-017F3',
-    'patient-report-version'    =>  'Version 1',
-    'signature-holder'  =>  '............................................',
-    'surveillance'    =>  'Surveillance',
-    'request-origin'    =>  'Request origin',
-    'laboratory'    =>  'Laboratory',
-    'tested'    =>  'Tested',
-    'less-five'    =>  '< 5 Years',
-    'greater-five'    =>  '≥ 5 Years',
+    'select-test-type' => 'Select Test Type',
+    'pending-tests' => 'Pending Tests',
+    'ungrouped-test-counts' => 'Test Counts (Ungrouped)',
+    'grouped-test-counts' => 'Test Counts (Grouped)',
+    'ungrouped-specimen-counts' => 'Specimen Counts (Ungrouped)',
+    'grouped-specimen-counts' => 'Specimen Counts (Grouped)',
+    'select-date' => 'Select Date',
+    'checked-by' => 'Checked by',
+    'patient-report-no' => 'Form No. BDHL-QUA-017F3',
+    'patient-report-version' => 'Version 1',
+    'signature-holder' => '............................................',
+    'surveillance' => 'Surveillance',
+    'request-origin' => 'Request origin',
+    'laboratory' => 'Laboratory',
+    'tested' => 'Tested',
+    'less-five' => '< 5 Years',
+    'greater-five' => '≥ 5 Years',
     'laboratory-report' => 'LABORATORY REPORT',
     'adhoc-report' => 'Custom Reports',
-    'select-report-filters'=>"Select Filters to Generate Custom Report",
-    'generate_report'=>"Generate Report",
-    /* Infection Report*/
-    'age-ranges'    =>  'Age Ranges',
+    'select-report-filters' => "Select Filters to Generate Custom Report",
+    'generate_report' => "Generate Report",
+    /* Infection Report */
+    'age-ranges' => 'Age Ranges',
     'infection-report' => 'Infection Report',
-    'mf-total'  =>  'M/F Total',
-    'total'   =>  'Total|Totals',
-    'total-tests'   =>  'Total Tests',
-    'select-interval'   =>  'Select Interval',
-    'interval'  =>  'Interval',
-    'expected-tat'  =>  'Expected TAT',
-    'actual-tat'    =>  'Actual TAT',
-    'waiting-time'  =>  'Waiting Time',
-    'monthly'   =>  'Monthly',
-    'weekly'    =>  'Weekly',
-    'daily' =>  'Daily',
-
-    /* Usage Statistics Reports*/ 
+    'mf-total' => 'M/F Total',
+    'total' => 'Total|Totals',
+    'total-tests' => 'Total Tests',
+    'select-interval' => 'Select Interval',
+    'interval' => 'Interval',
+    'expected-tat' => 'Expected TAT',
+    'actual-tat' => 'Actual TAT',
+    'waiting-time' => 'Waiting Time',
+    'monthly' => 'Monthly',
+    'weekly' => 'Weekly',
+    'daily' => 'Daily',
+    /* Usage Statistics Reports */
     'accepted-specimen' => 'Specimen Collected',
     'no-data-found' => 'No data available!',
     'performed-tests' => 'Tests Performed',
@@ -475,18 +458,14 @@ return array(
     'user-statistics-tests-performed-report-title' => 'Tests Performed (Period: [FROM] - [TO] [USER])',
     'user-statistics-tests-register-report-title' => 'Tests Registered (Period: [FROM] - [TO] [USER])',
     'verified-tests' => 'Tests Verified',
-
-     /* Inventory Reports*/ 
+    /* Inventory Reports */
     'balance' => 'Balance',
     'inventory-reports' => 'Inventory Reports',
     'stock-levels' => 'Stock Levels',
     'stock-level-report' => 'Stock Level Report',
     'monthly-stock-level-report-title' => 'Monthly Stock Levels (Period: [FROM] - [TO])',
     'quarterly-stock-level-report-title' => 'Quarterly Stock Levels (Period: [FROM] - [TO] )',
-    
- 
-
-    /** 
+    /**
      *   Configurations
      */
     'add-facility' => 'Add a facility',
@@ -501,12 +480,9 @@ return array(
     'require-verification-to-send' => 'Verify to Send Results',
     'specify-period' => 'Verification Hours',
     'twenty-four-hours' => 'Always',
-
-
-
     /*
-    *   Instrumentation
-    */
+     *   Instrumentation
+     */
     'add-instrument' => 'Add Equipment',
     'driver-file' => 'Select File',
     'edit-instrument' => 'Edit Equipment',
@@ -532,8 +508,7 @@ return array(
     'success-updating-instrument' => 'The equipment details were successfully updated!',
     'supported-test-types' => 'Supported Tests',
     'unwriteable-destination-folder' => 'Unable to write to the plugins folder',
-
-    /** 
+    /**
      *   Dates
      */
     'year' => 'Year|Years',
@@ -542,60 +517,59 @@ return array(
     'hour' => 'Hour|Hours',
     'minute' => 'Minute|Minutes',
     'second' => 'Second|Seconds',
-  
-    /** 
+    /**
      *   Inventory
      */
-    'inventory'     =>  'Inventory',
-    'item'          =>  'Item|Items',
-    'supplier'      =>  'Supplier|Suppliers',
-    'top-up'        =>  'Request|Requests',
-    'receive'       => 'Receive',
-    'request'       =>  'Request|Requests',
-    'requested'     =>  'Requested',
-    'requested-by'  =>  'Requested By',
-    'stock'         =>  'Stock|Stocks',
-    'stock-levels'  =>  'Stock Levels',
-    'unit'          =>  'Unit',
-    'min-level'     =>  'Min. Level',
-    'max-level'     =>  'Max. Level',
-    'lot-no'        =>  'Lot No.',
-    'quantity'      =>  'Quantity',
-    'expiry'        =>  'Expiry Date',
-    'manufacturer'  =>  'Manufacturer',
-    'ordered'       =>  'Quantity Ordered',
-    'supplied'      =>  'Quantity Supplied',
-    'cost-per-unit' =>  'Cost Per Unit',
-    'date-supplied' =>  'Date Supplied',
-    'stock-usage'   =>  'Stock Usage',
-    'available-qty' =>  'Available Quantity',
-    'date-of-usage' =>  'Date of Issue',
-    'signed-out'    =>  'Quantity Signed Out',
-    'lot'           =>  'Lot',
-    'batch-no'      =>  'Batch No',
-    'usage'         =>  'Usage',
-    'export'        =>  'Export',
-    'log-usage'     =>  'Log Stock Usage',
-    'add-stock'     =>  'Add Stock',
-    'update-stock'  =>  'Issue Stock',
-    'details'       =>  'Details',
-    'phone'         =>  'Phone',
-    'email'         =>  'Email Address',
-    'address'       =>  'Address',
-    'remarks'       =>  'Remarks',
-    'storage'       =>  'Storage Req.',
-    'date-received' =>  'Date Received',
-    'id'            =>  'ID',
-    'status'        =>  'Status',
-    'issue'        =>  'Issue',
-    'issued'        =>  'Issued',
-    'not-issued'    =>  'Pending',
-    'supply'        =>'Supply',
-    'supply-report'        =>'Supply Report',
+    'inventory' => 'Inventory',
+    'item' => 'Item|Items',
+    'supplier' => 'Supplier|Suppliers',
+    'top-up' => 'Request|Requests',
+    'receive' => 'Receive',
+    'request' => 'Request|Requests',
+    'requested' => 'Requested',
+    'requested-by' => 'Requested By',
+    'stock' => 'Stock|Stocks',
+    'stock-levels' => 'Stock Levels',
+    'unit' => 'Unit',
+    'min-level' => 'Min. Level',
+    'max-level' => 'Max. Level',
+    'lot-no' => 'Lot No.',
+    'quantity' => 'Quantity',
+    'expiry' => 'Expiry Date',
+    'manufacturer' => 'Manufacturer',
+    'ordered' => 'Quantity Ordered',
+    'supplied' => 'Quantity Supplied',
+    'cost-per-unit' => 'Cost Per Unit',
+    'date-supplied' => 'Date Supplied',
+    'stock-usage' => 'Stock Usage',
+    'available-qty' => 'Available Quantity',
+    'date-of-usage' => 'Date of Issue',
+    'signed-out' => 'Quantity Signed Out',
+    'lot' => 'Lot',
+    'batch-no' => 'Batch No',
+    'usage' => 'Usage',
+    'export' => 'Export',
+    'log-usage' => 'Log Stock Usage',
+    'add-stock' => 'Add Stock',
+    'update-stock' => 'Issue Stock',
+    'details' => 'Details',
+    'phone' => 'Phone',
+    'email' => 'Email Address',
+    'address' => 'Address',
+    'remarks' => 'Remarks',
+    'storage' => 'Storage Req.',
+    'date-received' => 'Date Received',
+    'id' => 'ID',
+    'status' => 'Status',
+    'issue' => 'Issue',
+    'issued' => 'Issued',
+    'not-issued' => 'Pending',
+    'supply' => 'Supply',
+    'supply-report' => 'Supply Report',
     /**
-    *
-    * Quality controls
-    */
+     *
+     * Quality controls
+     */
     'quality-control' => 'Quality Control|Quality Controls',
     'instrument' => 'Instrument|Instruments',
     'lot' => 'Lot|Lots',
@@ -620,129 +594,124 @@ return array(
     'success-updating-control' => 'The Control has been successfully updated',
     'success-deleting-control' => 'The Control has been successfully deleted',
     'success-adding-control-result' => 'The control results have been succesfully added',
-
-    /** 
+    /**
      *   MOH 706 report
      */
-    'moh-706'   =>  'MOH 706',
-    'moh'   =>  'Ministry of Health',
-    'lab-tests-data-report'  =>  'Laboratory Tests Data Summary Report Form',
-    'affiliation'   =>  'Affiliation',
-    'reporting-period'  =>  'Reporting Period',
-    'begin-end' =>  'Begining|Ending',
-    /** 
+    'moh-706' => 'MOH 706',
+    'moh' => 'Ministry of Health',
+    'lab-tests-data-report' => 'Laboratory Tests Data Summary Report Form',
+    'affiliation' => 'Affiliation',
+    'reporting-period' => 'Reporting Period',
+    'begin-end' => 'Begining|Ending',
+    /**
      *   Controls
      */
-    'gok'   =>  'GOK',
-    'no-service'    =>  'N/B: INDICATE N/S Where there is no service',
+    'gok' => 'GOK',
+    'no-service' => 'N/B: INDICATE N/S Where there is no service',
     'control-results-edit' => 'Results Edit',
-    'edit-results'=>'Edit Results',
-    'show-results'=>'Results',
-    'list-results'=>'List of Results',
-    'created-at' =>'Date Entered',
-    'result-name'=>'Result',
+    'edit-results' => 'Edit Results',
+    'show-results' => 'Results',
+    'list-results' => 'List of Results',
+    'created-at' => 'Date Entered',
+    'result-name' => 'Result',
     'success-updating-control-result' => 'The control results have been succesfully updated',
     /**
-    *
-    * 15189 Accreditation
-    */
-    'accredited'    =>  'Accredited?',
-    'quality-manager'   =>  'Quality Manager',
-    'lab-manager'   =>  'Laboratory Manager',
-    'lab-director'   =>  'Laboratory Director',
-    'authorized-by' =>  'Authroized By: ',
+     *
+     * 15189 Accreditation
+     */
+    'accredited' => 'Accredited?',
+    'quality-manager' => 'Quality Manager',
+    'lab-manager' => 'Laboratory Manager',
+    'lab-director' => 'Head of Department',
+    'authorized-by' => 'Authroized By: ',
     /**
-    *
-    * Barcode
-    */
-    'barcode'    =>  'Barcode',
-    'barcode-settings'   =>  'Barcode Settings',
-    'encoding-format'   =>  'Encoding Format',
-    'barcode-width'   =>  'Barcode Width',
-    'barcode-height'   =>  'Barcode Height',
-    'text-size'   =>  'Text Size',
-    'configure-barcode-settings'    => 'Configure Barcode Format Settings',
+     *
+     * Barcode
+     */
+    'barcode' => 'Barcode',
+    'barcode-settings' => 'Barcode Settings',
+    'encoding-format' => 'Encoding Format',
+    'barcode-width' => 'Barcode Width',
+    'barcode-height' => 'Barcode Height',
+    'text-size' => 'Text Size',
+    'configure-barcode-settings' => 'Configure Barcode Format Settings',
     'barcode-update-success' => 'Barcode settings successfully updated.',
     /**
-    *
-    * BLIS client interfacer
-    */
-    'interfaced-equipment'  =>  'Interfaced Equipment',
-    'equipment' =>  'Equipment',
-    'uni'   =>  'Uni-directional',
-    'bi'    =>  'Bi-directional',
-    'select-equipment'  =>  'Select Equipment to be interfaced through BLISInterfaceClient',
+     *
+     * BLIS client interfacer
+     */
+    'interfaced-equipment' => 'Interfaced Equipment',
+    'equipment' => 'Equipment',
+    'uni' => 'Uni-directional',
+    'bi' => 'Bi-directional',
+    'select-equipment' => 'Select Equipment to be interfaced through BLISInterfaceClient',
     /**
-    * cd4 report
-    */
-    'cd4-report'  =>  'CD4 Report',
-    'baseline'  =>  'Baseline',
-    'follow-up' =>  'Follow Up',
-    'cd4-less'  =>  '< 500',
-    'cd4-greater'   =>  '> 500',   
+     * cd4 report
+     */
+    'cd4-report' => 'CD4 Report',
+    'baseline' => 'Baseline',
+    'follow-up' => 'Follow Up',
+    'cd4-less' => '< 500',
+    'cd4-greater' => '> 500',
     /**
-    * Generic messages
-    */
-    'record-successfully-saved'     =>  'The record was successfully saved.',
-    'record-successfully-updated'   =>  'The record was successfully updated.',
-    'record-successfully-deleted'   =>  'The record was successfully deleted.',
-    'failure-delete-record'         =>  'Encountered error while attempting to delete record. Record in use',
-    'insufficient-stock'            =>  'Quantity in stock is less that quantity issued. Please add stock.',
-    'issued-greater-than-ordered'   =>  'Attempting to issue more stock than ordered. Please check your values.',
-    'facility'                      =>  'Facility|Facilities',
-
-    'verifification-warning'        =>  'Please note : The results  will not be sent to the HMIS until the results are verified!',
-    'quantity-remaining'            =>  'Current Balance',
-    'order-quantity'                =>  'Order Quantity',
-    'tests-done'                    =>  'Tests Done',
-    'ordered-by'                    =>  'Ordered By',
-    'issued-by'                     =>  'Issued By',
-    'received-by'                   =>  'Received By',
-    'destination'                   =>  'Destination',
-    'performed-by'                  =>  'Performed By',
+     * Generic messages
+     */
+    'record-successfully-saved' => 'The record was successfully saved.',
+    'record-successfully-updated' => 'The record was successfully updated.',
+    'record-successfully-deleted' => 'The record was successfully deleted.',
+    'failure-delete-record' => 'Encountered error while attempting to delete record. Record in use',
+    'insufficient-stock' => 'Quantity in stock is less that quantity issued. Please add stock.',
+    'issued-greater-than-ordered' => 'Attempting to issue more stock than ordered. Please check your values.',
+    'facility' => 'Facility|Facilities',
+    'verifification-warning' => 'Please note : The results  will not be sent to the HMIS until the results are verified!',
+    'quantity-remaining' => 'Current Balance',
+    'order-quantity' => 'Order Quantity',
+    'tests-done' => 'Tests Done',
+    'ordered-by' => 'Ordered By',
+    'issued-by' => 'Issued By',
+    'received-by' => 'Received By',
+    'destination' => 'Destination',
+    'performed-by' => 'Performed By',
     /**
-    * Critical Values
-    */
-    'parameter'     =>      'Parameter',
-    'age-min'       =>      'Lower Age Limit',
-    'age-max'       =>      'Upper Age Limit',
-    'normal-lower'  =>      'Lower Normal Limit',
-    'normal-upper'  =>      'Upper Normal Limit',
-    'critical-low'  =>      'Critical Low',
-    'critical-high' =>      'Critical High',
-    'critical'      =>      'Critical Value|Critical Values',
-    'microcritical' =>      'Microbiology Critical|Microbiology Critical',
-    'add-new'       =>      'Add New',
-    'crit-val'      =>      'Critical Values',
-
-    'abbreviation'  =>      'Abbreviation',
-
+     * Critical Values
+     */
+    'parameter' => 'Parameter',
+    'age-min' => 'Lower Age Limit',
+    'age-max' => 'Upper Age Limit',
+    'normal-lower' => 'Lower Normal Limit',
+    'normal-upper' => 'Upper Normal Limit',
+    'critical-low' => 'Critical Low',
+    'critical-high' => 'Critical High',
+    'critical' => 'Critical Value|Critical Values',
+    'microcritical' => 'Microbiology Critical|Microbiology Critical',
+    'add-new' => 'Add New',
+    'crit-val' => 'Critical Values',
+    'abbreviation' => 'Abbreviation',
     /**
-    * Blood bank
-    */
-    'blood-bank'      =>    'Blood Bank',
-    'bag-number'      =>    'Blood Bag Number',
-    'blood-group'     =>    'Blood Group',
-    'volume'          =>    'Volume',
-    'date-collected'  =>    'Date Collected',
-    'blood-details'   =>    'Blood Details',
-
+     * Blood bank
+     */
+    'blood-bank' => 'Blood Bank',
+    'bag-number' => 'Blood Bag Number',
+    'blood-group' => 'Blood Group',
+    'volume' => 'Volume',
+    'date-collected' => 'Date Collected',
+    'blood-details' => 'Blood Details',
     /**
-    *Panels
-    */
-    'panels'            =>'Panels',
-    'list-panel'        => 'List Panels',
-    'new-panel'         =>'New Panel',
-    'panel_name'        => 'Panel Name',
+     * Panels
+     */
+    'panels' => 'Panels',
+    'list-panel' => 'List Panels',
+    'new-panel' => 'New Panel',
+    'panel_name' => 'Panel Name',
     'panel_description' => 'Description',
-    'add-panel'         => 'Add Panel',
+    'add-panel' => 'Add Panel',
     'success-adding-panel' => ' Successfully Added Panel',
-    'success-updating-panel'=>'Successfully updated panel',
-    'failure-updating-panel'=>'Failed to update panel',
-    'success-deleting-panel'=> 'Successfully Deleted Panel',
-    'failure-panel-in-use'=> 'The panel is in use',
-    'panel-details'     => 'Panel Details',
-    'edit-panel'        => 'Edit Panel',
-    'panel_id'          => 'Panel ID',
-    'panel-type'        =>  'Panel Type',
+    'success-updating-panel' => 'Successfully updated panel',
+    'failure-updating-panel' => 'Failed to update panel',
+    'success-deleting-panel' => 'Successfully Deleted Panel',
+    'failure-panel-in-use' => 'The panel is in use',
+    'panel-details' => 'Panel Details',
+    'edit-panel' => 'Edit Panel',
+    'panel_id' => 'Panel ID',
+    'panel-type' => 'Panel Type',
 );

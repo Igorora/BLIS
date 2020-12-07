@@ -39,7 +39,7 @@ class Patient extends Eloquent
 	 */
 	public function getAge($format = "YYMM", $at = NULL)
 	{
-		if(!$at)$at = new DateTime('now');
+		$at = !$at ? new DateTime('now') :  new DateTime($at);
 
 		$dateOfBirth = new DateTime($this->dob);
 		$interval = $dateOfBirth->diff($at);
@@ -55,6 +55,8 @@ class Patient extends Eloquent
 				$age = $interval->d;break;
 			case 'YY':
 				$age = $interval->y ." years ";break;
+			case 'days':
+				$age = $interval->format('%a');break;
 			default:
 				$age = ($interval->y > 0)?$interval->y ." years ":"";
 				$age .= ($interval->m > 0)?$interval->m ." months ":"";

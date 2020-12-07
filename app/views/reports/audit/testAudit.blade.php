@@ -19,17 +19,21 @@
 		        <div class="col-sm-3">
 					
 	            </div>
-	            <div class="col-sm-3">
-					<div class="row">
+	            <div class="col-sm-3 text-center">
+				<!-- 	<div class="row">
 			            {{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 
 					        	'id' => 'word', 'name' => 'word')) }}   
-				    </div>
+				    </div> -->
+					 <div class="row">
+                    {{ Form::button("<span class='glyphicon glyphicon-download-alt'></span> PDF",
+			                    array('class' => 'btn btn-success', 'id' => 'pdf')) }}
+                </div>
 			    </div>
 		    </div>
 		{{ Form::close() }}
 	</div>
 	<br />
-	<div class="panel panel-primary" id="patientReport">
+	<div class="panel panel-primary" id="patientReport" data-report="{{str_replace(" ", "", $test->visit->patient->name) . $test->visit->patient->patient_number . '_'.date("Ymdhi") }}">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
 			{{ trans('messages.patient-report') }}
@@ -76,54 +80,13 @@
 					</tr>
 					<tr>
 						<th>{{ trans('messages.patient-lab-number')}}</th>
-						<td>{{ $test->visit->patient->external_patient_number }}</td>
+						<td>{{ $test->visit->id }}</td>
 						<th>{{ trans('messages.requesting-facility-department')}}</th>
-						<td>{{ Config::get('kblis.organization') }}</td>
+						<td>{{ $test->visit->department }}</td>
 					</tr>
 				</tbody>
 			</table>
-			<table class="table table-bordered">
-				<tbody>
-					<tr>
-						<th colspan="7">{{trans('messages.specimen')}}</th>
-					</tr>
-					<tr>
-						<th>{{ Lang::choice('messages.specimen-type', 1)}}</th>
-						<th>{{ Lang::choice('messages.test', 2)}}</th>
-						<th>{{ trans('messages.date-ordered') }}</th>
-						<th>{{ Lang::choice('messages.test-category', 2)}}</th>
-						<th>{{ trans('messages.specimen-status')}}</th>
-						<th>{{ trans('messages.collected-by')."/".trans('messages.rejected-by')}}</th>
-						<th>{{ trans('messages.date-checked')}}</th>
-					</tr>
-					@if($test)
-							<tr>
-								<td>{{ $test->specimen->specimenType->name }}</td>
-								<td>{{ $test->testType->name }}</td>
-								<td>{{ $test->isExternal()?$test->external()->request_date:$test->time_created }}</td>
-								<td>{{ $test->testType->testCategory->name }}</td>
-								@if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
-									<td>{{trans('messages.specimen-not-collected')}}</td>
-									<td></td>
-									<td></td>
-								@elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
-									<td>{{trans('messages.specimen-accepted')}}</td>
-									<td>{{$test->specimen->acceptedBy->name}}</td>
-									<td>{{$test->specimen->time_accepted}}</td>
-								@elseif($test->specimen->specimen_status_id == Specimen::REJECTED)
-									<td>{{trans('messages.specimen-rejected')}}</td>
-									<td>{{$test->specimen->rejectedBy->name}}</td>
-									<td>{{$test->specimen->time_rejected}}</td>
-								@endif
-							</tr>
-					@else
-						<tr>
-							<td colspan="7">{{trans("messages.no-records-found")}}</td>
-						</tr>
-					@endif
-
-				</tbody>
-			</table>
+			
 
 			<table class="table table-bordered">
 				<tbody>
@@ -180,6 +143,50 @@
 					@endif
 				</tbody>
 			</table>
+			@if(Entrust::can('view_specimen_details'))
+			<table class="table table-bordered" id="specimen_details">
+				<tbody>
+					<tr>
+						<th colspan="7">{{trans('messages.specimen')}}</th>
+					</tr>
+					<tr>
+						<th>{{ Lang::choice('messages.specimen-type', 1)}}</th>
+						<th>{{ Lang::choice('messages.test', 2)}}</th>
+						<th>{{ trans('messages.date-ordered') }}</th>
+						<th>{{ Lang::choice('messages.test-category', 2)}}</th>
+						<th>{{ trans('messages.specimen-status')}}</th>
+						<th>{{ trans('messages.collected-by')."/".trans('messages.rejected-by')}}</th>
+						<th>{{ trans('messages.date-checked')}}</th>
+					</tr>
+					@if($test)
+							<tr>
+								<td>{{ $test->specimen->specimenType->name }}</td>
+								<td>{{ $test->testType->name }}</td>
+								<td>{{ $test->isExternal()?$test->external()->request_date:$test->time_created }}</td>
+								<td>{{ $test->testType->testCategory->name }}</td>
+								@if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+									<td>{{trans('messages.specimen-not-collected')}}</td>
+									<td></td>
+									<td></td>
+								@elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
+									<td>{{trans('messages.specimen-accepted')}}</td>
+									<td>{{$test->specimen->acceptedBy->name}}</td>
+									<td>{{$test->specimen->time_accepted}}</td>
+								@elseif($test->specimen->specimen_status_id == Specimen::REJECTED)
+									<td>{{trans('messages.specimen-rejected')}}</td>
+									<td>{{$test->specimen->rejectedBy->name}}</td>
+									<td>{{$test->specimen->time_rejected}}</td>
+								@endif
+							</tr>
+					@else
+						<tr>
+							<td colspan="7">{{trans("messages.no-records-found")}}</td>
+						</tr>
+					@endif
+
+				</tbody>
+			</table>
+			@endif
 
 			</div>
 			</div>

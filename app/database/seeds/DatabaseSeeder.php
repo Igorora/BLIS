@@ -10,10 +10,19 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		Eloquent::unguard();
-		// $this->call('KBLISSeeder');
-		$this->call('TestDataSeeder');
-		$this->call('ConfigSettingSeeder');
-		// $this->call('CCCSeeder');
-		// $this->call('EditVerifiedSeeder');
+		DB::transaction(function()
+			{
+			// $this->call('KBLISSeeder');
+			//$this->call('TestDataSeeder');
+			//$this->call('ConfigSettingSeeder');
+			//$this->call('CountrySeeder');
+			//$this->call('ProvinceDistritSeeder');
+			//$this->call('SectorSeeder');
+			//$this->call('CellSeeder');
+			//$this->call('VillageSeeder');
+			//$this->call('PermissionsUpdater');
+			// $this->call('EditVerifiedSeeder');
+			});
+		
 	}
 }

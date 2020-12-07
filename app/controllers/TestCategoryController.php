@@ -40,7 +40,12 @@ class TestCategoryController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('name' => 'required|unique:test_categories,name');
+		$rules = array(
+			
+			'name' => 'required|unique:test_categories,name',
+			'phone'=>'required|numeric'
+		
+		);
 		$validator = Validator::make(Input::all(), $rules);
 	
 		//process
@@ -52,6 +57,7 @@ class TestCategoryController extends \BaseController {
 			//store
 			$testcategory = new TestCategory;
 			$testcategory->name = Input::get('name');
+			$testcategory->phone = Input::get('phone');
 			$testcategory->description = Input::get('description');
 			try{
 				$testcategory->save();
@@ -103,7 +109,11 @@ class TestCategoryController extends \BaseController {
 	public function update($id)
 	{
 		//Validate
-		$rules = array('name' => 'required');
+		$rules = array(
+		
+			'name' => 'required',
+			'phone'=>'required|numeric'			
+			);
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
@@ -113,6 +123,7 @@ class TestCategoryController extends \BaseController {
 			// Update
 			$testcategory = TestCategory::find($id);
 			$testcategory->name = Input::get('name');
+			$testcategory->phone = Input::get('phone');
 			$testcategory->description = Input::get('description');
 			$testcategory->save();
 

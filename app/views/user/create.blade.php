@@ -25,25 +25,30 @@
 
 				<div class="form-group">
 					{{ Form::label('username', trans('messages.username')) }}
-					{{ Form::text('username', Input::old('username'), ["placeholder" => "jsiku",
+					{{ Form::text('username', Input::old('username'), ["placeholder" => "Username",
 						'class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('password', Lang::choice('messages.password',1)) }}
-					{{ Form::password('password', ['class' => 'form-control']) }}
+					{{ Form::password('password', ["placeholder" => "Password", 'class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('password_confirmation', trans('messages.repeat-password')) }}
-					{{ Form::password('password_confirmation', ['class' => 'form-control']) }}
+					{{ Form::password('password_confirmation', ["placeholder" => "Retype Password",'class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('full_name', trans('messages.full-name')) }}
-					{{ Form::text('full_name', Input::old('full_name'), ["placeholder" => "Jay Siku", 
+					{{ Form::text('full_name', Input::old('full_name'), ["placeholder" => "Name", 
+						'class' => 'form-control']) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('phone', trans('messages.phone-address')) }}
+					{{ Form::text('phone', Input::old('phone'), ["placeholder" => "Phone number", 
 						'class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('email', trans('messages.email-address')) }}
-					{{ Form::email('email', Input::old('email'), ["placeholder" => "j.siku@ilabafrica.ac.ke", 
+					{{ Form::email('email', Input::old('email'), ["placeholder" => "email@chub.com", 
 						'class' => 'form-control']) }}
 				</div>
 				<div class="form-group">

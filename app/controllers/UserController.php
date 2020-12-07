@@ -85,6 +85,7 @@ class UserController extends Controller {
             'username' => 'alpha_num|required|unique:users,username|min:6',
             'password' => 'confirmed|required|min:6',
             'full_name' => 'required',
+			'phone' => 'required|numeric',
             'email' => 'required|email'
         );
         $validator = Validator::make(Input::all(), $rules);
@@ -98,10 +99,11 @@ class UserController extends Controller {
             // store
             $user = new User;
             $user->username = Input::get('username');
-            $user->name = Input::get('full_name');
+            $user->name = ucwords(strtolower(Input::get('full_name')));
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
-            $user->email = Input::get('email');
+            $user->phone = Input::get('phone');
+			$user->email = Input::get('email');
             $user->password = Hash::make(Input::get('password'));
 
             $user->save();
@@ -173,6 +175,7 @@ class UserController extends Controller {
         //
         $rules = array(
             'full_name'       => 'required',
+			'phone' => 'required|numeric',
             'email' => 'required|email',
             'image' => 'image|max:500'
         );
@@ -194,6 +197,7 @@ class UserController extends Controller {
             $user->name = Input::get('full_name');
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
+			 $user->phone = Input::get('phone');
             $user->email = Input::get('email');
 
             if (Input::hasFile('image')) {

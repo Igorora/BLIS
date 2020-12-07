@@ -44,16 +44,17 @@ class MeasureController extends \BaseController {
                 for ($i=0; $i < count($val['agemin']); $i++) { 
                     $measurerange = new MeasureRange;
                     $measurerange->measure_id = $measure->id;
+					$measurerange->interval = $val['interval'][$i];
                     //Check if months has been chosen
                     if($val['interval'][$i]==Measure::MONTH_INTERVAL){
-                    $measurerange->age_min = ($val['agemin'][$i]/12);
-                    $measurerange->age_max = ($val['agemax'][$i]/12);
+                    $measurerange->age_min = ($val['agemin'][$i]*30.5);
+                    $measurerange->age_max = ($val['agemax'][$i]*30.5);
                     }else if($val['interval'][$i]==Measure::YEAR_INTERVAL){
+                    $measurerange->age_min = ($val['agemin'][$i]*366);
+                    $measurerange->age_max = ($val['agemax'][$i]*366);
+                    }else if ($val['interval'][$i]=="2") {
                     $measurerange->age_min = $val['agemin'][$i];
                     $measurerange->age_max = $val['agemax'][$i];
-                    }else if ($val['interval'][$i]=="2") {
-                    $measurerange->age_min = ($val['agemin'][$i]/365);
-                    $measurerange->age_max = ($val['agemax'][$i]/365);
                     }
                     $measurerange->gender = $val['gender'][$i];
                     $measurerange->range_lower = $val['rangemin'][$i];
@@ -96,7 +97,7 @@ class MeasureController extends \BaseController {
             $measure->unit = $data['unit'];
             $measure->description = $data['description'];
             $measure->save();
-            if ($measureTypeId != Measure::FREETEXT) {
+            if (!($measureTypeId == Measure::FREETEXT || $measureTypeId == Measure::LARGETEXT)) {
                 if ($measureTypeId == Measure::NUMERIC){
                     $val['agemin'] = $data['agemin'];
                     $val['agemax'] = $data['agemax'];
@@ -119,17 +120,19 @@ class MeasureController extends \BaseController {
                         $measurerange = MeasureRange::find($val['measurerangeid'][$i]);
                     }
                     $measurerange->measure_id = $measure->id;
+					
 
                     if ($measureTypeId == Measure::NUMERIC){
+						$measurerange->interval = $val['interval'][$i];
                         if($val['interval'][$i]==Measure::MONTH_INTERVAL){
-                        $measurerange->age_min = ($val['agemin'][$i]/12);
-                        $measurerange->age_max = ($val['agemax'][$i]/12);
+                        $measurerange->age_min = ($val['agemin'][$i]*30.5);
+                        $measurerange->age_max = ($val['agemax'][$i]*30.5);
                         }else if($val['interval'][$i]==Measure::YEAR_INTERVAL){
+                        $measurerange->age_min = ($val['agemin'][$i]*366);
+                        $measurerange->age_max = ($val['agemax'][$i]*366);
+                        }else if ($val['interval'][$i]=="2") {
                         $measurerange->age_min = $val['agemin'][$i];
                         $measurerange->age_max = $val['agemax'][$i];
-                        }else if ($val['interval'][$i]=="2") {
-                        $measurerange->age_min = ($val['agemin'][$i]/365);
-                        $measurerange->age_max = ($val['agemax'][$i]/365);
                         }
                         $measurerange->gender = $val['gender'][$i];
                         $measurerange->range_lower = $val['rangemin'][$i];

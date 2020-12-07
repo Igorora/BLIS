@@ -47,6 +47,26 @@ Route::group(array("before" => "auth"), function()
         "as" => "user.home",
         "uses" => "UserController@homeAction"
         ));
+    Route::any('/{id}/provinces', array(
+        "as" => "provinces",
+        "uses" => "AddressController@provinces"
+        ));
+    Route::any('/{id}/districts', array(
+        "as" => "districts",
+        "uses" => "AddressController@districts"
+        ));
+    Route::any('/{id}/sectors', array(
+        "as" => "sectors",
+        "uses" => "AddressController@sectors"
+        ));
+    Route::any('/{id}/cells', array(
+        "as" => "cells",
+        "uses" => "AddressController@cells"
+        ));
+    Route::any('/{id}/villages', array(
+        "as" => "villages",
+        "uses" => "AddressController@villages"
+        ));
     Route::group(array("before" => "checkPerms:manage_users"), function() {
         Route::resource('user', 'UserController');
         Route::get("/user/{id}/delete", array(
@@ -169,6 +189,12 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.index",
         "uses" => "TestController@index"
     ));
+
+    Route::any("/test/notifyTestStatuses", array(
+        "as"   => "test.notifications",
+        "uses" => "TestStatusController@notifyTestStatuses"
+    ));
+
     Route::post("/test/resultinterpretation", array(
     "as"   => "test.resultinterpretation",
     "uses" => "TestController@getResultInterpretation"
@@ -182,6 +208,16 @@ Route::group(array("before" => "auth"), function()
         "before" => "checkPerms:request_test",
         "as"   => "test.create",
         "uses" => "TestController@create"
+    ));
+     Route::any("/test/update/{requestid}", array(
+        "before" => "checkPerms:request_test",
+        "as"   => "test.update",
+        "uses" => "LabRequestController@editRequest"
+    ));
+     Route::any("/test/delete/{requestid}", array(
+        "before" => "checkPerms:request_test",
+        "as"   => "test.delete",
+        "uses" => "LabRequestController@destroyRequest"
     ));
      Route::post("/test/savenewtest", array(
         "before" => "checkPerms:request_test",
@@ -223,6 +259,7 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.updateSpecimenType",
         "uses" => "TestController@updateSpecimenType"
     ));
+
     Route::post("/test/start", array(
         "before" => "checkPerms:start_test",
         "as"   => "test.start",
@@ -247,6 +284,18 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.viewDetails",
         "uses" => "TestController@viewDetails"
     ));
+	Route::any("/labRequest", array(
+        "as"   => "labRequest.index",
+        "uses" => "LabRequestController@index"
+    ));
+	Route::get("/labRequest/{test}/viewdetails", array(
+        "as"   => "labRequest.viewDetails",
+        "uses" => "LabRequestController@viewDetails"
+    ));
+	Route::post("/labRequest/reception", array(
+        "as"   => "labRequest.receive",
+        "uses" => "LabRequestController@receive"
+    ));
     Route::any("/test/{test}/verify", array(
         "before" => "checkPerms:verify_test_results",
         "as"   => "test.verify",
@@ -262,20 +311,20 @@ Route::group(array("before" => "auth"), function()
     ));
     Route::group(array("before" => "admin"), function()
     {
-        Route::resource("permission", "PermissionController");
-        Route::get("role/assign", array(
-            "as"   => "role.assign",
-            "uses" => "RoleController@assign"
-        ));
-        Route::post("role/assign", array(
-            "as"   => "role.assign",
-            "uses" => "RoleController@saveUserRoleAssignment"
-        ));
-        Route::resource("role", "RoleController");
-        Route::get("/role/{id}/delete", array(
-            "as"   => "role.delete",
-            "uses" => "RoleController@delete"
-        ));
+    Route::resource("permission", "PermissionController");
+    Route::get("role/assign", array(
+        "as"   => "role.assign",
+        "uses" => "RoleController@assign"
+    ));
+    Route::post("role/assign", array(
+        "as"   => "role.assign",
+        "uses" => "RoleController@saveUserRoleAssignment"
+    ));
+    Route::resource("role", "RoleController");
+    Route::get("/role/{id}/delete", array(
+        "as"   => "role.delete",
+        "uses" => "RoleController@delete"
+    ));
     });
     // Check if able to manage lab configuration
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
@@ -320,11 +369,19 @@ Route::group(array("before" => "auth"), function()
         ));
         Route::any("/patientreport/{id}", array(
             "as" => "reports.patient.report", 
-            "uses" => "ReportController@viewPatientReport"
+            "uses" => "TestResultController@viewPatientReport"
+        ));
+		Route::any("/transmittedresult/{id}", array(
+            "as" => "result.transmission.register", 
+            "uses" => "TestResultController@resultTransmissionRegister"
+        ));
+        Route::any("/transmitresult", array(
+            "as" => "transmit.result", 
+            "uses" => "TestResultController@transmitTestResult"
         ));
         Route::any("/patientreport/{id}/{visit}/{testId?}", array(
             "as" => "reports.patient.report", 
-            "uses" => "ReportController@viewPatientReport"
+            "uses" => "TestResultController@viewPatientReport"
         ));
         Route::any("/dailylog", array(
             "as"   => "reports.daily.log",
@@ -413,7 +470,7 @@ Route::group(array("before" => "auth"), function()
         ));
         Route::any("/testaudit/{testid}", array(
             "as"   => "reports.audit.test",
-            "uses" => "ReportController@viewTestAuditReport"
+            "uses" => "TestResultController@viewTestAuditReport"
         ));
         Route::any("/critval", array(
             "as"   => "reports.aggregate.critval",

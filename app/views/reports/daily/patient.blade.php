@@ -76,7 +76,7 @@
 {{ Form::close() }}
 </div>
 <br />
-<div class="panel panel-primary">
+<div class="panel panel-primary" id="patientReport" data-report="Daily log from {{$from}} to {{$to}}">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
 		{{ trans('messages.daily-log') }} - {{trans('messages.patient-records')}}

@@ -32,7 +32,7 @@
 			<thead>
 				<tr>
 					<th>{{ trans('messages.patient-id') }}</th>
-					<th>{{trans('messages.patient-number')}}</th>
+					<th>{{'Lab number'}}</th>
 					@if(Entrust::can('view_names'))
 						<th>{{trans('messages.full-name')}}</th>
 					@endif
@@ -45,7 +45,7 @@
 			@forelse($patients as $key => $patient)
 				<tr>
 					<td>{{ $patient->patient_number }}</td>
-					<td>{{ $patient->external_patient_number }}</td>
+					<td>{{ $patient->id }}</td>
 					@if(Entrust::can('view_names'))
 						<td>{{ $patient->name }}</td>
 					@endif

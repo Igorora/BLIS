@@ -29,7 +29,7 @@ class CriticalController extends \BaseController {
 	public function create()
 	{
 		// Get measures list
-		$measures = Measure::lists('name', 'id');
+		$measures = Measure::orderBy('name', 'ASC')->lists('name', 'id');
 		//	Get units
 		$units = [Critical::DAYS => "Days", Critical::MONTHS => "Months", Critical::YEARS => "Years"];
 		// Create critical

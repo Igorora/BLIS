@@ -46,6 +46,7 @@ class Test extends Eloquent
 	 */
 	public function specimen()
 	{
+	 
 		return $this->belongsTo('Specimen');
 	}
 
@@ -102,6 +103,19 @@ class Test extends Eloquent
 	public function susceptibility()
 	{
 		return $this->hasMany('Susceptibility');
+	}
+
+
+	public function transmittedResults()
+	{
+        return $this->hasMany('TransmittedResult');
+    }
+	/**
+	 * Organism relationship
+	 */
+	public function organisms()
+	{
+	  return $this->belongsToMany('Organism', 'drug_susceptibility');
 	}
 
 	/**
@@ -195,6 +209,7 @@ class Test extends Eloquent
     public function getSpecimenId()
     {
     	$testCategoryName = $this->testType->testCategory->name;
+		
     	return substr($testCategoryName, 0 , 3).'-'.$this->specimen->id;
     }
 
@@ -331,7 +346,7 @@ class Test extends Eloquent
 				    INNER JOIN visits v ON t.visit_id = v.id
 				    INNER JOIN patients p ON v.patient_id = p.id
 				    INNER JOIN test_results tr ON t.id = tr.test_id AND m.id = tr.measure_id
-				WHERE (t.test_status_id=4 OR t.test_status_id=5) AND m.measure_type_id = 2
+				WHERE (t.test_status_id=4 OR t.test_status_id=5) AND m.measure_type_id IN (2,3)
 					AND t.time_created BETWEEN ? AND ? $testCategoryWhereClause
 				GROUP BY tt.id, m.id, mr.alphanumeric, s.id) AS alpha
 				UNION
@@ -344,58 +359,58 @@ class Test extends Eloquent
 					count(DISTINCT 
 						IF((mmr.result_alias = 'High' AND p.gender = s.id 
 							AND floor(datediff(t.time_created,p.dob)/365.25) < $lowAgeBound AND tr.result > mmr.range_upper 
-							AND floor(datediff(t.time_created,p.dob)/365.25) >= mmr.age_min 
-							AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
+							AND floor(datediff(t.time_created,p.dob)) >= mmr.age_min 
+							AND floor(datediff(t.time_created,p.dob)) < mmr.age_max 
 							AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,
 						IF((mmr.result_alias = 'Normal' AND p.gender = s.id 
 							AND floor(datediff(t.time_created,p.dob)/365.25) < $lowAgeBound AND tr.result >= mmr.range_lower 
-							AND tr.result <= mmr.range_upper AND floor(datediff(t.time_created,p.dob)/365.25) >= mmr.age_min 
-							AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
+							AND tr.result <= mmr.range_upper AND floor(datediff(t.time_created,p.dob)) >= mmr.age_min 
+							AND floor(datediff(t.time_created,p.dob)) < mmr.age_max 
 							AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,
 						IF((mmr.result_alias = 'Low' AND p.gender = s.id 
 							AND floor(datediff(t.time_created,p.dob)/365.25) < $lowAgeBound AND tr.result < mmr.range_lower 
-							AND floor(datediff(t.time_created,p.dob)/365.25) >= mmr.age_min 
-							AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
+							AND floor(datediff(t.time_created,p.dob)) >= mmr.age_min 
+							AND floor(datediff(t.time_created,p.dob)) < mmr.age_max 
 							AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,NULL)))) RC_U_5,
 					count(DISTINCT 
 						IF((mmr.result_alias = 'High' AND p.gender = s.id 
 							AND floor(datediff(t.time_created,p.dob)/365.25) >= $lowAgeBound 
 							AND floor(datediff(t.time_created,p.dob)/365.25) < $midAgeBound 
-							AND tr.result > mmr.range_upper AND floor(datediff(t.time_created,p.dob)/365.25) >= mmr.age_min 
-							AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
+							AND tr.result > mmr.range_upper AND floor(datediff(t.time_created,p.dob)) >= mmr.age_min 
+							AND floor(datediff(t.time_created,p.dob)) < mmr.age_max 
 							AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,
 						IF((mmr.result_alias = 'Normal' AND p.gender = s.id 
 							AND floor(datediff(t.time_created,p.dob)/365.25) >= $lowAgeBound 
 							AND floor(datediff(t.time_created,p.dob)/365.25) < $midAgeBound 
 							AND tr.result >= mmr.range_lower AND tr.result <= mmr.range_upper 
-							AND floor(datediff(t.time_created,p.dob)/365.25) >= mmr.age_min 
-							AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
+							AND floor(datediff(t.time_created,p.dob)) >= mmr.age_min 
+							AND floor(datediff(t.time_created,p.dob)) < mmr.age_max 
 							AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,
 						IF((mmr.result_alias = 'Low' AND p.gender = s.id 
 							AND floor(datediff(t.time_created,p.dob)/365.25) >= $lowAgeBound 
 							AND floor(datediff(t.time_created,p.dob)/365.25) < $midAgeBound 
 							AND tr.result < mmr.range_lower 
-							AND floor(datediff(t.time_created,p.dob)/365.25) >= mmr.age_min 
-							AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
+							AND floor(datediff(t.time_created,p.dob)) >= mmr.age_min 
+							AND floor(datediff(t.time_created,p.dob)) < mmr.age_max 
 							AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,NULL)))) RC_5_15,
 					count(DISTINCT 
 						IF((mmr.result_alias = 'High' AND p.gender = s.id 
 							AND floor(datediff(t.time_created,p.dob)/365.25) >= $midAgeBound 
 							AND tr.result > mmr.range_upper 
-							AND floor(datediff(t.time_created,p.dob)/365.25) >= mmr.age_min 
-							AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
+							AND floor(datediff(t.time_created,p.dob)) >= mmr.age_min 
+							AND floor(datediff(t.time_created,p.dob)) < mmr.age_max 
 							AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,
 						IF((mmr.result_alias = 'Normal' AND p.gender = s.id 
 							AND floor(datediff(t.time_created,p.dob)/365.25) >= $midAgeBound 
 							AND tr.result >= mmr.range_lower AND tr.result <= mmr.range_upper
-							 AND floor(datediff(t.time_created,p.dob)/365.25) >= mmr.age_min 
-							 AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
+							 AND floor(datediff(t.time_created,p.dob)) >= mmr.age_min 
+							 AND floor(datediff(t.time_created,p.dob)) < mmr.age_max 
 							 AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,
 						IF((mmr.result_alias = 'Low' AND p.gender = s.id 
 							AND floor(datediff(t.time_created,p.dob)/365.25) >= $midAgeBound 
 							AND tr.result < mmr.range_lower 
-							AND floor(datediff(t.time_created,p.dob)/365.25) >= mmr.age_min 
-							AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
+							AND floor(datediff(t.time_created,p.dob)) >= mmr.age_min 
+							AND floor(datediff(t.time_created,p.dob)) < mmr.age_max 
 							AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,NULL)))) RC_A_15
 				FROM test_types tt
 					INNER JOIN testtype_measures tm ON tt.id = tm.test_type_id
@@ -489,7 +504,7 @@ class Test extends Eloquent
 			});
 		}
 
-		$tests = $tests->orderBy('time_created', 'DESC');
+		$tests = $tests->orderBy('id', 'DESC');
 
 		return $tests;
 	}

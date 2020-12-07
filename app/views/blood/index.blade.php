@@ -33,6 +33,7 @@
 				</tr>
 			</thead>
 			<tbody>
+
 			@foreach($bbs as $key => $value)
 				<tr @if(Session::has('activebb'))
                             {{(Session::get('activebb') == $value->id)?"class='info'":""}}

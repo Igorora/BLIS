@@ -5,15 +5,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatekBLIStables extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('users', function(Blueprint $table)
-        {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up() {
+        Schema::create('users', function(Blueprint $table) {
             $table->increments("id")->unsigned();
             $table->string("username", 50)->unique();
             $table->string("password", 100);
@@ -28,15 +26,13 @@ class CreatekBLIStables extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('tokens', function(Blueprint $table)
-        {
+        Schema::create('tokens', function(Blueprint $table) {
             $table->string('email')->index();
             $table->string('token')->index();
             $table->timestamps();
         });
 
-        Schema::create('patients', function(Blueprint $table)
-        {
+        Schema::create('patients', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('patient_number')->unique();
             $table->string('name', 100);
@@ -55,8 +51,7 @@ class CreatekBLIStables extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('specimen_types', function(Blueprint $table)
-        {
+        Schema::create('specimen_types', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('name', 45);
             $table->string('description', 100)->nullable();
@@ -65,20 +60,18 @@ class CreatekBLIStables extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('test_categories', function(Blueprint $table)
-        {
+        Schema::create('test_categories', function(Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('name',100)->unique();
-            $table->string('description',100)->nullable();
+            $table->string('name', 100)->unique();
+            $table->string('description', 100)->nullable();
 
             $table->softDeletes();
             $table->timestamps();
         });
 
-        Schema::create('measure_types', function(Blueprint $table)
-        {
+        Schema::create('measure_types', function(Blueprint $table) {
             $table->integer('id')->unsigned();
-            $table->string('name',100)->unique();
+            $table->string('name', 100)->unique();
 
             $table->primary('id');
 
@@ -86,8 +79,7 @@ class CreatekBLIStables extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('measures', function(Blueprint $table)
-        {
+        Schema::create('measures', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('measure_type_id')->unsigned();
             $table->string('name', 100);
@@ -100,8 +92,7 @@ class CreatekBLIStables extends Migration {
             $table->softDeletes();
         });
 
-        Schema::create('measure_ranges', function(Blueprint $table)
-        {
+        Schema::create('measure_ranges', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('measure_id')->unsigned();
             $table->integer('age_min')->unsigned()->nullable();
@@ -118,23 +109,21 @@ class CreatekBLIStables extends Migration {
             $table->foreign('measure_id')->references('id')->on('measures');
         });
 
-        Schema::create('test_types', function(Blueprint $table)
-        {
+        Schema::create('test_types', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
             $table->string('description', 100)->nullable();
             $table->integer('test_category_id')->unsigned();
             $table->string('targetTAT', 50)->nullable();
             $table->string('prevalence_threshold', 50)->nullable();
-            
+
             $table->foreign('test_category_id')->references('id')->on('test_categories');
 
             $table->softDeletes();
             $table->timestamps();
         });
 
-        Schema::create('testtype_measures', function(Blueprint $table)
-        {
+        Schema::create('testtype_measures', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('test_type_id')->unsigned();
             $table->integer('measure_id')->unsigned();
@@ -143,75 +132,67 @@ class CreatekBLIStables extends Migration {
 
             $table->foreign('test_type_id')->references('id')->on('test_types');
             $table->foreign('measure_id')->references('id')->on('measures');
-            $table->unique(array('test_type_id','measure_id'));
+            $table->unique(array('test_type_id', 'measure_id'));
         });
 
-        Schema::create('testtype_specimentypes', function(Blueprint $table)
-        {
+        Schema::create('testtype_specimentypes', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('test_type_id')->unsigned();
             $table->integer('specimen_type_id')->unsigned();
 
             $table->foreign('test_type_id')->references('id')->on('test_types');
             $table->foreign('specimen_type_id')->references('id')->on('specimen_types');
-            $table->unique(array('test_type_id','specimen_type_id'));
+            $table->unique(array('test_type_id', 'specimen_type_id'));
         });
 
-        Schema::create('test_phases', function(Blueprint $table)
-        {
+        Schema::create('test_phases', function(Blueprint $table) {
             $table->integer('id')->unsigned();
-            $table->string('name',45);
+            $table->string('name', 45);
 
             $table->primary('id');
         });
 
-        Schema::create('test_statuses', function(Blueprint $table)
-        {
+        Schema::create('test_statuses', function(Blueprint $table) {
             $table->integer('id')->unsigned();
-            $table->string('name',45);
+            $table->string('name', 45);
             $table->integer('test_phase_id')->unsigned();
-            
+
             $table->primary('id');
-			$table->foreign('test_phase_id')->references('id')->on('test_phases');
-		});
+            $table->foreign('test_phase_id')->references('id')->on('test_phases');
+        });
 
-		Schema::create('specimen_statuses', function(Blueprint $table)
-		{
-			$table->integer('id')->unsigned();
-			$table->string('name',45);
+        Schema::create('specimen_statuses', function(Blueprint $table) {
+            $table->integer('id')->unsigned();
+            $table->string('name', 45);
 
-			$table->primary('id');
-		});
+            $table->primary('id');
+        });
 
-		Schema::create('visits', function(Blueprint $table)
-		{
-			$table->bigIncrements('id');
-			$table->integer('patient_id')->unsigned();
+        Schema::create('visits', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('patient_id')->unsigned();
             $table->string('visit_type', 12)->default('Out-patient'); //'OUT-PATIENT' | 'IN-PATIENT'
             $table->integer('visit_number')->unsigned()->nullable(); //External
 
             $table->index('visit_number');
-			$table->foreign('patient_id')->references('id')->on('patients');
+            $table->foreign('patient_id')->references('id')->on('patients');
 
             $table->timestamps();
         });
-		
-		Schema::create('rejection_reasons', function(Blueprint $table)
-		{
-			$table->increments('id')->unsigned();
-			$table->string("reason", 100);
-		});
 
-        Schema::create('facilities', function(Blueprint $table)
-        {
+        Schema::create('rejection_reasons', function(Blueprint $table) {
+            $table->increments('id')->unsigned();
+            $table->string("reason", 100);
+        });
+
+        Schema::create('facilities', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('name', 500);
 
             $table->timestamps();
         });
 
-        Schema::create('referrals', function(Blueprint $table)
-        {
+        Schema::create('referrals', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('status')->unsigned();
             $table->integer('facility_id')->unsigned();
@@ -225,70 +206,69 @@ class CreatekBLIStables extends Migration {
             $table->timestamps();
         });
 
-		Schema::create('specimens', function(Blueprint $table)
-		{
-			$table->increments('id')->unsigned();
-			$table->integer('specimen_type_id')->unsigned();
-			$table->integer('specimen_status_id')->unsigned()->default(Specimen::NOT_COLLECTED);
+        Schema::create('specimens', function(Blueprint $table) {
+            $table->increments('id')->unsigned();
+            $table->integer('specimen_type_id')->unsigned();
+            $table->integer('specimen_status_id')->unsigned()->default(Specimen::NOT_COLLECTED);
             $table->integer('accepted_by')->unsigned()->default(0);
             $table->integer('rejected_by')->unsigned()->default(0);
-			$table->integer('rejection_reason_id')->unsigned()->nullable();
-            $table->string('reject_explained_to',100)->nullable();
-			$table->integer('referral_id')->unsigned()->nullable();
-			$table->timestamp('time_accepted')->nullable();
-			$table->timestamp('time_rejected')->nullable();
-			
+            $table->integer('rejection_reason_id')->unsigned()->nullable();
+            $table->string('reject_explained_to', 100)->nullable();
+            $table->integer('referral_id')->unsigned()->nullable();
+            $table->timestamp('time_accepted')->nullable();
+            $table->timestamp('time_rejected')->nullable();
+
             $table->index('accepted_by');
             $table->index('rejected_by');
-			$table->foreign('specimen_type_id')->references('id')->on('specimen_types');
-			$table->foreign('specimen_status_id')->references('id')->on('specimen_statuses');
-			$table->foreign('rejection_reason_id')->references('id')->on('rejection_reasons');
+            $table->foreign('specimen_type_id')->references('id')->on('specimen_types');
+            $table->foreign('specimen_status_id')->references('id')->on('specimen_statuses');
+            $table->foreign('rejection_reason_id')->references('id')->on('rejection_reasons');
             $table->foreign('referral_id')->references('id')->on('referrals');
-		});
+        });
 
-		Schema::create('tests', function(Blueprint $table)
-		{
-			$table->increments('id')->unsigned();
-			$table->bigInteger('visit_id')->unsigned();
-			$table->integer('test_type_id')->unsigned();
-			$table->integer('specimen_id')->unsigned()->default(0);
-			$table->string('interpretation',200)->default('');
-			$table->integer('test_status_id')->unsigned()->default(0);
-			$table->integer('created_by')->unsigned();
-			$table->integer('tested_by')->unsigned()->default(0);
-			$table->integer('verified_by')->unsigned()->default(0);
-			$table->string('requested_by',60);
-			$table->timestamp('time_created')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->timestamp('time_started')->nullable();
-			$table->timestamp('time_completed')->nullable();
-			$table->timestamp('time_verified')->nullable();
-			$table->timestamp('time_sent')->nullable();
-            $table->integer('external_id')->nullable();//Unique ID for external records
-			
+        Schema::create('tests', function(Blueprint $table) {
+            $table->increments('id')->unsigned();
+            $table->bigInteger('visit_id')->unsigned();
+            $table->integer('test_type_id')->unsigned();
+            $table->integer('specimen_id')->unsigned()->default(0);
+            $table->string('interpretation', 200)->default('');
+            $table->integer('test_status_id')->unsigned()->default(0);
+            $table->integer('created_by')->unsigned();
+            $table->integer('tested_by')->unsigned()->default(0);
+            $table->integer('verified_by')->unsigned()->default(0);
+            $table->string('requested_by', 60);
+            $table->timestamp('time_created')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('time_started')->nullable();
+            $table->timestamp('time_completed')->nullable();
+            $table->timestamp('time_verified')->nullable();
+            $table->timestamp('time_sent')->nullable();
+            $table->integer('external_id')->nullable(); //Unique ID for external records
+
             $table->index('created_by');
             $table->index('tested_by');
             $table->index('verified_by');
-			$table->foreign('visit_id')->references('id')->on('visits');
-			$table->foreign('test_type_id')->references('id')->on('test_types');
-			$table->foreign('specimen_id')->references('id')->on('specimens');
-			$table->foreign('test_status_id')->references('id')->on('test_statuses');
-		});
+            $table->foreign('visit_id')->references('id')->on('visits');
+            $table->foreign('test_type_id')->references('id')->on('test_types');
+            $table->foreign('specimen_id')->references('id')->on('specimens');
+            $table->foreign('test_status_id')->references('id')->on('test_statuses');
+        });
 
-		Schema::create('test_results', function(Blueprint $table)
-		{
-			$table->bigIncrements('id');
-			$table->integer('test_id')->unsigned();
-			$table->integer('measure_id')->unsigned();
-			$table->string('result',1000)->nullable();
-			$table->timestamp('time_entered')->default(DB::raw('CURRENT_TIMESTAMP'));
-			
+        Schema::create('test_results', function(Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('test_id')->unsigned();
+            $table->integer('measure_id')->unsigned();
+            $table->string('result', 5000)->nullable();
+            $table->integer('entered_by')->unsigned();
+            $table->timestamp('time_entered')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->index('entered_by');
+            
             $table->foreign('test_id')->references('id')->on('tests');
             $table->foreign('measure_id')->references('id')->on('measures');
-			$table->unique(array('test_id','measure_id'));
-		});
+            $table->unique(array('test_id', 'measure_id'));
+        });
 
-        Schema::create('instruments', function(Blueprint $table)
-        {
+        Schema::create('instruments', function(Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
             $table->string('ip', 15)->nullable();
@@ -299,37 +279,35 @@ class CreatekBLIStables extends Migration {
             $table->nullableTimestamps();
         });
 
-        Schema::create('instrument_testtypes', function(Blueprint $table)
-        {
+        Schema::create('instrument_testtypes', function(Blueprint $table) {
             $table->integer('instrument_id')->unsigned();
             $table->integer('test_type_id')->unsigned();
 
             $table->foreign('instrument_id')->references('id')->on('instruments');
             $table->foreign('test_type_id')->references('id')->on('test_types');
-            $table->unique(array('instrument_id','test_type_id'));
+            $table->unique(array('instrument_id', 'test_type_id'));
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down() {
         Schema::dropIfExists('instrument_testtypes');
         Schema::dropIfExists('instruments');
-		Schema::dropIfExists('test_results');
-		Schema::dropIfExists('tests');
-		Schema::dropIfExists('specimens');
+        Schema::dropIfExists('test_results');
+        Schema::dropIfExists('tests');
+        Schema::dropIfExists('specimens');
         Schema::dropIfExists('referrals');
         Schema::dropIfExists('facilities');
-		Schema::dropIfExists('rejection_reasons');
-		Schema::dropIfExists('visits');
-		Schema::dropIfExists('test_statuses');
-		Schema::dropIfExists('specimen_statuses');
-		Schema::dropIfExists('test_phases');
-		Schema::dropIfExists('testtype_specimentypes');
+        Schema::dropIfExists('rejection_reasons');
+        Schema::dropIfExists('visits');
+        Schema::dropIfExists('test_statuses');
+        Schema::dropIfExists('specimen_statuses');
+        Schema::dropIfExists('test_phases');
+        Schema::dropIfExists('testtype_specimentypes');
         Schema::dropIfExists('testtype_measures');
         Schema::dropIfExists('test_types');
         Schema::dropIfExists('measure_ranges');
@@ -340,5 +318,6 @@ class CreatekBLIStables extends Migration {
         Schema::dropIfExists('patients');
         Schema::dropIfExists('tokens');
         Schema::dropIfExists('users');
-	}
+    }
+
 }

@@ -10,7 +10,7 @@
 <div class="container-fluid">
 	{{ Form::open(array('route' => array('reports.aggregate.tat'), 'id' => 'turnaround', 'class' => 'form-inline')) }}
 	  	<div class="row">
-			<div class="col-sm-5">
+			<div class="col-sm-4">
 		    	<div class="row">
 					<div class="col-sm-2">
 						{{ Form::label('start', trans("messages.from")) }}
@@ -21,7 +21,7 @@
 				    </div>
 		    	</div>
 		    </div>
-		    <div class="col-sm-5">
+		    <div class="col-sm-3">
 		    	<div class="row">
 					<div class="col-sm-2">
 				    	{{ Form::label('end', trans("messages.to")) }}
@@ -32,7 +32,18 @@
 			        </div>
 		    	</div>
 		    </div>
-		    <div class="col-sm-2">
+		    <div class="col-sm-3">
+			    <div class="row">
+					<div class="col-sm-4">
+				    	{{ Form::label('label', 'Shift period') }}
+				    </div>
+					<div class="col-sm-7">
+					    {{ Form::select('day_shift', array('' => 'Select shift','morning'=>'Morning', 'afternoon'=>'Afternoon', 'evening'=>'Evening', 'night'=>'Night duty','weekend_day'=>'Weekend day'  ),Request::old('dayshift') ? Request::old('dayshift') : $dayshift,  
+							array('class' => 'form-control', 'id'=>'day_shift')) }}
+			        </div>
+		    	</div>
+		    </div>
+		    <div class="col-sm-2 text-right">
 			    {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 			        array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
 		    </div>
@@ -40,10 +51,10 @@
 		<div class="row spacer">
 			<div class="col-sm-4">
 		    	<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-4">
 						{{ Form::label('description',  Lang::choice('messages.test-category', 2)) }}
 					</div>
-					<div class="col-sm-2">
+					<div class="col-sm-7">
 						{{ Form::select('section_id', array(''=>trans('messages.select-lab-section'))+$labSections, 
 							    		Request::old('testCategory') ? Request::old('testCategory') : $testCategory, 
 											array('class' => 'form-control', 'id' => 'section_id')) }}
@@ -52,10 +63,10 @@
 		    </div>
 		    <div class="col-sm-4">
 		    	<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-4">
 				    	{{ Form::label('description', Lang::choice('messages.test-type', 1)) }}
 				    </div>
-					<div class="col-sm-2">
+					<div class="col-sm-7">
 					    {{ Form::select('test_type', array('' => trans('messages.select-test-type'))+$testTypes, 
 							    		Request::old('testType') ? Request::old('testType') : $testType, 
 											array('class' => 'form-control', 'id' => 'test_type')) }}
@@ -64,16 +75,17 @@
 		    </div>
 		    <div class="col-sm-4">
 			    <div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-4">
 				    	{{ Form::label('label', trans("messages.interval")) }}
 				    </div>
-					<div class="col-sm-2">
+					<div class="col-sm-7">
 					    {{ Form::select('period', array('' => trans('messages.select-interval'), 'M'=>trans('messages.monthly'), 'W'=>trans('messages.weekly'), 'D'=>trans('messages.daily')),
 					    	Request::old('interval') ? Request::old('interval') : $interval,  
 							array('class' => 'form-control', 'id'=>'period')) }}
 			        </div>
 		    	</div>
 		    </div>
+		    
 		</div>
 	{{ Form::close() }}
 </div>

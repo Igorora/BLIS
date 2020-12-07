@@ -38,29 +38,35 @@ class OrganismController extends \BaseController {
 	{
 		//Validation
 		$rules = array('name' => 'required|unique:organisms,name');
-		$validator = Validator::make(Input::all(), $rules);
+		$name = trim(Input::get('name'));
+		$validator = Validator::make(['name'=>$name], $rules);
 	
 		//process
 		if($validator->fails()){
-			return Redirect::back()->withErrors($validator);
-		}else{
-			//store
-			$organism = new Organism;
-			$organism->name = Input::get('name');
-			$organism->description = Input::get('description');
-			try{
-				$organism->save();
-				if(Input::get('drugs')){
-					$organism->setDrugs(Input::get('drugs'));
+				$restored=Organism::withTrashed()->where('name', $name)->restore();
+				if($restored){
+						return Redirect::back()->withErrors($validator);				
 				}
-				$url = Session::get('SOURCE_URL');
-            
-            	return Redirect::to($url)
-					->with('message', trans('messages.success-creating-organism')) ->with('activeorganism', $organism ->id);
-			}catch(QueryException $e){
-				Log::error($e);
-			}
+					return Redirect::back()->withErrors("The 'Name' field is required.");
 		}
+										$organism = new Organism;
+										$organism->name = $name;
+										$drugs=Input::get('drugs');
+										$organism->description = Input::get('description');
+										try{
+											$organism->save();
+											if($drugs){
+												$organism->setDrugs($drugs);
+											}
+											$url = Session::get('SOURCE_URL');
+																			
+											return Redirect::to($url)->with('message', trans('messages.success-creating-organism')) 
+											                         ->with('activeorganism', $organism ->id);
+										}catch(QueryException $e){
+											Log::error($e);
+										}
+			
+
 	}
 
 
@@ -120,9 +126,7 @@ class OrganismController extends \BaseController {
 			$organism->description = Input::get('description');
 			try{
 				$organism->save();
-				if(Input::get('drugs')){
-					$organism->setDrugs(Input::get('drugs'));
-				}
+				$organism->drugs()->sync(Input::get('drugs')? Input::get('drugs'):[]);				
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -154,20 +158,16 @@ class OrganismController extends \BaseController {
 	 */
 	public function delete($id)
 	{
-		//Soft delete the organism
+		//Soft delete the organism and relations
 		$organism = Organism::find($id);
+		try{
+				$organism->drugs()->detach();
+				$organism->delete();
+			}catch(QueryException $e){
+				Log::error($e);
+			}
 
-		/*$testCategoryInUse = TestType::where('test_category_id', '=', $id)->first();
-		if (empty($testCategoryInUse)) {
-		    // The test category is not in use
-			$testcategory->delete();
-		} else {
-		    // The test category is in use
-		    $url = Session::get('SOURCE_URL');
-            
-            return Redirect::to($url)
-		    	->with('message', trans('messages.failure-test-category-in-use'));
-		}*/
+
 		// redirect
 			$url = Session::get('SOURCE_URL');
             

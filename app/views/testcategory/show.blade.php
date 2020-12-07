@@ -26,6 +26,7 @@
 		<div class="panel-body">
 			<div class="display-details">
 				<h3 class="view"><strong>{{ Lang::choice('messages.name',1) }}:</strong>{{ $testcategory->name }} </h3>
+				<p class="view-striped"><strong>{{ trans('messages.phone-address')}}:</strong>{{ $testcategory->phone }} </p>
 				<p class="view-striped"><strong>{{ trans('messages.description') }}:</strong>
 					{{ $testcategory->description }}</p>
 				

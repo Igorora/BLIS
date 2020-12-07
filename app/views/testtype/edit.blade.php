@@ -22,22 +22,49 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-
-			<div class="form-group">
+<div class="row">
+	<div class="col-md-6">
+		<h3>Test identification</h3>
+				<div class="form-group">
 				{{ Form::label('name', Lang::choice('messages.name',1)) }}
 				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('description', trans('messages.description')) }}
 				{{ Form::textarea('description', Input::old('description'), 
-					array('class' => 'form-control', 'rows' => '2' )) }}
+					array('class' => 'form-control', 'rows' => '2')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('test_category_id', Lang::choice('messages.test-category',1)) }}
-				{{ Form::select('test_category_id', array(0 => '')+$testcategory->lists('name', 'id'),
-					Input::old('test_category_id'), array('class' => 'form-control')) }}
+				{{ Form::select('test_category_id', array(0 => '...Select service...')+$testcategory->lists('name', 'id'),
+					Input::old('test_category_id'),	array('class' => 'form-control')) }}
+			</div>
+	</div>
+		<div class="col-md-6">	
+		<h3>Test prices</h3>
+				<div class="form-group">
+				{{ Form::label('tarif_A', 'Community Health Insurance') }}
+				{{ Form::text('tarif_A', Input::old('tarif_A'), array('class' => 'form-control')) }}
+			</div>
+			<div class="form-group">
+				{{ Form::label('tarif_B', 'MMI/MS_UR/ Other institutes') }}
+				{{ Form::text('tarif_B', Input::old('tarif_B'), array('class' => 'form-control')) }}
+			</div>
+			<div class="form-group">
+				{{ Form::label('tarif_C', 'RSSB/RAMA') }}
+				{{ Form::text('tarif_C', Input::old('tarif_C'), array('class' => 'form-control')) }}
 			</div>
 			
+			<div class="form-group">
+				{{ Form::label('tarif_D', 'Commircial and private companies') }}
+				{{ Form::text('tarif_D', Input::old('tarif_D'), array('class' => 'form-control')) }}
+			</div>
+			<div class="form-group">
+				{{ Form::label('tarif_E', 'Private') }}
+				{{ Form::text('tarif_E', Input::old('tarif_E'), array('class' => 'form-control')) }}
+			</div>
+	</div>
+</div>			
 			<div class="form-group">
 				{{ Form::label('panel_id', Lang::choice('messages.panel-type',1)) }}
 				<div class="form-pane panel panel-default">

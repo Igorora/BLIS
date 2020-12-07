@@ -25,6 +25,13 @@ class Organism extends Eloquent
 	  return $this->belongsToMany('Drug', 'organism_drugs');
 	}
 	/**
+	 * Test relationship
+	 */
+	public function tests()
+	{
+	  return $this->belongsToMany('Test', 'drug_susceptibility');
+	}
+	/**
 	 * Set compatible drugs
 	 *
 	 * @return void

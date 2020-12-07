@@ -5,7 +5,8 @@
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
 		case 'patient': $active[1] = "active"; break;
-		case 'test': $active[2] = "active"; break;
+		case 'test': 
+		case 'labRequest':$active[2] = "active"; break;
 		case 'labconfig': 
 		case 'instrument':
 		case 'reportconfig':
@@ -74,18 +75,43 @@
 					<span class="glyphicon glyphicon-home"></span> {{trans('messages.home')}}</a>
 			</div>
 		</li>
-		<li>
-			<div class="main-menu {{$active[1]}}">
-				<a href="{{ URL::route('patient.index')}}">
-					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.patient', 2)}}</a>
-			</div>
-		</li>
-		<li>
-			<div class="main-menu {{$active[2]}}">
-				<a href="{{ URL::route('test.index')}}">
-					<span class="glyphicon glyphicon-filter"></span> {{Lang::choice('messages.test', 2)}}</a>
-			</div>
-		</li>
+		@if(Entrust::can('view_result'))
+			@if(Entrust::can('recieve_request') )
+			<li>
+				<div class="main-menu {{$active[1]}}">
+					<a href="{{ URL::route('patient.index')}}">
+						<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.patient', 2)}}</a>
+				</div>
+			</li>
+			@endif
+			<li>
+				<div class="main-menu {{$active[2]}}">
+					<a  href="#">
+						<span class="glyphicon glyphicon-filter"></span> Lab requests</a>
+				</div>
+				<div class="sub-menu {{$active[2]}}">
+					<ul class="sub-menu-items">
+						@if(Entrust::can('view_result') || Entrust::can('recieve_request') )
+						<li>
+							<div>
+								<a href="{{ URL::route("labRequest.index")}}">
+									<span class="glyphicon glyphicon-tag"></span> Request and results</a>
+							</div>
+						</li>
+						@endif
+						@if(Entrust::can('perform_test'))
+						<li>
+							<div>
+								<a href="{{ URL::route("test.index")}}">
+									<span class="glyphicon glyphicon-tag"></span> For testing</a>
+							</div>
+						</li>
+						@endif
+					
+						</ul>
+				</div>
+			</li>
+		@endif
 
 		@if(Entrust::can('manage_lab_configurations'))
 		<li>
@@ -151,7 +177,7 @@
 		@if(Entrust::can('manage_test_catalog'))
 		<li>
 			<div class="main-menu {{$active[4]}}">
-				<a href="{{ URL::route("testcategory.index")}}">
+				<a href="#">
 					<span class="glyphicon glyphicon-cog"></span> {{trans('messages.test-catalog')}}</a>
 			</div>
 			<div class="sub-menu {{$active[4]}}">
@@ -216,34 +242,32 @@
 			</div>
 		</li>
 		@endif
-		@if(Entrust::can('view_reports'))
+		@if(Entrust::can('manage_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
-				<a href="{{ URL::route('reports.patient.index')}}">
+				<a href="#">
 					<span class="glyphicon glyphicon-stats"></span> {{ Lang::choice('messages.report', 2)}}</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
-				<div class="sub-menu-title">
-					<a href="{{ URL::route('reports.adhocreport.index')}}">
-						{{trans('messages.adhoc-report')}}</a>
-				</div>
-				<div class="sub-menu-title" ng-click="aggregateReports=!aggregateReports">
-					<span class="caret"></span>
-					{{trans('messages.aggregate-reports')}}
-				</div>
+				
+				@if(Entrust::can('view_aggregateReports'))
+				
 				<ul class="sub-menu-items" ng-hide="aggregateReports">
+
+					@if(Entrust::can('view_qualityReports'))
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.prevalence-rates')}}</a>
+						<div class="sub-menu-title">
+						<a href="{{ URL::route('reports.adhocreport.index')}}">
+							{{trans('messages.adhoc-report')}}</a>
 						</div>
 					</li>
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.surveillance')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.surveillance')}}</a>
+						<div class="sub-menu-title" ng-click="aggregateReports=!aggregateReports">
+						<span class="caret"></span>
+						{{trans('messages.aggregate-reports')}}
 						</div>
 					</li>
+
 					<li>
 						<div><a href="{{ URL::route('reports.aggregate.counts')}}">
 							<span class="glyphicon glyphicon-tag"></span>
@@ -256,12 +280,7 @@
 							{{trans('messages.turnaround-time')}}</a>
 						</div>
 					</li>
-					<li>
-						<div><a href="{{ URL::route('reports.aggregate.infection')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.infection-report')}}</a>
-						</div>
-					</li>
+					
 					<li>
 						<div><a href="{{ URL::route('reports.aggregate.userStatistics')}}">
 							<span class="glyphicon glyphicon-tag"></span>
@@ -286,7 +305,30 @@
 							{{Lang::choice('messages.crit-val', 1)}}</a>
 						</div>
 					</li>
+					@endif
+					@if(Entrust::can('view_dataReports'))
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.prevalence-rates')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.surveillance')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.surveillance')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.infection')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.infection-report')}}</a>
+						</div>
+					</li>
+					@endif
 				</ul>
+				@endif
+				@if(Entrust::can('view_dailyReports'))
 				<div class="sub-menu-title" ng-click="dailyReports=!dailyReports">
 					<span class="caret"></span>
 					{{trans('messages.daily-reports')}}
@@ -299,13 +341,16 @@
 								{{trans('messages.patient-report')}}</a>
 						</div>
 					</li>
+					
 					<li>
 						<div><a href="{{ URL::route('reports.daily.log')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.daily-log')}}</a>
 						</div>
 					</li>
+
 				</ul>
+				@endif
 				@if(Entrust::can('manage_inventory'))
 				<div class="sub-menu-title" ng-click="inventoryReports=!inventoryReports">
 					<span class="caret"></span>
@@ -332,6 +377,7 @@
 					</li>
 				</ul>
 				@endif
+				@if(Entrust::can('view_statutoryReports'))
 				<div class="sub-menu-title" ng-click="statutoryReports=!statutoryReports">
 					<span class="caret"></span>
 					{{trans('messages.statutory-reports')}}
@@ -350,7 +396,7 @@
 						</div>
 					</li>
 				</ul>
-				
+				@endif
 
 			</div>
 		</li>
@@ -368,7 +414,7 @@
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.user-accounts')}}</a>
 						</div>
 					</li>
-					@if(Entrust::hasRole(Role::getAdminRole()->name))
+					@if(Entrust::hasRole(Role::getAdminRole()->name) )
 					<li>
 						<div>
 							<a href="{{ URL::route("permission.index")}}">

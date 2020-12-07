@@ -17,21 +17,21 @@
     <div class='container-fluid'>
         {{ Form::open(array('route' => array('test.index'))) }}
             <div class='row'>
-                <div class='col-md-3'>
+                <div class='col-md-2'>
                         {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
                         {{ Form::text('search', Input::get('search'),
                             array('class' => 'form-control', 'placeholder' => 'Search')) }}
                 </div>
-                <div class='col-md-4'>
+                <div class='col-md-3'>
                     <div class='col-md-3'>
                         {{ Form::label('test_status', trans('messages.test-status')) }}
                     </div>
-                    <div class='col-md-6'>
+                    <div class='col-md-9'>
                         {{ Form::select('test_status', $testStatus,
                             Input::get('test_status'), array('class' => 'form-control')) }}
                     </div>
                 </div>
-                <div class='col-md-2'>
+                <div class='col-md-3'>
                     <div class='col-md-3'>
                         {{ Form::label('date_from', trans('messages.from')) }}
                     </div>
@@ -40,7 +40,7 @@
                             array('class' => 'form-control standard-datepicker')) }}
                     </div>
                 </div>
-                <div class='col-md-2'>
+                <div class='col-md-3'>
                     <div class='col-md-3'>
                         {{ Form::label('date_to', trans('messages.to')) }}
                     </div>
@@ -83,41 +83,45 @@
             </div>
         </div>
         <div class="panel-body">
-            <table class="table table-striped table-hover table-condensed">
+            <table class="table search-table table-striped table-hover table-condensed">
                 <thead>
                     <tr>
+                        <th>{{trans('messages.visit-number')}}</th>
                         <th>{{trans('messages.date-ordered')}}</th>
                         <th>{{trans('messages.patient-number')}}</th>
-                        <th>{{trans('messages.visit-number')}}</th>
+                        
                         <th class="col-md-2">{{trans('messages.patient-name')}}</th>
                         <th class="col-md-1">{{trans('messages.specimen-id')}}</th>
                         <th>{{ Lang::choice('messages.test',1) }}</th>
                         <th>{{trans('messages.visit-type')}}</th>
                         <th>{{trans('messages.test-status')}}</th>
-                        <th class="col-md-3">{{trans('messages.test-status')}}</th>
+                        <th class="col-md-3">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach($testSet as $key => $test)
-                    <tr 
-                        @if(Session::has('activeTest'))
-                            {{ in_array($test->id, Session::get('activeTest'))?"class='info'":""}}
+                    <tr class='
+                        @if(Session::has("activeTest"))
+                            {{ in_array($test->id, Session::get("activeTest"))?"info":""}}
                         @endif
+                        {{$test->visit->visit_urgency=="urgent"?"danger":""}}
+                        '
                         >
-                        <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>  <!--Date Ordered-->
-                        <td>{{ empty($test->visit->patient->external_patient_number)?
-                                $test->visit->patient->patient_number:
-                                $test->visit->patient->external_patient_number
-                            }}</td> <!--Patient Number -->
                         <td>{{ empty($test->visit->visit_number)?
                                 $test->visit->id:
                                 $test->visit->visit_number
                             }}</td> <!--Visit Number -->
+                        <td>{{ date('d-m-Y H:i ', strtotime($test->time_created));}}</td>  <!--Date Ordered-->
+                        <td>{{ empty($test->visit->patient->external_patient_number)?
+                                $test->visit->patient->patient_number:
+                                $test->visit->patient->external_patient_number
+                            }}</td> <!--Patient Number -->
+                        
                         <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender(true)).',
                             '.$test->visit->patient->getAge('Y'). ')'}}</td> <!--Patient Name -->
                         <td>{{ $test->getSpecimenId() }}</td> <!--Specimen ID -->
                         <td>{{ $test->testType->name }}</td> <!--Test-->
-                        <td>{{ $test->visit->visit_type }}</td> <!--Visit Type -->
+                        <td>{{ $test->visit->visit_type.'</br>'.$test->visit->department.'</br>'.$test->requested_by }}</td> <!--Visit Type -->
                         <td id="test-status-{{$test->id}}" class='test-status'>
                             <!-- Test Statuses -->
                             <div class="container-fluid">
@@ -126,7 +130,7 @@
 
                                     <div class="col-md-12">
                                         @if($test->isNotReceived())
-                                            @if(!$test->isPaid())
+                                            @if(!$test->isPaid() || is_null($test->paid_amount))
                                                 <span class='label label-default'>
                                                     {{trans('messages.not-paid')}}</span>
                                             @else
@@ -185,38 +189,57 @@
                                 {{trans('messages.view-details')}}
                             </a>
                         @if ($test->isNotReceived()) 
-                            @if(Auth::user()->can('receive_external_test') && $test->isPaid())
-                                <a class="btn btn-sm btn-default receive-test" href="javascript:void(0)"
-                                    data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
-                                    title="{{trans('messages.receive-test-title')}}">
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    {{trans('messages.receive-test')}}
-                                </a>
-                            @endif
-                        @elseif ($test->specimen->isNotCollected())
-                            @if(Auth::user()->can('accept_test_specimen'))
-                                <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
-                                    data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
-                                    title="{{trans('messages.accept-specimen-title')}}"
-                                    data-url="{{ URL::route('test.acceptSpecimen') }}">
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    {{trans('messages.accept-specimen')}}
-                                </a>
-                            @endif
-                            @if(count($test->testType->specimenTypes) > 1 && Auth::user()->can('change_test_specimen'))
-                                <!-- 
-                                    If this test can be done using more than 1 specimen type,
-                                    allow the user to change to any of the other eligible ones.
-                                -->
-                                <a class="btn btn-sm btn-danger change-specimen" href="#change-specimen-modal"
-                                    data-toggle="modal" data-url="{{ URL::route('test.changeSpecimenType') }}"
-                                    data-test-id="{{$test->id}}" data-target="#change-specimen-modal"
-                                    title="{{trans('messages.change-specimen-title')}}">
-                                    <span class="glyphicon glyphicon-transfer"></span>
-                                    {{trans('messages.change-specimen')}}
-                                </a>
-                            @endif
-                        @endif
+							@if (!is_null($test->paid_amount))
+								@if(Auth::user()->can('receive_external_test') && $test->isPaid())
+									<a class="btn btn-sm btn-default receive-test" href="javascript:void(0)"
+										data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
+										title="{{trans('messages.receive-test-title')}}">
+										<span class="glyphicon glyphicon-thumbs-up"></span>
+										{{trans('messages.receive-test')}}
+									</a>
+								@endif
+							@elseif(is_null($test->paid_amount))
+								@if(is_null($test->visit->visit_amount))
+								<span class='label label-info'>Waiting for payment</span>
+								@else
+								<span class='label label-info'>Not tested, not paid</span>
+								@endif
+							@endif
+                        @elseif ($test->specimen->isNotCollected() )
+                            @if (!is_null($test->paid_amount))
+								@if(Auth::user()->can('accept_test_specimen') )
+									<a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
+										data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
+										title="{{trans('messages.accept-specimen-title')}}"
+										data-url="{{ URL::route('test.acceptSpecimen') }}">
+										<span class="glyphicon glyphicon-thumbs-up"></span>
+										{{trans('messages.accept-specimen')}}
+									</a>
+			
+								@endif
+							
+								@if(count($test->testType->specimenTypes) > 1 && Auth::user()->can('change_test_specimen'))
+									<!-- 
+										If this test can be done using more than 1 specimen type,
+										allow the user to change to any of the other eligible ones.
+									-->
+									<a class="btn btn-sm btn-danger change-specimen" href="#change-specimen-modal"
+										data-toggle="modal" data-url="{{ URL::route('test.changeSpecimenType') }}"
+										data-test-id="{{$test->id}}" data-target="#change-specimen-modal"
+										title="{{trans('messages.change-specimen-title')}}">
+										<span class="glyphicon glyphicon-transfer"></span>
+										{{trans('messages.change-specimen')}}
+									</a>
+								@endif
+							@elseif(is_null($test->paid_amount))
+								@if(is_null($test->visit->visit_amount))
+								<span class='label label-info'>Waiting for payment</span>
+								@else
+								<span class='label label-info'>Not tested, not paid</span>
+								@endif
+							@endif
+																							                      
+						@endif
                         @if ($test->specimen->isAccepted() && !($test->isVerified()))
                             @if(Auth::user()->can('reject_test_specimen') && !($test->specimen->isReferred()))
                                 <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
@@ -240,7 +263,7 @@
                                     </a>
                                 @endif
                                 @if(Auth::user()->can('refer_specimens') && !($test->isExternal()) && !($test->specimen->isReferred()))
-                                    <a class="btn btn-sm btn-info" href="{{ URL::route('test.refer', array($test->specimen_id)) }}">
+                                    <a class="btn btn-sm btn-info refer-button" href="{{ URL::route('test.refer', array($test->specimen_id)) }}">
                                         <span class="glyphicon glyphicon-edit"></span>
                                         {{trans('messages.refer-sample')}}
                                     </a>
@@ -255,7 +278,7 @@
                                     </a>
                                 @endif
                             @elseif ($test->isCompleted())
-                                @if(Auth::user()->can('edit_test_results'))
+                                @if(Auth::user()->can('edit_test_results') && Auth::user()->id == $test->tested_by)
                                     <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
                                         href="{{ URL::route('test.edit', array($test->id)) }}"
                                         title="{{trans('messages.edit-test-results')}}">
@@ -263,7 +286,7 @@
                                         {{trans('messages.edit')}}
                                     </a>
                                 @endif
-                                @if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
+                                @if(Auth::user()->can('verify_test_results') && (Auth::user()->id != $test->tested_by || Auth::user()->can('verify_own')))
                                     <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
                                         href="{{ URL::route('test.viewDetails', array($test->id)) }}"
                                         title="{{trans('messages.verify-title')}}">
@@ -279,7 +302,7 @@
                 </tbody>
             </table>
             
-            {{ $testSet->links() }}
+           {{ $testSet->links() }}
         {{ Session::put('SOURCE_URL', URL::full()) }}
         {{ Session::put('TESTS_FILTER_INPUT', Input::except('_token')); }}
         
@@ -426,10 +449,15 @@
         <a class="btn btn-sm btn-danger reject-specimen" href="#" title="{{trans('messages.reject-title')}}">
             <span class="glyphicon glyphicon-thumbs-down"></span>
             {{trans('messages.reject')}}</a>
-        <a class="btn btn-sm btn-warning start-test" href="javascript:void(0)"
+        <a class="btn btn-sm btn-midnight-blue barcode-button"  title="{{trans('messages.barcode')}}">
+				<span class="glyphicon glyphicon-barcode"></span>
+				{{trans('messages.barcode')}}
+			</a>
+		<a class="btn btn-sm btn-warning start-test" href="javascript:void(0)"
             data-url="{{ URL::route('test.start') }}" title="{{trans('messages.start-test-title')}}">
             <span class="glyphicon glyphicon-play"></span>
             {{trans('messages.start-test')}}</a>
+		 
     </div> <!-- /. reject-start-buttons -->
 
     <div class="hidden enter-result-buttons">

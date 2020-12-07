@@ -185,7 +185,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public static function getTestsRegistered($from, $to, $userID=0)
 	{
 
-		$tests = Test::select(['id'])->whereBetween('time_completed', [$from, $to]);
+		$tests = Test::select(['id'])->whereBetween('time_created', [$from, $to]);
 		
 		if($userID > 0)
 			$tests = $tests->where('created_by', '=', $userID);

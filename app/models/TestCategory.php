@@ -51,4 +51,13 @@ class TestCategory extends Eloquent
 	{
         return $this->hasMany('CritVal', 'test_category_id');
     }
+
+    /**
+	 * Ips values relationship
+	 *
+	 */
+	public function ips()
+	{
+        return $this->hasMany('Ip');
+    }
 }

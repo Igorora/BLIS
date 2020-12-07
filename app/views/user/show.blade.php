@@ -25,6 +25,7 @@
 						<div class="display-details">
 							<h3><strong>{{trans('messages.full-name')}}</strong>{{ $user->name }} </h3>
 							<p><strong>{{trans('messages.username')}}</strong>{{ $user->username }}</p>
+							<p><strong>{{trans('messages.phone-address')}}</strong>{{ $user->phone }}</p>
 							<p><strong>{{trans('messages.email-address')}}</strong>{{ $user->email }}</p>
 							<p><strong>{{trans('messages.designation')}}</strong>{{ $user->designation }}</p>
 							<p><strong>{{trans('messages.gender')}}</strong>{{ ($user->gender==0?"Male":"Female") }}</p>

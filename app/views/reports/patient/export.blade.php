@@ -40,9 +40,9 @@
 				</tr>
 				<tr align="left">
 					<th>{{ trans('messages.patient-lab-number')}}</th>
-					<td>{{ $patient->id }}</td>
+					<td>{{$visit}}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
-					<td>{{ Config::get('kblis.organization') }}</td>
+					<td>{{ $department}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -106,24 +106,31 @@
 					<th>{{trans('messages.date-verified')}}</th>
 				</tr>
 				@forelse($tests as $test)
-					<tr>
-						<td>{{ $test->testType->name }}</td>
-						<td>
-							@foreach($test->testResults as $result)
-							<p>
-								{{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
-								{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
-								{{ Measure::find($result->measure_id)->unit }}
-							</p>
-							@endforeach
-						</td>
-						<td>{{ $test->interpretation }}</td>
-						<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
-						<td>{{ $test->testResults->last()->time_entered }}</td>
-						<td>{{ $test->time_completed }}</td>
-						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
-						<td>{{ $test->time_verified }}</td>
-					</tr>
+                    <tr>
+                        <td>{{ $test->testType->name }}</td>
+                        <td>
+                            @foreach($test->testResults as $result)
+                            <p>
+                                {{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
+                                {{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+                                {{ Measure::find($result->measure_id)->unit }}
+                            </p>
+                            @endforeach</td>
+                        <td>{{ $test->interpretation == '' ? 'N/A' : $test->interpretation }}</td>
+                        @if($test->test_status_id == Test::VERIFIED || $test->test_status_id == Test::COMPLETED)
+                        <td>{{ $test->testedBy->name}}</td>
+                        @else
+                        <td>{{trans('messages.pending')}}</td>
+                        @endif
+                        <td>{{ $test->test_status_id == Test::COMPLETED || $test->test_status_id == Test::VERIFIED ? $test->testResults->last()->time_entered : trans('messages.pending')}}</td>
+                        <td>{{ $test->time_completed }}</td>
+                        @if($test->test_status_id == Test::VERIFIED)
+                        <td>{{ $test->verifiedBy->name }}</td>
+                        @else
+                        <td>{{ trans('messages.verification-pending')}}</td>
+                        @endif
+                        <td>{{ $test->time_verified }}</td>
+                    </tr>
 				@empty
 					<tr>
 						<td colspan="8">{{trans("messages.no-records-found")}}</td>
@@ -142,9 +149,9 @@
 					<td><strong>{{ Lang::choice('messages.name', 1).":" }}</strong>{{ trans('messages.signature-holder') }}</td>
 				</tr>
 				<tr>
-					<td>{{ 'Antony Sangolo' }}</td>
-					<td>{{ 'Joan Wasike' }}</td>
-					<td>{{ 'Dr. Sylvester Mutoro' }}</td>
+					<td>{{ 'JMV Ngendakabaniga' }}</td>
+					<td>{{ '....' }}</td>
+					<td>{{ 'Dr. Djibril MBARUSHIMANA' }}</td>
 				</tr>
 				<tr>
 					<td><u><strong>{{ trans('messages.quality-manager') }}</strong></u></td>

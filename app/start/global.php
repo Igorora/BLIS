@@ -32,7 +32,7 @@ ClassLoader::addDirectories(array(
 |
 */
 
-Log::useFiles(storage_path().'/logs/laravel.log');
+//Log::useFiles(storage_path().'/logs/laravel.log');
 
 /*
 |--------------------------------------------------------------------------
@@ -47,10 +47,10 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
-App::error(function(Exception $exception, $code)
-{
-	Log::error($exception);
-});
+// App::error(function(Exception $exception, $code)
+// {
+// 	Log::error($exception);
+// });
 
 /*
 |--------------------------------------------------------------------------

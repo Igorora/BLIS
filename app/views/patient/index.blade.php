@@ -31,7 +31,12 @@
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 @endif
-
+@if($message)
+	<div class="alert alert-info">
+		{{ $message }}
+	</div>
+@endif
+@if($patients)
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
@@ -93,4 +98,5 @@
 		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
+@endif
 @stop

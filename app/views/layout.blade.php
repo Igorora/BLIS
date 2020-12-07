@@ -8,18 +8,22 @@
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap.min.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap-theme.min.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('bootstrap-datepicker/bootstrap-datepicker3.min.css') }}" >
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/layout.css') }}" />
-        <link rel="stylesheet" href="{{ URL::asset('css/bootstrap-multiselect.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap-multiselect.css') }}" />
         <script type="text/javascript" src="{{ URL::asset('js/jquery.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/jquery-ui-min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/bootstrap-timepicker.min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/dataTables.bootstrap.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/jQuery.print.js')}} "></script>
         <script type="text/javascript" src="{{ URL::asset('js/script.js') }} "></script>
         <script type="text/javascript" src="{{ URL::asset('js/html.sortable.min.js') }} "></script>
         <!-- jQuery barcode script -->
-        <script type="text/javascript" src="{{ asset('js/jquery-barcode-2.0.2.js') }} "></script>
+        <script type="text/javascript" src="{{ asset('js/jquery-barcode-2.0.2.js')}} "></script>
+
         <title>{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</title>
     </head>
     <body  class="ng-cloak">

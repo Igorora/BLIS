@@ -27,6 +27,7 @@ class Measure extends Eloquent
 	const ALPHANUMERIC = 2;
 	const AUTOCOMPLETE = 3;
 	const FREETEXT = 4;
+	const LARGETEXT = 5;
 	const MONTH_INTERVAL = 0;
 	const YEAR_INTERVAL = 1;
 	const DAYS_INTERVAL = 2;
@@ -200,34 +201,42 @@ class Measure extends Eloquent
 		else
 			return false;
 	}
+	public function isLargeText()
+	{
+		if($this->measureType->id == Measure::LARGETEXT){
+			return true;
+		}
+		else
+			return false;
+	}
 
 	/**
 	 *  Get measure range with given patient patient details
 	 *
 	 * @return boolean
 	 */
-	public static function getRange($patient, $measureId)
+	public static function getRange($patient, $measureId, $at=NULL)
 	{
-		$months = $patient->getAge('M');
-		$years = $patient->getAge('Y');
-		$days=$patient->getAge('D');
-		if($years==0){
-			$age=$months/12;
+		//$months = $patient->getAge('M');
+		//$years = $patient->getAge('Y');
+		$age=$patient->getAge('days', $at);
+		// if($years==0 && $months!=0){
+		// 	$age=$months/12;
+		// 	$measureRange = MeasureRange::where('measure_id', '=', $measureId)
+		// 							->where('age_min', '<=',  $age)
+		// 							->where('age_max', '>=', $age);
+		// }else if($months==0 && $years==0){
+		// 	$age=$days/365;
+		// 	$measureRange = MeasureRange::where('measure_id', '=', $measureId)
+		// 							->where('age_min', '<=',  $age)
+		// 							->where('age_max', '>=', $age);
+		// }
+		// else{
+		// 	$age=$years;
 			$measureRange = MeasureRange::where('measure_id', '=', $measureId)
 									->where('age_min', '<=',  $age)
 									->where('age_max', '>=', $age);
-		}else if($months==0){
-			$age=$months/365;
-			$measureRange = MeasureRange::where('measure_id', '=', $measureId)
-									->where('age_min', '<=',  $age)
-									->where('age_max', '>=', $age);
-		}
-		else{
-			$age=$years;
-			$measureRange = MeasureRange::where('measure_id', '=', $measureId)
-									->where('age_min', '<=',  $age)
-									->where('age_max', '>=', $age);
-		}
+		//}
 		
 		if(count($measureRange->get()) >= 1){
 			if(count($measureRange->get()) == 1){

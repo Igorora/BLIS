@@ -34,7 +34,7 @@
 							</a>
 							@endif
 							@if(Auth::user()->can('view_reports'))
-								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id) }}">
+								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id.'/'.$test->visit_id.'/'.$test->specimen->id) }}">
 									<span class="glyphicon glyphicon-eye-open"></span>
 									{{trans('messages.view-report')}}
 								</a>
@@ -90,7 +90,7 @@
 								@elseif ( $measure->isAlphanumeric() || $measure->isAutocomplete() ) 
 			                        <?php
 			                        $measure_values = array();
-		                            $measure_values[] = '';
+		                            $measure_values[''] = 'Select result';
 			                        foreach ($measure->measureRanges as $range) {
 			                            $measure_values[$range->alphanumeric] = $range->alphanumeric;
 			                        }
@@ -110,6 +110,14 @@
 											$sense = ' sense'.$test->id;
 									?>
 		                            {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense))}}
+								@elseif ( $measure->isLargeText() ) 
+		                            {{ Form::label($fieldName, $measure->name) }}
+		                            <?php
+										$sense = '';
+										if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
+											$sense = ' sense'.$test->id;
+									?>
+		                            {{Form::textarea($fieldName, $ans, array('class' => 'form-control'.$sense))}}
 								@endif
 		                    </div>
 		                @endforeach
@@ -123,7 +131,132 @@
 								array('class' => 'btn btn-default', 'onclick' => 'submit()')) }}
 						</div>
 					{{ Form::close() }}
-	                @if(count($test->testType->organisms)>0)
+	               
+                    </div>
+	                <div class="col-md-6">
+	                    <div class="panel panel-info">  <!-- Patient Details -->
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">{{trans("messages.patient-details")}}</h3>
+	                        </div>
+	                        <div class="panel-body">
+	                            <div class="container-fluid">
+	                            	<div class="display-details">
+                                        <p class="view"><strong>{{trans("messages.patient-number")}}</strong>
+	                                        {{$test->visit->patient->patient_number}}</p>
+	                                    <p class="view"><strong>{{ Lang::choice('messages.name',1) }}</strong>
+                                	        {{$test->visit->patient->name}}</p>
+                                        <p class="view"><strong>{{trans("messages.age")}}</strong>
+	                                        {{$test->visit->patient->getAge()}}</p>
+                                        <p class="view"><strong>{{trans("messages.gender")}}</strong>
+	                                        {{$test->visit->patient->gender==0?trans("messages.male"):trans("messages.female")}}</p>
+	                            	</div>
+	                        	</div> <!-- ./ panel-body -->
+	                        </div>
+	                    </div> <!-- ./ panel -->
+	                    <div class="panel panel-info"> <!-- Specimen Details -->
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">{{trans("messages.specimen-details")}}</h3>
+	                        </div>
+	                        <div class="panel-body">
+	                            <div class="container-fluid">
+	                                <div class="display-details">
+	                                    <p class="view"><strong>{{ Lang::choice('messages.specimen-type',1) }}</strong>
+	                                    	{{$test->specimen->specimen_type ? $test->specimen->specimenType->name : trans('messages.pending') }}</p>
+	                                    <p class="view"><strong>{{trans('messages.specimen-number')}}</strong>
+	                                    	{{$test->getSpecimenId() }}</p>
+	                                    <p class="view"><strong>{{trans('messages.specimen-status')}}</strong>
+	                                        {{trans('messages.'.$test->specimen->specimenStatus->name) }}</p>
+	                                
+	                            		@if($test->specimen->isRejected())
+	                                        <p class="view"><strong>{{trans('messages.rejection-reason-title')}}</strong>
+	                                        	{{$test->specimen->rejectionReason->reason or trans('messages.pending') }}</p>
+	                                        <p class="view"><strong>{{trans('messages.reject-explained-to')}}</strong>
+	                                        	{{$test->specimen->reject_explained_to or trans('messages.pending') }}</p>
+	                            		@endif
+			                            @if($test->specimen->isReferred())
+	    	                        	<br>
+	                                        <p class="view"><strong>{{trans("messages.specimen-referred-label")}}</strong>
+	                                        @if($test->specimen->referral->status == Referral::REFERRED_IN)
+	                                            {{ trans("messages.in") }}</p>
+	                                        @elseif($test->specimen->referral->status == Referral::REFERRED_OUT)
+	                                            {{ trans("messages.out") }}</p>
+	                                        @endif
+	                                        <p class="view"><strong>{{Lang::choice("messages.facility", 1)}}</strong>
+	                                        {{$test->specimen->referral->facility->name }}</p>
+	                                        <p class="view"><strong>{{trans("messages.person-involved")}}</strong>
+	                                        {{$test->specimen->referral->person }}</p>
+	                                        <p class="view"><strong>{{trans("messages.contacts")}}</strong>
+	                                        {{$test->specimen->referral->contacts }}</p>
+	                                        <p class="view"><strong>{{trans("messages.referred-by")}}</strong>
+	                                        {{ $test->specimen->referral->user->name }}</p>
+	                            		@endif
+	                            	</div>
+	                        	</div>
+	                   		</div> <!-- ./ panel -->
+	                   	</div>
+	                    <div class="panel panel-info">  <!-- Test Results -->
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">{{trans("messages.test-details")}}</h3>
+	                        </div>
+	                        <div class="panel-body">
+	                            <div class="container-fluid">
+	                                <div class="display-details">
+	                                    <p class="view"><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
+	                                        {{ $test->testType->name or trans('messages.unknown') }}</p>
+	                                    <p class="view"><strong>{{trans('messages.visit-number')}}</strong>
+	                                        {{$test->visit_id or trans('messages.unknown') }}</p>
+	                                    <p class="view"><strong>{{trans('messages.date-ordered')}}</strong>
+                                            {{ $test->isExternal()?$test->external()->request_date:$test->time_created }}</p>
+	                                    <p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
+	                                        {{$test->time_created}}</p>
+	                                    <p class="view"><strong>{{trans('messages.test-status')}}</strong>
+	                                        {{trans('messages.'.$test->testStatus->name)}}</p>
+	                                    <p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
+	                                        {{$test->requested_by or trans('messages.unknown') }}</p>
+	                                    <p class="view-striped"><strong>{{trans('messages.request-origin')}}</strong>
+	                                        @if($test->specimen->isReferred() && $test->specimen->referral->status == Referral::REFERRED_IN)
+	                                            {{ trans("messages.in") }}
+	                                        @else
+	                                            {{ $test->visit->visit_type }}
+	                                        @endif</p>
+	                                    <p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
+	                                        {{$test->created_by ? $test->createdBy->name :  trans('messages.unknown') }}</p>
+	                                    @if($test->isCompleted())
+	                                    <p class="view"><strong>{{trans('messages.tested-by')}}</strong>
+	                                        {{$test->tested_by ? $test->testedBy->name  : trans('messages.unknown')}}</p>
+	                                    @endif
+	                                    @if($test->isVerified())
+	                                    <p class="view"><strong>{{trans('messages.verified-by')}}</strong>
+	                                        {{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
+	                                    @endif
+	                                    @if((!$test->specimen->isRejected()) && ($test->isCompleted() || $test->isVerified()))
+	                                    <!-- Not Rejected and (Verified or Completed)-->
+	                                    <p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
+	                                        {{$test->getFormattedTurnaroundTime()}}</p>
+	                                    @endif
+	                                </div>
+	                            </div>
+	                        </div> <!-- ./ panel-body -->
+	                    </div>  <!-- ./ panel -->
+
+	                    <div class="panel panel-info">  <!-- Audit trail for results -->
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">{{trans("messages.previous-results")}}</h3>
+	                        </div>
+	                        <div class="panel-body">
+	                            <div class="container-fluid">
+	                                <div class="display-details">
+	                                    <p class="view-striped"><strong>{{trans('messages.previous-results')}}</strong>
+	                                        <a href="{{URL::route('reports.audit.test', array($test->id))}}">{{trans('messages.audit-report')}}</a></p>
+	                                </div>
+	                            </div>
+	                        </div> <!-- ./ panel-body -->
+	                    </div>  <!-- ./ panel -->
+	                </div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						 @if(count($test->testType->organisms)>0)
                     <div class="panel panel-success">  <!-- Patient Details -->
                         <div class="panel-heading">
                             <h3 class="panel-title">{{trans("messages.culture-worksheet")}}</h3>
@@ -256,127 +389,7 @@
                           </div>
                         </div> <!-- ./ panel-body -->
                     @endif
-                    </div>
-	                <div class="col-md-6">
-	                    <div class="panel panel-info">  <!-- Patient Details -->
-	                        <div class="panel-heading">
-	                            <h3 class="panel-title">{{trans("messages.patient-details")}}</h3>
-	                        </div>
-	                        <div class="panel-body">
-	                            <div class="container-fluid">
-	                            	<div class="display-details">
-                                        <p class="view"><strong>{{trans("messages.patient-number")}}</strong>
-	                                        {{$test->visit->patient->patient_number}}</p>
-	                                    <p class="view"><strong>{{ Lang::choice('messages.name',1) }}</strong>
-                                	        {{$test->visit->patient->name}}</p>
-                                        <p class="view"><strong>{{trans("messages.age")}}</strong>
-	                                        {{$test->visit->patient->getAge()}}</p>
-                                        <p class="view"><strong>{{trans("messages.gender")}}</strong>
-	                                        {{$test->visit->patient->gender==0?trans("messages.male"):trans("messages.female")}}</p>
-	                            	</div>
-	                        	</div> <!-- ./ panel-body -->
-	                        </div>
-	                    </div> <!-- ./ panel -->
-	                    <div class="panel panel-info"> <!-- Specimen Details -->
-	                        <div class="panel-heading">
-	                            <h3 class="panel-title">{{trans("messages.specimen-details")}}</h3>
-	                        </div>
-	                        <div class="panel-body">
-	                            <div class="container-fluid">
-	                                <div class="display-details">
-	                                    <p class="view"><strong>{{ Lang::choice('messages.specimen-type',1) }}</strong>
-	                                    	{{$test->specimen->specimenType->name or trans('messages.pending') }}</p>
-	                                    <p class="view"><strong>{{trans('messages.specimen-number')}}</strong>
-	                                    	{{$test->specimen->id or trans('messages.pending') }}</p>
-	                                    <p class="view"><strong>{{trans('messages.specimen-status')}}</strong>
-	                                        {{trans('messages.'.$test->specimen->specimenStatus->name) }}</p>
-	                                
-	                            		@if($test->specimen->isRejected())
-	                                        <p class="view"><strong>{{trans('messages.rejection-reason-title')}}</strong>
-	                                        	{{$test->specimen->rejectionReason->reason or trans('messages.pending') }}</p>
-	                                        <p class="view"><strong>{{trans('messages.reject-explained-to')}}</strong>
-	                                        	{{$test->specimen->reject_explained_to or trans('messages.pending') }}</p>
-	                            		@endif
-			                            @if($test->specimen->isReferred())
-	    	                        	<br>
-	                                        <p class="view"><strong>{{trans("messages.specimen-referred-label")}}</strong>
-	                                        @if($test->specimen->referral->status == Referral::REFERRED_IN)
-	                                            {{ trans("messages.in") }}</p>
-	                                        @elseif($test->specimen->referral->status == Referral::REFERRED_OUT)
-	                                            {{ trans("messages.out") }}</p>
-	                                        @endif
-	                                        <p class="view"><strong>{{Lang::choice("messages.facility", 1)}}</strong>
-	                                        {{$test->specimen->referral->facility->name }}</p>
-	                                        <p class="view"><strong>{{trans("messages.person-involved")}}</strong>
-	                                        {{$test->specimen->referral->person }}</p>
-	                                        <p class="view"><strong>{{trans("messages.contacts")}}</strong>
-	                                        {{$test->specimen->referral->contacts }}</p>
-	                                        <p class="view"><strong>{{trans("messages.referred-by")}}</strong>
-	                                        {{ $test->specimen->referral->user->name }}</p>
-	                            		@endif
-	                            	</div>
-	                        	</div>
-	                   		</div> <!-- ./ panel -->
-	                   	</div>
-	                    <div class="panel panel-info">  <!-- Test Results -->
-	                        <div class="panel-heading">
-	                            <h3 class="panel-title">{{trans("messages.test-details")}}</h3>
-	                        </div>
-	                        <div class="panel-body">
-	                            <div class="container-fluid">
-	                                <div class="display-details">
-	                                    <p class="view"><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
-	                                        {{ $test->testType->name or trans('messages.unknown') }}</p>
-	                                    <p class="view"><strong>{{trans('messages.visit-number')}}</strong>
-	                                        {{$test->visit->visit_number or trans('messages.unknown') }}</p>
-	                                    <p class="view"><strong>{{trans('messages.date-ordered')}}</strong>
-                                            {{ $test->isExternal()?$test->external()->request_date:$test->time_created }}</p>
-	                                    <p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
-	                                        {{$test->time_created}}</p>
-	                                    <p class="view"><strong>{{trans('messages.test-status')}}</strong>
-	                                        {{trans('messages.'.$test->testStatus->name)}}</p>
-	                                    <p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
-	                                        {{$test->requested_by or trans('messages.unknown') }}</p>
-	                                    <p class="view-striped"><strong>{{trans('messages.request-origin')}}</strong>
-	                                        @if($test->specimen->isReferred() && $test->specimen->referral->status == Referral::REFERRED_IN)
-	                                            {{ trans("messages.in") }}
-	                                        @else
-	                                            {{ $test->visit->visit_type }}
-	                                        @endif</p>
-	                                    <p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
-	                                        {{$test->createdBy->name or trans('messages.unknown') }}</p>
-	                                    @if($test->isCompleted())
-	                                    <p class="view"><strong>{{trans('messages.tested-by')}}</strong>
-	                                        {{$test->testedBy->name or trans('messages.unknown')}}</p>
-	                                    @endif
-	                                    @if($test->isVerified())
-	                                    <p class="view"><strong>{{trans('messages.verified-by')}}</strong>
-	                                        {{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
-	                                    @endif
-	                                    @if((!$test->specimen->isRejected()) && ($test->isCompleted() || $test->isVerified()))
-	                                    <!-- Not Rejected and (Verified or Completed)-->
-	                                    <p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
-	                                        {{$test->getFormattedTurnaroundTime()}}</p>
-	                                    @endif
-	                                </div>
-	                            </div>
-	                        </div> <!-- ./ panel-body -->
-	                    </div>  <!-- ./ panel -->
-
-	                    <div class="panel panel-info">  <!-- Audit trail for results -->
-	                        <div class="panel-heading">
-	                            <h3 class="panel-title">{{trans("messages.previous-results")}}</h3>
-	                        </div>
-	                        <div class="panel-body">
-	                            <div class="container-fluid">
-	                                <div class="display-details">
-	                                    <p class="view-striped"><strong>{{trans('messages.previous-results')}}</strong>
-	                                        <a href="{{URL::route('reports.audit.test', array($test->id))}}">{{trans('messages.audit-report')}}</a></p>
-	                                </div>
-	                            </div>
-	                        </div> <!-- ./ panel-body -->
-	                    </div>  <!-- ./ panel -->
-	                </div>
+					</div>
 				</div>
 			</div>
 		</div>
