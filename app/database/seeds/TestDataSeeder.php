@@ -60,10 +60,6 @@ class TestDataSeeder extends DatabaseSeeder {
         $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY", "description" => ""));
 
         $this->command->info('test_categories seeded');
-
-
-        $this->command->info('test_categories seeded');
-
         /*         * Panel Seed* */
         $panels = Panel::create(array('name' => 'Panel X', 'description' => ""));
         $panels_testType = Panel::create(array("name" => "Panel Y", "description" => ""));
@@ -75,7 +71,9 @@ class TestDataSeeder extends DatabaseSeeder {
             array("id" => "2", "name" => "Alphanumeric Values"),
             array("id" => "3", "name" => "Autocomplete"),
             array("id" => "4", "name" => "Free Text"),
-            array("id" => "5", "name" => "Large Text")
+            array("id" => "5", "name" => "Large Text"),
+            array("id" => "6", "name" => "Date picker"),
+            array("id" => "7", "name" => "Time picker")
         );
 
         foreach ($measureTypes as $measureType) {
@@ -192,7 +190,9 @@ class TestDataSeeder extends DatabaseSeeder {
             array("name" => "view_specimen_details", "display_name" => "Can view specimen details"),
             array("name" => "view_blood_bank", "display_name" => "Can view Blood Bank"),
 			 array("name" => "recieve_request", "display_name" => "Can recieve lab requests"),
-			 array("name" => "verify_own", "display_name" => "Can verify test performed by self")
+			 array("name" => "verify_own", "display_name" => "Can verify test performed by self"),
+			 array("name" => "view_result", "display_name" => "Can see  lab  requests  and results"),
+			 array("name" => "perform_test", "display_name" => "Can report  lab  requests")
         );
 
         foreach ($permissions as $permission) {

@@ -133,4 +133,12 @@
 	<div class="hidden largetextInputLoader">
         <p class="largetextInput" >{{trans('messages.largetext-measure-config-input-message')}}</p>
     </div><!-- largetextInput -->
+    </div><!-- datepicker -->
+	<div class="hidden standard-datepicker">
+        <p class="standard-datepicker" >{{trans('messages.date-picker-massage')}}</p>
+    </div><!-- timepicker -->
+    <div class="hidden standard-timepicker">
+        <p class="standard-timepicker" >{{trans('messages.time-picker-massage')}}</p>
+    </div>
+    
 @show

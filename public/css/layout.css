@@ -15,9 +15,6 @@ body {
  }
 
  /*  General and Miscellaneous Tag Styles */
-label, input {
-    float: left;
-}
 
 .smaller-text {
     font-size: 0.9em;
@@ -85,49 +82,6 @@ label, input {
 }
 
 
-/*
-*   FORMS
-*
-*/
-
-.form-group{
-    overflow: hidden;
-    position: relative;
-    clear: both;
-}
-.form-group.actions-row {
-    padding-left: 200px;
-}
-    .form-group > label {
-        width: 150px;
-    }
-    .form-group .form-control {
-        width: 170px;
-    }
-    .form-group .form-pane {
-        clear:both;
-        overflow: hidden;
-    }
-        .form-group .form-pane label {
-            font-weight: 100;
-        }
-         .form-group span.input-tag{
-            display: inline-block;
-            padding-left: 15px;
-            min-width: 60px;
-         }
-         .form-group span.input-tag:hover{
-            cursor: pointer;
-         }
-
-         .form-group span.units{
-            line-height: 3em;
-            margin-left: 5px;
-         }
-
-.form-inline label {
-    line-height: 34px;
-}
 .wardBed{
 	display: none;
 }

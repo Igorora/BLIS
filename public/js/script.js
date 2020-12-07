@@ -149,7 +149,9 @@ $(function () {
             '.alphanumericInputLoader',
             '.alphanumericInputLoader',
             '.freetextInputLoader',
-            '.largetextInputLoader'
+            '.largetextInputLoader',
+            '.standard-datepicker',
+            '.standard-timepicker'
         ];
 
         if ($(this).data('measure-id') === 0) {
@@ -891,16 +893,16 @@ $(function () {
             $('#summary').addClass('hidden');
         }
     });
-    $('#timepickerfrom').timepicker({
-        template: false,
-        showInputs: false,
-        minuteStep: 5
-    });
-    $('#timepickerto').timepicker({
-        template: false,
-        showInputs: false,
-        minuteStep: 5
-    });
+    // $('#timepickerfrom').timepicker({
+    //     template: false,
+    //     showInputs: false,
+    //     minuteStep: 5
+    // });
+    // $('#timepickerto').timepicker({
+    //     template: false,
+    //     showInputs: false,
+    //     minuteStep: 5
+    // });
 
 
      $('#result-transmission').on('hide.bs.modal', function (e) {
@@ -1019,14 +1021,26 @@ $(document).ajaxComplete(function () {
  */
 $(document).ready(function () {
 
-     $('.standard-datepicker').datepicker({
+    if ($('.standard-datepicker').length) { 
+        $('.standard-datepicker').flatpickr({
 
-        //changeMonth: true,
-        //changeYear: true,
-        //yearRange: "-100:+0",
-        format: "yyyy-mm-dd"
-       
+        
         });
+    }
+    if ($('.standard-time').length) {
+        $('.standard-time').flatpickr({
+
+            noCalendar : true,
+            enableTime   : true,
+            time_24hr: true,
+            dateFormat   : 'H : i'
+            
+        }); 
+        
+    }
+
+    $('.select-single').select2();
+    
 
     $("#search_item").autocomplete({
         source: "search/autocomplete",
@@ -1140,7 +1154,9 @@ function loadRangeFields() {
         '.alphanumericInputLoader',
         '.alphanumericInputLoader',
         '.freetextInputLoader',
-        '.largetextInputLoader'
+        '.largetextInputLoader',
+        '.standard-datepicker',
+        '.standard-timepicker'
     ];
 
     if ($(this).data('measure-id') === 0) {

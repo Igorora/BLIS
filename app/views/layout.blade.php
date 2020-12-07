@@ -1,32 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="iBlis">
+<html lang="en" >
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/x-icon" href="{{ Config::get('kblis.favicon') }}">
-        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/ui-lightness/jquery-ui-min.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap.min.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap-theme.min.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ URL::asset('bootstrap-datepicker/bootstrap-datepicker3.min.css') }}" >
-        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/layout.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap-multiselect.css') }}" />
-        <script type="text/javascript" src="{{ URL::asset('js/jquery.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('js/jquery-ui-min.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('js/bootstrap-timepicker.min.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('js/dataTables.bootstrap.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/jQuery.print.js')}} "></script>
-        <script type="text/javascript" src="{{ URL::asset('js/script.js') }} "></script>
-        <script type="text/javascript" src="{{ URL::asset('js/html.sortable.min.js') }} "></script>
-        <!-- jQuery barcode script -->
-        <script type="text/javascript" src="{{ asset('js/jquery-barcode-2.0.2.js')}} "></script>
+        <link rel="icon" type="image/x-icon" href="{{Config::get('kblis.favicon') }}">
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/ui-lightness/jquery-ui-min.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap.min.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/layout.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/select2.min.css')}}" > 
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap-theme.min.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/dataTables.bootstrap.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{URL::asset('css/flatpickr.min.css')}}" >
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/select2-bootstrap.min.css') }}" >       
+
+        <script src="{{URL::asset('js/jquery.js')}}"></script> 
+        <script src="{{URL::asset('js/jquery-ui-min.js')}}"></script>
+        <script src="{{URL::asset('js/bootstrap.min.js')}}"></script>
+        <script src="{{URL::asset('js/flatpickr.min.js')}}"></script>
+        <script src="{{URL::asset('js/jquery.dataTables.js')}}"></script>
+        <script src="{{URL::asset('js/dataTables.bootstrap.js')}}"></script>
+        <script src="{{URL::asset('js/jQuery.print.js')}}"></script>
+        <script src="{{URL::asset('js/html.sortable.min.js')}}"></script>       
+        <script src="{{URL::asset('js/select2.min.js')}}"></script>
+        <script src="{{URL::asset('js/script.js')}}"></script>
+
+        
+
 
         <title>{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</title>
     </head>
-    <body  class="ng-cloak">
+    <body  class="">
         <div id="wrap">
             @include("header")
             <div class="container-fluid">
@@ -41,11 +44,7 @@
             </div>
         </div>
         @include("footer")
+<!-- <script>
+    $('.select-single').select2();</script> -->
     </body>
-    <script src="{{ URL::asset('bower_components/angular/angular.js')}}"></script>
-    <script src="{{ URL::asset('bower_components/angular-route/angular-route.js')}}"></script>
-    <script src="{{ URL::asset('js/app.js')}}"></script>
-    <script src="{{ URL::asset('js/ReportsController.js')}}"></script>
-    <script src="{{ URL::asset('js/ReportsFactory.js')}}"></script>
-    <script src="{{ URL::asset('js/bootstrap-multiselect.js')}}"></script>
 </html>

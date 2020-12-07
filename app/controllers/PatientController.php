@@ -62,9 +62,9 @@ class PatientController extends \BaseController {
 	public function store()
 	{
 
-		$lastInsertId = DB::table('patients')->max('id')+1;
+		//$lastInsertId = DB::table('patients')->max('id')+1;
 		$coutry=Input::get('country');
-		Input::merge(['patient_number'=>$lastInsertId.'A']);		
+		//Input::merge(['patient_number'=>$lastInsertId.'A']);		
 		if($coutry=='Rwanda') {
 			$rules = array(
 			'patient_number' => 'required|unique:patients,patient_number',

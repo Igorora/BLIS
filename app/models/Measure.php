@@ -28,6 +28,8 @@ class Measure extends Eloquent
 	const AUTOCOMPLETE = 3;
 	const FREETEXT = 4;
 	const LARGETEXT = 5;
+	const DATE_PICKER = 6;
+	const TIME_PICKER = 8;
 	const MONTH_INTERVAL = 0;
 	const YEAR_INTERVAL = 1;
 	const DAYS_INTERVAL = 2;
@@ -204,6 +206,23 @@ class Measure extends Eloquent
 	public function isLargeText()
 	{
 		if($this->measureType->id == Measure::LARGETEXT){
+			return true;
+		}
+		else
+			return false;
+	}
+	public function isDatePicker()
+	{
+		if($this->measureType->id == Measure::DATE_PICKER){
+			return true;
+		}
+		else
+			return false;
+	}
+
+	public function isTimePicker()
+	{
+		if($this->measureType->id == Measure::TIME_PICKER){
 			return true;
 		}
 		else

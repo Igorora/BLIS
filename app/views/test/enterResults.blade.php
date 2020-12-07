@@ -158,6 +158,22 @@
 										$sense = ' sense'.$test->id;
 								?>
 								{{Form::textarea($fieldName, $ans, array('class' => 'form-control'.$sense))}}
+								@elseif ( $measure->isDatePicker() ) 
+								{{ Form::label($fieldName, $measure->name) }}
+								<?php
+									$sense = '';
+									if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
+										$sense = ' sense'.$test->id;
+								?>
+                                {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense, 'id' => 'standard-datepicker'))}}
+                                @elseif ( $measure->isTimePicker() ) 
+								{{ Form::label($fieldName, $measure->name) }}
+								<?php
+									$sense = '';
+									if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
+										$sense = ' sense'.$test->id;
+								?>
+								{{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense, 'id' => 'standard-timepicker'))}}
                                 @endif
                             </div>
                         @endforeach

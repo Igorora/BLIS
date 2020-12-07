@@ -163,6 +163,8 @@ return array(
     'failure-test-measure-in-use' => 'This Measure is in use',
     'freetext-measure-config-input-message' => 'A text box will appear for results entry',
 	'largetext-measure-config-input-message' => 'A text area will appear for results entry',
+    'date-picker-massage' => 'A date picker will appear for results entry',
+    'time-picker-massage' => 'A time picker will appear for results entry',
     'list-measures' => 'List Measures',
     'measure' => 'Measure|Measures',
     'measure-age-range' => 'Age Range',
