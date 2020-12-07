@@ -21,7 +21,7 @@
 				</div>
 			@endif
 			{{ Form::open(array('url' => 'patient', 'id' => 'form-create-patient')) }}
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						{{ Form::label('patient_number', trans('messages.patient-number')) }}
 						{{ Form::text('patient_number',Input::old('patient_number'),
@@ -71,10 +71,10 @@
 						{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label>Country</label>
-						<select name="country" class="form-control select-single" id="country" >
+						<select name="country" class="form-control" id="country" >
 								{{$countr_options}}
 						</select>
 					</div>
@@ -115,7 +115,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<!-- <div class="col-md-4">
 					<div class="form-group">
 						<label>Marital Status </label>
 						<select name="marital_Status" class="form-control" id="marital_Status">
@@ -175,7 +175,7 @@
 						</select>
 					</div>
 
-				</div>
+				</div> -->
 					
 				<div class="form-group col-md-12 text-center">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 

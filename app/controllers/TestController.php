@@ -398,7 +398,7 @@ class TestController extends \BaseController {
             $testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
             $initialMeasureVal=$testResult->result;
             $inputName = "m_" . $measure->id;
-            $inputVal=Input::get($inputName);
+            $inputVal=serialize(Input::get($inputName));
             $audit = false;
             //Log in Audit if the values have changed
             if ($testResult->result != $inputVal) {

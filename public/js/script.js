@@ -1039,7 +1039,7 @@ $(document).ready(function () {
         
     }
 
-    $('.select-single').select2();
+    $('.select2').select2();
     
 
     $("#search_item").autocomplete({

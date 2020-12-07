@@ -87,21 +87,36 @@
 		                                {{Measure::getRange($test->visit->patient, $measure->id)}}
 		                                {{$measure->unit}}
 		                            </span>
-								@elseif ( $measure->isAlphanumeric() || $measure->isAutocomplete() ) 
-			                        <?php
-			                        $measure_values = array();
-		                            $measure_values[''] = 'Select result';
-			                        foreach ($measure->measureRanges as $range) {
-			                            $measure_values[$range->alphanumeric] = $range->alphanumeric;
-			                        }
-			                        ?>
-		                            {{ Form::label($fieldName , $measure->name) }}
-		                            {{ Form::select($fieldName, $measure_values, array_search(htmlspecialchars_decode($ans), $measure_values),
-		                                array('class' => 'form-control result-interpretation-trigger',
-		                                'data-url' => URL::route('test.resultinterpretation'),
-		                                'data-measureid' => $measure->id
-		                                )) 
-		                            }}
+								@elseif ( $measure->isAlphanumeric()) 
+                                    <?php
+                                    $measure_values = array();
+                                    $measure_values[''] = 'Select result';
+                                    foreach ($measure->measureRanges as $range) {
+                                        $measure_values[$range->alphanumeric] = $range->alphanumeric;
+                                    }
+                                    ?>
+                                    {{ Form::label($fieldName , $measure->name) }}
+                                    {{ Form::select($fieldName, $measure_values, array_search($ans, $measure_values),
+                                        array('class' => 'select2 form-control result-interpretation-trigger',
+                                        'data-url' => URL::route('test.resultinterpretation'),
+                                        'data-measureid' => $measure->id
+                                        )) 
+                                    }}
+                                @elseif ($measure->isAutocomplete() ) 
+                                    <?php
+                                    $measure_values = array();
+                                    $measure_values[''] = 'Select result';
+                                    foreach ($measure->measureRanges as $range) {
+                                        $measure_values[$range->alphanumeric] = $range->alphanumeric;
+                                    }
+                                    ?>
+                                    {{ Form::label($fieldName , $measure->name) }}
+                                    {{ Form::select($fieldName[], $measure_values, array_search($ans, $measure_values),
+                                        array('class' => 'select2 form-control result-interpretation-trigger',
+                                        'data-url' => URL::route('test.resultinterpretation'),
+                                        'data-measureid' => $measure->id, 'multiple' => 'multiple'
+                                        )) 
+                                    }}
 								@elseif ( $measure->isFreeText() ) 
 		                            {{ Form::label($fieldName, $measure->name) }}
 		                            <?php
@@ -118,6 +133,22 @@
 											$sense = ' sense'.$test->id;
 									?>
 		                            {{Form::textarea($fieldName, $ans, array('class' => 'form-control'.$sense))}}
+									@elseif ( $measure->isDatePicker() ) 
+                                    {{ Form::label($fieldName, $measure->name) }}
+                                    <?php
+                                        $sense = '';
+                                        if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
+                                            $sense = ' sense'.$test->id;
+                                    ?>
+                                    {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense, 'id' => 'standard-datepicker'))}}
+                                @elseif ( $measure->isTimePicker() ) 
+                                    {{ Form::label($fieldName, $measure->name) }}
+                                    <?php
+                                        $sense = '';
+                                        if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
+                                            $sense = ' sense'.$test->id;
+                                    ?>
+                                    {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense, 'id' => 'standard-timepicker'))}}
 								@endif
 		                    </div>
 		                @endforeach
