@@ -36,7 +36,7 @@
         </div>
         <div class="panel-body">
         <!-- if there are creation errors, they will show here -->
-            
+
             @if($errors->all())
                 <div class="alert alert-danger">
                     {{ HTML::ul($errors->all()) }}
@@ -54,28 +54,28 @@
                             @if(count($test->testResults) > 0)
                             <div class="container-fluid">
                                  @foreach($test->testResults as $result)
-									<?php 
+									<?php
 									$measure=Measure::find($result->measure_id);
 									$measureType=$measure->measure_type_id;
 									$measureResult=$result->result;
 									?>
 									@if($measureType==1)
 										<?php
-										$measureRanges= explode('-',trim(Measure::getRange($test->visit->patient, $result->measure_id, $result->time_entered ),'()'));									
+										$measureRanges= explode('-',trim(Measure::getRange($test->visit->patient, $result->measure_id, $result->time_entered ),'()'));
 										$rangeMin=$measureRanges[0];
 										$rangeMax=$measureRanges[1];
 										?>
 										<p class="row {{(Float)$measureResult < (Float)$rangeMin || (Float)$measureResult > (Float)$rangeMax ? 'text-danger' : ''  }}" >
-											<span class="col-md-3" ><strong>{{ $measure->name }}  </strong></span> 
-											<span class="col-md-4" >{{ $measureResult }}</span> 
+											<span class="col-md-3" ><strong>{{ $measure->name }}  </strong></span>
+											<span class="col-md-4" >{{ $measureResult }}</span>
 											<span class="col-md-3" >{{'('.$rangeMin.'-'.$rangeMax.')'}}</span>
 											<span class="col-md-2" >{{ $measure->unit }}</span>
 										</p>
 									@else
 										<p class="row">
-											<span class="col-md-4" ><strong>{{ $measure->name }}  </strong></span> 
-											<span class="col-md-8" >{{ $result->result }}</span>										
-										</p>									
+											<span class="col-md-4" ><strong>{{ $measure->name }}  </strong></span>
+											<span class="col-md-8" >{{ $result->result }}</span>
+										</p>
 									@endif
 								@endforeach
                                 <div class="row">
@@ -91,7 +91,7 @@
                             <div class="row">
                                     <div class="col-md-12">
                                         <p><strong>Result not yet ready</strong></p>
-                                   
+
                                     </div>
                                 </div>
                             @endif
@@ -111,7 +111,7 @@
                                 }
                                 $fieldName = "m_".$measure->id;
                                 ?>
-                                @if ( $measure->isNumeric() ) 
+                                @if ( $measure->isNumeric() )
                                     {{ Form::label($fieldName , $measure->name) }}
                                     {{ Form::text($fieldName, $ans, array(
                                         'class' => 'form-control result-interpretation-trigger',
@@ -127,7 +127,7 @@
                                         {{Measure::getRange($test->visit->patient, $measure->id)}}
                                         {{$measure->unit}}
                                     </span>
-                                @elseif ( $measure->isAlphanumeric()) 
+                                @elseif ( $measure->isAlphanumeric())
                                     <?php
                                     $measure_values = array();
                                     $measure_values[''] = 'Select result';
@@ -140,9 +140,9 @@
                                         array('class' => 'select2 form-control result-interpretation-trigger',
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-measureid' => $measure->id
-                                        )) 
+                                        ))
                                     }}
-                                @elseif ($measure->isAutocomplete() ) 
+                                @elseif ($measure->isAutocomplete() )
                                     <?php
                                     $measure_values = array();
                                     $measure_values[''] = 'Select result';
@@ -151,13 +151,13 @@
                                     }
                                     ?>
                                     {{ Form::label($fieldName , $measure->name) }}
-                                    {{ Form::select($fieldName[], $measure_values, array_search($ans, $measure_values),
+                                    {{ Form::select($fieldName.'[]', $measure_values, array_intersect(explode(', ',$ans), $measure_values),
                                         array('class' => 'select2 form-control result-interpretation-trigger',
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-measureid' => $measure->id, 'multiple' => 'multiple'
-                                        )) 
+                                        ))
                                     }}
-                                @elseif ( $measure->isFreeText() ) 
+                                @elseif ( $measure->isFreeText() )
                                     {{ Form::label($fieldName, $measure->name) }}
                                     <?php
                                         $sense = '';
@@ -165,7 +165,7 @@
                                             $sense = ' sense'.$test->id;
                                     ?>
                                     {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense))}}
-								@elseif ( $measure->isLargeText() ) 
+								@elseif ( $measure->isLargeText() )
                                     {{ Form::label($fieldName, $measure->name) }}
                                     <?php
                                         $sense = '';
@@ -173,28 +173,28 @@
                                             $sense = ' sense'.$test->id;
                                     ?>
                                     {{Form::textarea($fieldName, $ans, array('class' => 'form-control'.$sense))}}
-								@elseif ( $measure->isDatePicker() ) 
+								@elseif ( $measure->isDatePicker() )
                                     {{ Form::label($fieldName, $measure->name) }}
                                     <?php
                                         $sense = '';
                                         if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
                                             $sense = ' sense'.$test->id;
                                     ?>
-                                    {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense, 'id' => 'standard-datepicker'))}}
-                                @elseif ( $measure->isTimePicker() ) 
+                                    {{Form::text($fieldName, $ans, array('class' => 'standard-datepicker form-control'.$sense, 'id' => 'standard-datepicker'))}}
+                                @elseif ( $measure->isTimePicker() )
                                     {{ Form::label($fieldName, $measure->name) }}
                                     <?php
                                         $sense = '';
                                         if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
                                             $sense = ' sense'.$test->id;
                                     ?>
-                                    {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense, 'id' => 'standard-timepicker'))}}
+                                    {{Form::text($fieldName, $ans, array('class' => 'standard-timepicker form-control'.$sense, 'id' => 'standard-timepicker'))}}
                                 @endif
                             </div>
                         @endforeach
                         <div class="form-group">
                             {{ Form::label('interpretation', trans('messages.interpretation')) }}
-                            {{ Form::textarea('interpretation', $test->interpretation, 
+                            {{ Form::textarea('interpretation', $test->interpretation,
                                 array('class' => 'form-control result-interpretation', 'rows' => '2')) }}
                         </div>
                         <div class="form-group actions-row">
@@ -203,7 +203,7 @@
                                 array('class' => 'btn btn-default', 'onclick' => 'submit()')) }}
                         </div>
                     {{ Form::close() }}
-							
+
                         </div>
 						@endif
                         <div class="col-md-6">
@@ -331,7 +331,7 @@
                                                 {{ $test->specimen->referral->user->name }}
                                             </div>
                                         </div>
-                                        
+
                                     @endif
                                         <div class="row">
                                             <div class="col-md-4">
@@ -388,7 +388,7 @@
                                     </div>
                                 </div> <!-- ./ panel-body -->
                             </div>  <!-- ./ panel -->
-                        </div>                    
+                        </div>
                     </div>
 					<div class="row">
 						<div class="col-md-12">
@@ -421,7 +421,7 @@
                                             <tr>
                                                 <td>{{ Culture::showTimeAgo(date('Y-m-d H:i:s')) }}</td>
                                                 <td>{{ Auth::user()->name }}</td>
-                                                <td>{{ Form::textarea('observation', $test->interpretation, 
+                                                <td>{{ Form::textarea('observation', $test->interpretation,
                                                     array('class' => 'form-control result-interpretation', 'rows' => '2', 'id' => 'observation_'.$test->id)) }}
                                                 </td>
                                                 <td><a class="btn btn-xs btn-success" href="javascript:void(0)" onclick="saveObservation(<?php echo $test->id; ?>, <?php echo Auth::user()->id; ?>, <?php echo "'".Auth::user()->name."'"; ?>)">
@@ -432,7 +432,7 @@
                                             <tr>
                                                 <td>{{ Culture::showTimeAgo(date('Y-m-d H:i:s')) }}</td>
                                                 <td>{{ Auth::user()->name }}</td>
-                                                <td>{{ Form::textarea('observation', '', 
+                                                <td>{{ Form::textarea('observation', '',
                                                     array('class' => 'form-control result-interpretation', 'rows' => '2', 'id' => 'observation_'.$test->id)) }}
                                                 </td>
                                                 <td><a class="btn btn-xs btn-success" href="javascript:void(0)" onclick="saveObservation(<?php echo $test->id; ?>, <?php echo Auth::user()->id; ?>, <?php echo "'".Auth::user()->name."'"; ?>)">
@@ -446,7 +446,7 @@
                                 <div class="form-group">
                                     <div class="form-pane panel panel-default">
                                         <div class="container-fluid">
-                                            <?php 
+                                            <?php
                                                 $cnt = 0;
                                                 $zebra = "";
                                                 $checked="";
@@ -471,7 +471,7 @@
                                 @foreach($test->testType->organisms as $key=>$value)
                                     {{--*/$checker = 0/*--}}
                                     @if(count($test->susceptibility)>0)
-                                        <?php 
+                                        <?php
                                             if(in_array($value->id, $test->susceptibility->lists('organism_id')))
                                                 $checker=1;
                                         ?>

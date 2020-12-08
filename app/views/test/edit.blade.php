@@ -72,7 +72,7 @@
 							<?php
 							$fieldName = "m_".$measure->id;
 							?>
-								@if ( $measure->isNumeric() ) 
+								@if ( $measure->isNumeric() )
 			                        {{ Form::label($fieldName , $measure->name) }}
 			                        {{ Form::text($fieldName, $ans, array(
 			                            'class' => 'form-control result-interpretation-trigger',
@@ -87,7 +87,7 @@
 		                                {{Measure::getRange($test->visit->patient, $measure->id)}}
 		                                {{$measure->unit}}
 		                            </span>
-								@elseif ( $measure->isAlphanumeric()) 
+								@elseif ( $measure->isAlphanumeric())
                                     <?php
                                     $measure_values = array();
                                     $measure_values[''] = 'Select result';
@@ -100,9 +100,9 @@
                                         array('class' => 'select2 form-control result-interpretation-trigger',
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-measureid' => $measure->id
-                                        )) 
+                                        ))
                                     }}
-                                @elseif ($measure->isAutocomplete() ) 
+                                @elseif ($measure->isAutocomplete() )
                                     <?php
                                     $measure_values = array();
                                     $measure_values[''] = 'Select result';
@@ -111,13 +111,13 @@
                                     }
                                     ?>
                                     {{ Form::label($fieldName , $measure->name) }}
-                                    {{ Form::select($fieldName[], $measure_values, array_search($ans, $measure_values),
+                                    {{ Form::select($fieldName.'[]', $measure_values, array_intersect(explode(', ',$ans), $measure_values),
                                         array('class' => 'select2 form-control result-interpretation-trigger',
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-measureid' => $measure->id, 'multiple' => 'multiple'
-                                        )) 
+                                        ))
                                     }}
-								@elseif ( $measure->isFreeText() ) 
+								@elseif ( $measure->isFreeText() )
 		                            {{ Form::label($fieldName, $measure->name) }}
 		                            <?php
 										$sense = '';
@@ -125,7 +125,7 @@
 											$sense = ' sense'.$test->id;
 									?>
 		                            {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense))}}
-								@elseif ( $measure->isLargeText() ) 
+								@elseif ( $measure->isLargeText() )
 		                            {{ Form::label($fieldName, $measure->name) }}
 		                            <?php
 										$sense = '';
@@ -133,28 +133,28 @@
 											$sense = ' sense'.$test->id;
 									?>
 		                            {{Form::textarea($fieldName, $ans, array('class' => 'form-control'.$sense))}}
-									@elseif ( $measure->isDatePicker() ) 
+									@elseif ( $measure->isDatePicker() )
                                     {{ Form::label($fieldName, $measure->name) }}
                                     <?php
                                         $sense = '';
                                         if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
                                             $sense = ' sense'.$test->id;
                                     ?>
-                                    {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense, 'id' => 'standard-datepicker'))}}
-                                @elseif ( $measure->isTimePicker() ) 
+                                    {{Form::text($fieldName, $ans, array('class' => 'standard-datepicker form-control'.$sense, 'id' => 'standard-datepicker'))}}
+                                @elseif ( $measure->isTimePicker() )
                                     {{ Form::label($fieldName, $measure->name) }}
                                     <?php
                                         $sense = '';
                                         if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
                                             $sense = ' sense'.$test->id;
                                     ?>
-                                    {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense, 'id' => 'standard-timepicker'))}}
+                                    {{Form::text($fieldName, $ans, array('class' => 'standard-timepicker form-control'.$sense, 'id' => 'standard-timepicker'))}}
 								@endif
 		                    </div>
 		                @endforeach
 		                <div class="form-group">
 		                    {{ Form::label('interpretation', trans('messages.interpretation')) }}
-		                    {{ Form::textarea('interpretation', $test->interpretation, 
+		                    {{ Form::textarea('interpretation', $test->interpretation,
 		                        array('class' => 'form-control result-interpretation', 'rows' => '2')) }}
 		                </div>
 		                <div class="form-group actions-row" align="left">
@@ -162,7 +162,7 @@
 								array('class' => 'btn btn-default', 'onclick' => 'submit()')) }}
 						</div>
 					{{ Form::close() }}
-	               
+
                     </div>
 	                <div class="col-md-6">
 	                    <div class="panel panel-info">  <!-- Patient Details -->
@@ -197,7 +197,7 @@
 	                                    	{{$test->getSpecimenId() }}</p>
 	                                    <p class="view"><strong>{{trans('messages.specimen-status')}}</strong>
 	                                        {{trans('messages.'.$test->specimen->specimenStatus->name) }}</p>
-	                                
+
 	                            		@if($test->specimen->isRejected())
 	                                        <p class="view"><strong>{{trans('messages.rejection-reason-title')}}</strong>
 	                                        	{{$test->specimen->rejectionReason->reason or trans('messages.pending') }}</p>
@@ -316,7 +316,7 @@
 										<tr>
 											<td>{{ Culture::showTimeAgo(date('Y-m-d H:i:s')) }}</td>
 											<td>{{ Auth::user()->name }}</td>
-											<td>{{ Form::textarea('observation', '', 
+											<td>{{ Form::textarea('observation', '',
 					                        	array('class' => 'form-control result-interpretation', 'rows' => '2', 'id' => 'observation_'.$test->id)) }}
 					                        </td>
 											<td><a class="btn btn-xs btn-success" href="javascript:void(0)" onclick="saveObservation(<?php echo $test->id; ?>, <?php echo Auth::user()->id; ?>, <?php echo "'".Auth::user()->name."'"; ?>)">
@@ -327,7 +327,7 @@
 										<tr>
 											<td>{{ Culture::showTimeAgo(date('Y-m-d H:i:s')) }}</td>
 											<td>{{ Auth::user()->name }}</td>
-											<td>{{ Form::textarea('observation', $test->interpretation, 
+											<td>{{ Form::textarea('observation', $test->interpretation,
 					                        	array('class' => 'form-control result-interpretation', 'rows' => '2', 'id' => 'observation_'.$test->id)) }}
 					                        </td>
 											<td><a class="btn btn-xs btn-success" href="javascript:void(0)" onclick="saveObservation(<?php echo $test->id; ?>, <?php echo Auth::user()->id; ?>, <?php echo "'".Auth::user()->name."'"; ?>)">
@@ -341,10 +341,10 @@
 							<div class="form-group">
 								<div class="form-pane panel panel-default">
 									<div class="container-fluid">
-										<?php 
+										<?php
 											$cnt = 0;
 											$zebra = "";
-											$checked=""; 
+											$checked="";
 											$susOrgIds = array();
 											$defaultZone='';
 											$defaultInterp='';

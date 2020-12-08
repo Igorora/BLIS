@@ -12,7 +12,7 @@ class Measure extends Eloquent
 
 	use SoftDeletingTrait;
 	protected $dates = ['deleted_at'];
-    	
+
 	/**
 	 * The database table used by the model.
 	 *
@@ -29,7 +29,7 @@ class Measure extends Eloquent
 	const FREETEXT = 4;
 	const LARGETEXT = 5;
 	const DATE_PICKER = 6;
-	const TIME_PICKER = 8;
+	const TIME_PICKER = 7;
 	const MONTH_INTERVAL = 0;
 	const YEAR_INTERVAL = 1;
 	const DAYS_INTERVAL = 2;
@@ -66,13 +66,13 @@ class Measure extends Eloquent
 	{
 		$measure = Measure::find($result['measureid']);
 		$interpretation = '';
-		$testId = $result['testId'];		
+		$testId = $result['testId'];
 		$testType = Test::find($testId)->testType;
 		if(empty($result['measurevalue']) || preg_match("/[a-zA-Z]/i", $result['measurevalue']) ){
 			return null;
 		}
 		try {
-			
+
 			if ($measure->hasCritical()) {
 				$birthDate = new DateTime($result['birthdate']);
 				$now = new DateTime();
@@ -158,7 +158,7 @@ class Measure extends Eloquent
 		if($this->measureType->id == Measure::NUMERIC){
 			return true;
 		}
-		else 
+		else
 			return false;
 	}
 
@@ -172,7 +172,7 @@ class Measure extends Eloquent
 		if($this->measureType->id == Measure::ALPHANUMERIC){
 			return true;
 		}
-		else 
+		else
 			return false;
 	}
 
@@ -186,7 +186,7 @@ class Measure extends Eloquent
 		if($this->measureType->id == Measure::AUTOCOMPLETE){
 			return true;
 		}
-		else 
+		else
 			return false;
 	}
 
@@ -256,7 +256,7 @@ class Measure extends Eloquent
 									->where('age_min', '<=',  $age)
 									->where('age_max', '>=', $age);
 		//}
-		
+
 		if(count($measureRange->get()) >= 1){
 			if(count($measureRange->get()) == 1){
 				$lowerUpper = $measureRange->first();
@@ -347,11 +347,11 @@ class Measure extends Eloquent
 	*/
 	public static function getMeasureIdByName($measureName)
 	{
-		try 
+		try
 		{
 			$measure = Measure::where('name', 'like', $measureName)->firstOrFail();
 			return $measure->id;
-		} catch (ModelNotFoundException $e) 
+		} catch (ModelNotFoundException $e)
 		{
 			Log::error("The measure ` $measureName ` does not exist:  ". $e->getMessage());
 			//TODO: send email?
@@ -368,7 +368,7 @@ class Measure extends Eloquent
 		$counter = Critical::where('parameter', $this->id)->count();
 		if($counter > 0)
 			return true;
-		else 
+		else
 			return false;
 	}
 	/**

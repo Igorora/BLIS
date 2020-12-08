@@ -132,12 +132,12 @@ class TestController extends \BaseController {
             //'visit_amount' => 'required|numeric',
             'department' => 'required',
             'clinicinfo'=> 'required',
-            'visit_urgency'=> 'required' 
+            'visit_urgency'=> 'required'
         );
-        
-                
+
+
         }
-        
+
         if($submitedDepartment==13){
             $rules['hospital']='required';
         }
@@ -146,13 +146,13 @@ class TestController extends \BaseController {
         if (Input::get('physician')=='Not listed') {
         	$physician=Input::get('nonListedClinician');
         	$rules['nonListedClinician']='required|regex:/^[a-zA-Z\s]+/';
-        	
+
         }
 
         $messages = array(
             'regex' => 'Name of requesting clinician only contain letters and spaces.',
         );
-        
+
         $validator = Validator::make(Input::all(), $rules,$messages);
 
         // process the login
@@ -161,8 +161,8 @@ class TestController extends \BaseController {
             return Redirect::route('test.update', array($requestID))->withInput(Input::all())->withErrors($validator);
             }
             return Redirect::route('test.create', array(Input::get('patient_id')))->withInput(Input::all())->withErrors($validator);
-            
-        } 
+
+        }
 
         $visitTypes = ['Out-patient', 'In-patient'];
         $department = ['IM', 'Obs gyn', 'Ped', 'ENT/ORL', 'Dermato', 'Stomato', 'Ophtalmo', 'Surg', 'Emergency','ICU', 'Dialysis' ,'ARV PED','ARV IM', 'Reffered'];
@@ -178,7 +178,7 @@ class TestController extends \BaseController {
         }else{
             $visit = new Visit;
         }
-        
+
         $visit->patient_id = Input::get('patient_id');
         $visit->visit_type = $visitTypes[$visitType];
         $visit->visit_urgency = Input::get('visit_urgency');
@@ -194,8 +194,8 @@ class TestController extends \BaseController {
         $transactions[]= $visit->save();
         $activeRequest[]=$visit->id;
         $testsTransactions=$visit->setTests($testTypes,$requestID,$physician);
-       
-       
+
+
         /*
          * - Create tests requested
          * - Fields required: visit_id, test_type_id, specimen_id, test_status_id, created_by, requested_by
@@ -209,7 +209,7 @@ class TestController extends \BaseController {
 
             // return Redirect::to($url)->withInput(Input::all()) ->withErrors('An error has occured and request was not submited');
 
-            if ($requestID) { 
+            if ($requestID) {
             return Redirect::route('test.update', array($requestID))->withInput(Input::all())->withErrors('An error has occured and request was not successfuly updated');
             }
             return Redirect::route('test.create', array(Input::get('patient_id')))->withInput(Input::all())->withErrors('An error has occured and request was not successfuly submited');
@@ -217,7 +217,7 @@ class TestController extends \BaseController {
             }
         DB::commit();
         return Redirect::route('labRequest.viewDetails', $activeRequest)->with('message','Request successfuly registered, please verify payment');
-        
+
     }
 
     /**
@@ -265,7 +265,7 @@ class TestController extends \BaseController {
 													return Redirect::route('test.reject', array(Input::get('specimen_id')))
                             ->withInput()
                             ->withErrors('Sorry!! An error occured, specimen was not rejected');
-													
+
 													}
 												DB::commit();
             $url = Session::get('SOURCE_URL');
@@ -292,7 +292,7 @@ class TestController extends \BaseController {
 							//dd($transaction);
 							if(!$transaction){
 									DB::rollback();
-									return 'false'; 
+									return 'false';
 									//Redirect::route('labRequest.viewDetails', [$requestId])->withInput(Input::all())	->withErrors('An error has occured and request was not submited');
 								}
 									DB::commit();
@@ -336,15 +336,15 @@ class TestController extends \BaseController {
         $test->test_status_id = Test::STARTED;
         $test->started_by = Auth::user()->id;
         $test->time_started = date('Y-m-d H:i:s');
-        
 
-        
+
+
 								DB::beginTransaction();
 							$transaction = $test->save();
 							//dd($transaction);
 							if(!$transaction){
 									DB::rollback();
-									return 'false'; 
+									return 'false';
 									//Redirect::route('labRequest.viewDetails', [$requestId])->withInput(Input::all())	->withErrors('An error has occured and request was not submited');
 								}
 									DB::commit();
@@ -398,7 +398,7 @@ class TestController extends \BaseController {
             $testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
             $initialMeasureVal=$testResult->result;
             $inputName = "m_" . $measure->id;
-            $inputVal=serialize(Input::get($inputName));
+            $inputVal=$measure->measure_type_id==Measure::AUTOCOMPLETE ? implode(", " , Input::get($inputName)) : Input::get($inputName);
             $audit = false;
             //Log in Audit if the values have changed
             if ($testResult->result != $inputVal) {
@@ -416,14 +416,14 @@ class TestController extends \BaseController {
             $testResult->result = $inputVal;
             if (!$initialMeasureVal) {
              $testResult->entered_by=Auth::user()->id;
-             $testResult->time_entered = date('Y-m-d H:i:s');    
+             $testResult->time_entered = date('Y-m-d H:i:s');
             }
-           
+
 
             //$inputName = "m_" . $measure->id;
             if ($measure->measure_type_id==Measure::NUMERIC && $inputVal!='-') {
                   $rules = array("$inputName" => 'numeric');
-                
+
             }else{
                      $rules = array("$inputName" => 'max:5000');
                 }
@@ -435,15 +435,15 @@ class TestController extends \BaseController {
             if ($validator->fails()) {
                 return Redirect::back()->withErrors($validator)->withInput(Input::all());
             } else {
-               
+
 				$transactions[]=$testResult->save();
                 if ($audit == true) {
                     	$transactions[]=$testResultAudit->save();
                 }
             }
         }
-		
-		
+
+
 		$test->interpretation = Input::get('interpretation');
 		$nonreportedtests=$test->testResults()->where('result','=','')->count();
 		if($nonreportedtests == 0){
@@ -452,10 +452,10 @@ class TestController extends \BaseController {
 
                 $test->test_status_id = Test::COMPLETED;
                 $test->time_completed = date('Y-m-d H:i:s');
-            	$test->tested_by = Auth::user()->id; 
-            }           
-                  
-        
+            	$test->tested_by = Auth::user()->id;
+            }
+
+
 
 		}
 		 	$transactions[]=$test->save();
@@ -466,7 +466,7 @@ class TestController extends \BaseController {
 									return Redirect::back()->withErrors('Sorry!! An error occured, result was not saved')->withInput(Input::all());
 								}
 									DB::commit();
-								
+
 								$info = new stdclass();
         //Fire of entry saved/edited event
         $verification = RequireVerification::get()->first();
@@ -524,8 +524,8 @@ class TestController extends \BaseController {
      * @param
      * @return
      */
-    public function verify($testID) { 
-       
+    public function verify($testID) {
+
         $test = Test::find($testID);
          if ($test->verified_by==0) {
             $test->test_status_id = Test::VERIFIED;
@@ -548,7 +548,7 @@ class TestController extends \BaseController {
 
             if (Input::get('ajaxVerify')) {
                     return 'success';
-                
+
             }
             $url = Session::get('SOURCE_URL');
 
@@ -565,16 +565,16 @@ class TestController extends \BaseController {
 
             $verifier=array('<strong>Verified by: </strong>'. $test->verifiedBy->name.'<span class="label label-success">' . $test->verifiedBy->phone.'</span>',$test->time_verified,1);
             return $verifier;
-                
+
             }
 
             return Redirect::route('test.viewDetails', array($testID))
                         ->with('message', trans('messages.success-verifying-results'))
                         ->with('test', $test);
-            
+
         }
-        
-        
+
+
     }
 
     /**
