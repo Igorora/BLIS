@@ -97,7 +97,7 @@ class MeasureController extends \BaseController {
             $measure->unit = $data['unit'];
             $measure->description = $data['description'];
             $measure->save();
-            if (!($measureTypeId == Measure::FREETEXT || $measureTypeId == Measure::LARGETEXT)) {
+            if (!($measureTypeId == Measure::FREETEXT || $measureTypeId == Measure::LARGETEXT || $measureTypeId == Measure::DATE_PICKER || $measureTypeId == Measure::TIME_PICKER)) {
                 if ($measureTypeId == Measure::NUMERIC){
                     $val['agemin'] = $data['agemin'];
                     $val['agemax'] = $data['agemax'];
