@@ -8,7 +8,7 @@ return array(
       |
      */
 
-    'name' => 'CHUB_BLIS',
+    'name' => 'MITS_CHUB',
     /*
       |--------------------------------------------------------------------------
       |	Application Version
@@ -45,7 +45,7 @@ return array(
       |--------------------------------------------------------------------------
       |
      */
-    'organization-logo' => '/i/chublogo.jpg',
+    'organization-logo' => '/i/mits-logo.png',
     /*
       |--------------------------------------------------------------------------
       |	Pagination: Items to show per page
@@ -78,5 +78,5 @@ return array(
       |--------------------------------------------------------------------------
       |
      */
-    'favicon' => '/i/favicon2.ico',
+    'favicon' => '/i/favicon3.ico',
 );
