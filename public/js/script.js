@@ -151,7 +151,11 @@ $(function() {
             '.freetextInputLoader',
             '.largetextInputLoader',
             '.standard-datepicker',
-            '.standard-timepicker'
+            '.standard-timepicker',
+            '.icd-ajax-autocomplete',
+            '.icd-ajax-autocomplete',
+            '.icd-ajax-autocomplete',
+            '.icd-ajax-autocomplete',
         ];
 
         if ($(this).data('measure-id') === 0) {
@@ -1042,6 +1046,25 @@ $(document).ready(function() {
         tags: true
     });
 
+    $('.icd-ajax').select2({
+        placeholder: "Type three character...",
+        minimumInputLength: 3,
+        multiple: true,
+        ajax: {
+            url: function(params) {
+                return $(this).data('icd') + '/' + params.term;
+            },
+            dataType: 'json',
+            processResults: function(data, params) {
+                return {
+                    results: data
+                };
+
+            },
+            cache: true
+        }
+    });
+
 
     $("#search_item").autocomplete({
         source: "search/autocomplete",
@@ -1157,7 +1180,11 @@ function loadRangeFields() {
         '.freetextInputLoader',
         '.largetextInputLoader',
         '.standard-datepicker',
-        '.standard-timepicker'
+        '.standard-timepicker',
+        '.icd-ajax-autocomplete',
+        '.icd-ajax-autocomplete',
+        '.icd-ajax-autocomplete',
+        '.icd-ajax-autocomplete',
     ];
 
     if ($(this).data('measure-id') === 0) {

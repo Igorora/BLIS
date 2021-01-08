@@ -14,7 +14,7 @@
 		</div>
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
-			
+
 			@if($errors->all())
 				<div class="alert alert-danger">
 					{{ HTML::ul($errors->all()) }}
@@ -25,33 +25,33 @@
 					<div class="form-group">
 						{{ Form::label('patient_number', trans('messages.patient-number')) }}
 						{{ Form::text('patient_number',Input::old('patient_number'),
-							array('class' => 'form-control')) }} 
+							array('class' => 'form-control')) }}
 					</div>
 					<div class="form-group">
 						{{ Form::label('name', trans('messages.names')) }}
 						{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-					</div> 
+					</div>
 					<div class="">
 						{{ Form::label('ageselector', 'Age Input Selector') }}
-						
-						
+
+
 						<div class="form-group  col-md-12">
 							<div class="col-md-6">{{ Form::radio('ageselector', '0', true) }}
 							<span class="input-tag">Age</span></div>
 							<div  class="col-md-6">{{ Form::radio("ageselector", '1', false) }}
 							<span class="input-tag">Date Picker</span></div>
 						</div>
-						
-						
+
+
 					</div>
 					<div class="form-group" id="age">
 						{{ Form::label('dob', 'Age in years') }}
-						{{ Form::text('age', Input::old('dob'), 
-							array('class' => 'form-control', 'placeholder'=>'Enter the age in years')) }}
+						{{ Form::text('age', Input::old('dob'),
+							array('class' => 'form-control', 'placeholder'=>'Enter the age in years at the time of death')) }}
 					</div>
 					<div class="form-group" id="date-picker">
 						{{ Form::label('dob', trans('messages.date-of-birth')) }}
-						{{ Form::text('dob', Input::old('dob'), 
+						{{ Form::text('dob', Input::old('dob'),
 							array('class' => 'form-control standard-datepicker' ,  'placeholder'=>'Click and select a date')) }}
 					</div>
 					<div class="form-group">
@@ -61,7 +61,7 @@
 						<div>{{ Form::radio("gender", '1', false) }}
 						<span class="input-tag">{{trans('messages.female')}}</span></div>
 					</div>
-					
+
 					<div class="form-group">
 						{{ Form::label('phone_number', trans('messages.phone-number')) }}
 						{{ Form::text('phone_number', Input::old('phone_number'), array('class' => 'form-control')) }}
@@ -83,7 +83,7 @@
 						<select name="province" class="form-control" id="province">
 							<option value="">Select Province</option>
 							<option value="Not provided">Not provided</option>
-								
+
 						</select>
 					</div>
 						<div class="form-group">
@@ -176,13 +176,13 @@
 					</div>
 
 				</div> -->
-					
+
 				<div class="form-group col-md-12 text-center">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'),
 						['class' => 'btn btn-primary', 'onclick' => 'submit()']) }}
 				</div>
-		
+
 			{{ Form::close() }}
 		</div>
 	</div>
-@stop	
+@stop

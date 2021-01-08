@@ -15,7 +15,7 @@
 	{{ Form::open(array('route' => array('testtype.index'), 'id' => 'form-create-testtype')) }}
 	<div class="panel-body">
 	<!-- if there are creation errors, they will show here -->
-		
+
 		@if($errors->all())
 			<div class="alert alert-danger">
 				{{ HTML::ul($errors->all()) }}
@@ -30,7 +30,7 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('description', trans('messages.description')) }}
-				{{ Form::textarea('description', Input::old('description'), 
+				{{ Form::textarea('description', Input::old('description'),
 					array('class' => 'form-control', 'rows' => '2')) }}
 			</div>
 			<div class="form-group">
@@ -39,7 +39,7 @@
 					Input::old('test_category_id'),	array('class' => 'form-control')) }}
 			</div>
 	</div>
-		<div class="col-md-6">	
+		<div class="col-md-6">
 		<h3>Test tarif</h3>
 				<div class="form-group">
 				{{ Form::label('tarif_A', 'Community Health Insurance') }}
@@ -53,7 +53,7 @@
 				{{ Form::label('tarif_C', 'RSSB/RAMA') }}
 				{{ Form::text('tarif_C', Input::old('tarif_C'), array('class' => 'form-control')) }}
 			</div>
-			
+
 			<div class="form-group">
 				{{ Form::label('tarif_D', 'Commircial and private companies') }}
 				{{ Form::text('tarif_D', Input::old('tarif_D'), array('class' => 'form-control')) }}
@@ -68,7 +68,7 @@
 				{{ Form::label('panel_id', Lang::choice('messages.panel-type',1)) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid">
-						<?php 
+						<?php
 							$cnt = 0;
 							$zebra = "";
 						?>
@@ -89,12 +89,12 @@
 						@endforeach
 					</div>
 				</div>
-			</div>		 
+			</div>
 			<div class="form-group">
 				{{ Form::label('specimen_types', trans('messages.select-specimen-types')) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid">
-						<?php 
+						<?php
 							$cnt = 0;
 							$zebra = "";
 						?>
@@ -132,7 +132,7 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('prevalence_threshold', trans('messages.prevalence-threshold')) }}
-				{{ Form::text('prevalence_threshold', Input::old('prevalence_threshold'), 
+				{{ Form::text('prevalence_threshold', Input::old('prevalence_threshold'),
 					array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
@@ -143,7 +143,7 @@
 				{{ Form::label('organisms', trans('messages.select-organisms')) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid">
-						<?php 
+						<?php
 							$counter = 0;
 							$alternator = "";
 						?>
@@ -165,29 +165,30 @@
 					</div>
 				</div>
 			</div>
-		
-</div>
-<div class="form-group">
-	{{ Form::label('orderable_test', trans('messages.orderable-test')) }}
-	{{ Form::checkbox('orderable_test', 1, Input::old('orderable_test')) }}
-</div>
-<div class="form-group">
-	{{ Form::label('accredited', trans('messages.accredited')) }}
-	{{ Form::checkbox('accredited', "1", Input::old('accredited'), array()) }}
-</div>
-		
 
-		<div class="panel-footer">
-			<div class="form-group actions-row">
-				{{ Form::button(
-					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'),
-					['class' => 'btn btn-primary', 'onclick' => 'submit()']
-				) }}
-				{{ Form::button(trans('messages.cancel'), 
-					['class' => 'btn btn-default', 'onclick' => 'javascript:history.go(-1)']
-				) }}
-			</div>
-		</div>
+	<div class="form-group">
+		{{ Form::label('orderable_test', trans('messages.orderable-test')) }}
+		{{ Form::checkbox('orderable_test', 1, Input::old('orderable_test')) }}
+	</div>
+	<div class="form-group">
+		{{ Form::label('accredited', trans('messages.accredited')) }}
+		{{ Form::checkbox('accredited', "1", Input::old('accredited'), array()) }}
+	</div>
+</div>
+
+
+
+<div class="panel-footer">
+	<div class="form-group actions-row">
+		{{ Form::button(
+			'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'),
+			['class' => 'btn btn-primary', 'onclick' => 'submit()']
+		) }}
+		{{ Form::button(trans('messages.cancel'),
+			['class' => 'btn btn-default', 'onclick' => 'javascript:history.go(-1)']
+		) }}
+	</div>
+</div>
 	{{ Form::close() }}
 
 @include("measure.measureinput")

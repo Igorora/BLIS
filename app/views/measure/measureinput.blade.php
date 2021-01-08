@@ -12,10 +12,10 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('new-measures[][measure_type_id]', trans('messages.measure-type')) }}
-                            <select class="form-control measuretype-input-trigger measure_type_id" 
-                                data-measure-id="0" 
-                                data-new-measure-id="" 
-                                name="" 
+                            <select class="form-control measuretype-input-trigger measure_type_id"
+                                data-measure-id="0"
+                                data-new-measure-id=""
+                                name=""
                                 id="measure_type_id">
                                 <option value="0"></option>
                                 @foreach ($measuretype as $type)
@@ -44,7 +44,7 @@
                             <div>
                                 <div class="measurevalue"></div>
                                 <div class="col-md-12 actions-row">
-                                    <a class="btn btn-default add-another-range" href="javascript:void(0);" 
+                                    <a class="btn btn-default add-another-range" href="javascript:void(0);"
                                         data-measure-id="0"
                                         data-new-measure-id="">
                                     <span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure-range')}}</a>
@@ -56,10 +56,10 @@
                 </div>
             </div>
             <div class="col-md-1">
-                <button class="col-md-12 close" aria-hidden="true" type="button" 
+                <button class="col-md-12 close" aria-hidden="true" type="button"
                     title="{{trans('messages.delete')}}">×</button>
             </div>
-        </div>    
+        </div>
     </div><!-- measureGeneric -->
     <div class="hidden numericHeaderLoader">
         <div class="col-md-12">
@@ -73,7 +73,7 @@
             <div class="col-md-2">
                 <span class="col-md-12 interpretation-title">{{trans('messages.interpretation')}}</span>
             </div>
-        </div>     
+        </div>
     </div><!-- alphanumericHeader -->
     <div class="hidden alphanumericHeaderLoader">
         <div class="col-md-12">
@@ -89,7 +89,7 @@
                 <select class="col-md-3 interval" name="">
                     <option value="1" {{ $selection_interval[1] }}>Years</option>
 					<option value="0" {{ $selection_interval[0] }}>Months</option>
-                    
+
                     <option value="2" {{ $selection_interval[2] }}>Days</option>
                 </select>
                 <span class="col-md-1">:</span>
@@ -133,12 +133,14 @@
 	<div class="hidden largetextInputLoader">
         <p class="largetextInput" >{{trans('messages.largetext-measure-config-input-message')}}</p>
     </div><!-- largetextInput -->
-    </div><!-- datepicker -->
 	<div class="hidden standard-datepicker">
         <p class="standard-datepicker" >{{trans('messages.date-picker-massage')}}</p>
-    </div><!-- timepicker -->
+    </div><!-- datepicker -->
     <div class="hidden standard-timepicker">
         <p class="standard-timepicker" >{{trans('messages.time-picker-massage')}}</p>
-    </div>
-    
+    </div><!-- timepicker -->
+    <div class="hidden icd-ajax-autocomplete">
+        <p class="icd-ajax-autocomplete" >{{trans('messages.ajax-autocomplete')}}</p>
+    </div><!-- ajax-autocomplete -->
+
 @show

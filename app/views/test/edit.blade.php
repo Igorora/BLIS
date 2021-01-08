@@ -117,6 +117,19 @@
                                         'data-measureid' => $measure->id, 'multiple' => 'multiple'
                                         ))
                                     }}
+                                @elseif ($measure->isDiagAutocomplete() ||
+                                        $measure->isMedAutocomplete() ||
+                                        $measure->isSympAutocomplete() ||
+                                        $measure->isSignAutocomplete() )
+                                    <?php $measure_values = []; ?>
+                                    {{ Form::label($fieldName , $measure->name) }}
+                                    {{ Form::select($fieldName.'[]', $measure_values, array_intersect(explode(', ',$ans), $measure_values),
+                                        array('class' => 'icd-ajax form-control result-interpretation-trigger',
+                                        'data-url' => URL::route('test.resultinterpretation'),
+                                        'data-icd' => URL::route('icd10.'.$measure->measureType->id),
+                                        'data-measureid' => $measure->id, 'multiple' => 'multiple'
+                                        ))
+                                    }}
 								@elseif ( $measure->isFreeText() )
 		                            {{ Form::label($fieldName, $measure->name) }}
 		                            <?php

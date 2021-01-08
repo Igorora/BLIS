@@ -30,6 +30,10 @@ class Measure extends Eloquent
 	const LARGETEXT = 5;
 	const DATE_PICKER = 6;
 	const TIME_PICKER = 7;
+	const ICD_DIAG = 8;
+	const ICD_MED = 9;
+	const ICD_SYMP = 10;
+	const ICD_SIGN = 11;
 	const MONTH_INTERVAL = 0;
 	const YEAR_INTERVAL = 1;
 	const DAYS_INTERVAL = 2;
@@ -223,6 +227,38 @@ class Measure extends Eloquent
 	public function isTimePicker()
 	{
 		if($this->measureType->id == Measure::TIME_PICKER){
+			return true;
+		}
+		else
+			return false;
+	}
+	public function isDiagAutocomplete()
+	{
+		if($this->measureType->id == Measure::ICD_DIAG){
+			return true;
+		}
+		else
+			return false;
+	}
+	public function isMedAutocomplete()
+	{
+		if($this->measureType->id == Measure::ICD_MED){
+			return true;
+		}
+		else
+			return false;
+	}
+	public function isSympAutocomplete()
+	{
+		if($this->measureType->id == Measure::ICD_SYMP){
+			return true;
+		}
+		else
+			return false;
+	}
+	public function isSignAutocomplete()
+	{
+		if($this->measureType->id == Measure::ICD_SIGN){
 			return true;
 		}
 		else

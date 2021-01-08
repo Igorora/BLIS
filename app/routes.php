@@ -17,7 +17,7 @@ Route::group(array("before" => "guest"), function()
     |-----------------------------------------
     | API route
     |-----------------------------------------
-    | Proposed route for the BLIS api, we will receive api calls 
+    | Proposed route for the BLIS api, we will receive api calls
     | from other systems from this route.
     */
     Route::post('/api/receiver', array(
@@ -37,7 +37,7 @@ Route::group(array("before" => "guest"), function()
         "as" => "user.login",
         "uses" => "UserController@loginAction"
     ));
-    
+
 });
 
 /* Routes accessible AFTER logging in */
@@ -74,7 +74,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "UserController@delete"
         ));
     });
-    
+
     Route::any("/logout", array(
         "as"   => "user.logout",
         "uses" => "UserController@logoutAction"
@@ -108,13 +108,13 @@ Route::group(array("before" => "auth"), function()
             "uses" => "SpecimenTypeController@delete"
         ));
         Route::resource('testcategory', 'TestCategoryController');
-        
+
         Route::get("/testcategory/{id}/delete", array(
             "as"   => "testcategory.delete",
             "uses" => "TestCategoryController@delete"
         ));
         Route::resource('measure', 'MeasureController');
-    
+
         Route::get("/measure/{id}/delete", array(
             "as"   => "measure.delete",
             "uses" => "MeasureController@delete"
@@ -134,26 +134,26 @@ Route::group(array("before" => "auth"), function()
             "uses" => "SpecimenRejectionController@delete"
         ));
         Route::resource('drug', 'DrugController');
-        
+
         Route::get("/drug/{id}/delete", array(
             "as"   => "drug.delete",
             "uses" => "DrugController@delete"
         ));
         Route::resource('organism', 'OrganismController');
-        
+
         Route::get("/organism/{id}/delete", array(
             "as"   => "organism.delete",
             "uses" => "OrganismController@delete"
         ));
         Route::resource('critical', 'CriticalController');
-        
+
         Route::get("/critical/{id}/delete", array(
             "as"   => "critical.delete",
             "uses" => "CriticalController@delete"
         ));
 
         Route::resource('microcritical', 'MicroCriticalController');
-        
+
         Route::get("/microcritical/{id}/delete", array(
             "as"   => "microcritical.delete",
             "uses" => "MicroCriticalController@delete"
@@ -184,7 +184,7 @@ Route::group(array("before" => "auth"), function()
             "as" =>"panel.delete",
             "uses" =>"PanelController@deactivate"
             ));
-    });    
+    });
     Route::any("/test", array(
         "as"   => "test.index",
         "uses" => "TestController@index"
@@ -198,6 +198,22 @@ Route::group(array("before" => "auth"), function()
     Route::post("/test/resultinterpretation", array(
     "as"   => "test.resultinterpretation",
     "uses" => "TestController@getResultInterpretation"
+    ));
+    Route::get("/icd10/diag/{term?}", array(
+    "as"   => "icd10.8",
+    "uses" => "Icd10Controller@getDiags"
+    ));
+    Route::get("/icd10/med/{term?}", array(
+    "as"   => "icd10.9",
+    "uses" => "Icd10Controller@getMeds"
+    ));
+    Route::get("/icd10/symp/{term?}", array(
+    "as"   => "icd10.10",
+    "uses" => "Icd10Controller@getSymps"
+    ));
+    Route::get("/icd10/sign/{term?}", array(
+    "as"   => "icd10.11",
+    "uses" => "Icd10Controller@getSigns"
     ));
      Route::any("/test/{id}/receive", array(
         "before" => "checkPerms:receive_external_test",
@@ -357,7 +373,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "BlisClientController@properties"
         ));
     });
-    
+
     //  Check if able to manage reports
     Route::group(array("before" => "checkPerms:view_reports"), function()
     {
@@ -368,19 +384,19 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@loadPatients"
         ));
         Route::any("/patientreport/{id}", array(
-            "as" => "reports.patient.report", 
+            "as" => "reports.patient.report",
             "uses" => "TestResultController@viewPatientReport"
         ));
 		Route::any("/transmittedresult/{id}", array(
-            "as" => "result.transmission.register", 
+            "as" => "result.transmission.register",
             "uses" => "TestResultController@resultTransmissionRegister"
         ));
         Route::any("/transmitresult", array(
-            "as" => "transmit.result", 
+            "as" => "transmit.result",
             "uses" => "TestResultController@transmitTestResult"
         ));
         Route::any("/patientreport/{id}/{visit}/{testId?}", array(
-            "as" => "reports.patient.report", 
+            "as" => "reports.patient.report",
             "uses" => "TestResultController@viewPatientReport"
         ));
         Route::any("/dailylog", array(
@@ -411,7 +427,7 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.infection",
             "uses" => "ReportController@infectionReport"
         ));
-        
+
         Route::any("/userstatistics", array(
             "as"   => "reports.aggregate.userStatistics",
             "uses" => "ReportController@userStatistics"
@@ -426,7 +442,7 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.cd4",
             "uses" => "ReportController@cd4"
         ));
-        
+
         Route::get("/qualitycontrol", array(
             "as"   => "reports.qualityControl",
             "uses" => "ReportController@qualityControl"
@@ -461,7 +477,7 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.inventoryusage",
             "uses" => "ReportController@usageLevel"
         ));
-        
+
         Route::get('search/autocomplete', 'ReportController@autocomplete');
 
         Route::any("/rejection", array(
@@ -513,7 +529,7 @@ Route::group(array("before" => "auth"), function()
             "as" => "control.resultsEdit",
             "uses" => "ControlController@resultsEdit"
         ));
-    
+
         Route::get("controlresults/{controlId}/resultsList", array(
             "as" => "control.resultsList",
             "uses" => "ControlController@resultsList"
@@ -530,7 +546,7 @@ Route::group(array("before" => "auth"), function()
             'uses' => 'ControlController@resultsUpdate'
         ));
     });
-    
+
     Route::group(array("before" => "checkPerms:manage_inventory"), function()
     {
         //Commodities
@@ -551,7 +567,7 @@ Route::group(array("before" => "auth"), function()
         ));
         //Suppliers
         Route::resource('supplier', 'SupplierController');
-        
+
         Route::get("/supplier/{id}/delete", array(
             "as"   => "supplier.delete",
             "uses" => "SupplierController@delete"

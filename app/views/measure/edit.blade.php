@@ -11,9 +11,9 @@
     <div class="col-md-3">
         <div class="form-group">
             {{ Form::label('measures[measure_type_id]['.$measure->id.']', trans('messages.measure-type')) }}
-                <select class="form-control measuretype-input-trigger {{$measure->id}}" 
-                    data-measure-id="{{$measure->id}}" 
-                    name="measures[{{$measure->id}}][measure_type_id]" 
+                <select class="form-control measuretype-input-trigger {{$measure->id}}"
+                    data-measure-id="{{$measure->id}}"
+                    name="measures[{{$measure->id}}][measure_type_id]"
                     id="measure_type_id">
                     <option value="0"></option>
                     @foreach ($measuretype as $type)
@@ -41,14 +41,14 @@
             <div class="form-pane panel panel-default">
                 <div class="panel-body">
                 <div>
-                    <div 
+                    <div
                     class="{{($measure->measure_type_id == 1) ? 'col-md-12' : 'col-md-6' }} measurevalue {{$measure->id}}">
-                    
+
                     @if ($measure->measure_type_id == 1)
                         <div class="col-md-12">
                             <div class="col-md-6">
                                 <span class="col-md-10 range-title">{{trans('messages.measure-age-range')}}</span>
-                                
+
                                 <span class="col-md-2 range-title">{{trans('messages.gender')}}</span>
                             </div>
                             <div class="col-md-3">
@@ -58,18 +58,18 @@
                                 <span class="col-md-12 interpretation-title">{{trans('messages.interpretation')}}
                                 </span>
                             </div>
-                        </div>     
+                        </div>
                         @foreach($measure->measureRanges as $key=>$value)
                         <div class="col-md-12 measure-input">
                             <div class="col-md-6">
                                  <?php $selection_interval = array("","","");?>
-                                    <?php 
+                                    <?php
                                     if ($value->interval==2) {
-                                       $selection_interval[2] = "selected='selected'"; 
+                                       $selection_interval[2] = "selected='selected'";
                                     }else if($value->interval==0 ){
-                                        $selection_interval[0] = "selected='selected'"; 
+                                        $selection_interval[0] = "selected='selected'";
                                     }else if($value->interval==1){
-                                        $selection_interval[1] = "selected='selected'"; 
+                                        $selection_interval[1] = "selected='selected'";
                                     }
                                     ?>
                                 <select class="col-md-3" name="measures[{{$measure->id}}][interval][]">
@@ -81,25 +81,25 @@
                                 @if($value->interval==Measure::YEAR_INTERVAL )
                                 <input class="col-md-2" name="measures[{{$measure->id}}][agemin][]" type="text" value="{{ round($value->age_min/366) }}"
                                     title="{{trans('messages.lower-age-limit')}}">
-                                
+
                                 <span class="col-md-1">:</span>
                                 <input class="col-md-2" name="measures[{{$measure->id}}][agemax][]" type="text" value="{{ round($value->age_max/366) }}"
                                     title="{{trans('messages.upper-age-limit')}}">
                                 @elseif($value->interval==Measure::MONTH_INTERVAL)
                                  <input class="col-md-2" name="measures[{{$measure->id}}][agemin][]" type="text" value="{{ round($value->age_min/30.5) }}"
                                     title="{{trans('messages.lower-age-limit')}}">
-                                
+
                                 <span class="col-md-1">:</span>
                                 <input class="col-md-2" name="measures[{{$measure->id}}][agemax][]" type="text" value="{{ round($value->age_max/30.5) }}"
                                     title="{{trans('messages.upper-age-limit')}}">
                                 @else
                                     <input class="col-md-2" name="measures[{{$measure->id}}][agemin][]" type="text" value="{{ $value->age_min }}"
                                     title="{{trans('messages.lower-age-limit')}}">
-                                
+
                                 <span class="col-md-1">:</span>
                                 <input class="col-md-2" name="measures[{{$measure->id}}][agemax][]" type="text" value="{{ $value->age_max }}"
                                     title="{{trans('messages.upper-age-limit')}}">
-                                @endif    
+                                @endif
                                     <?php $selection = array("","","");?>
                                     <?php $selection[$value->gender] = "selected='selected'"; ?>
                                 <span class="col-md-1"></span>
@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-md-3">
                                 <input class="col-md-4" name="measures[{{$measure->id}}][rangemin][]" type="text"
-                                    value="{{ $value->range_lower }}" 
+                                    value="{{ $value->range_lower }}"
                                     title="{{trans('messages.lower-range')}}">
                                 <span class="col-md-2">:</span>
                                 <input class="col-md-4" name="measures[{{$measure->id}}][rangemax][]" type="text"
@@ -119,9 +119,9 @@
                                     title="{{trans('messages.upper-range')}}">
                             </div>
                             <div class="col-md-2">
-                                <input class="col-md-10" name="measures[{{$measure->id}}][interpretation][]" type="text" 
+                                <input class="col-md-10" name="measures[{{$measure->id}}][interpretation][]" type="text"
                                     value="{{ $value->interpretation }}">
-                                <button class="col-md-2 close" aria-hidden="true" type="button" 
+                                <button class="col-md-2 close" aria-hidden="true" type="button"
                                 title="{{trans('messages.delete')}}">×</button>
                                 <input value="{{ $value->id }}" name="measures[{{$measure->id}}][measurerangeid][]" type="hidden">
                             </div>
@@ -142,24 +142,36 @@
                             <div class="col-md-5">
                                 <input class="col-md-10 interpretation" value="{{ $value->interpretation }}"
                                 name="measures[{{$measure->id}}][interpretation][]" type="text">
-                                <button class="col-md-2 close" aria-hidden="true" type="button" 
+                                <button class="col-md-2 close" aria-hidden="true" type="button"
                                     title="{{trans('messages.delete')}}">×</button>
                                 <input value="{{ $value->id }}" name="measures[{{$measure->id}}][measurerangeid][]" type="hidden">
                             </div>
-                        </div>  
+                        </div>
                         @endforeach
                     @elseif ($measure->measure_type_id == 4 )
                         <div class="freetextInputLoader">
                             <p class="freetextInput" >{{trans('messages.freetext-measure-config-input-message')}}</p>
                         </div>
-					@else
+                    @elseif ($measure->measure_type_id == 5 )
                         <div class="largetextInputLoader">
                             <p class="largetextInput" >{{trans('messages.largetext-measure-config-input-message')}}</p>
+                        </div>
+                    @elseif ($measure->measure_type_id == 6 )
+                        <div class="hidden standard-datepicker">
+                            <p class="standard-datepicker" >{{trans('messages.date-picker-massage')}}</p>
+                        </div>
+                    @elseif ($measure->measure_type_id == 7 )
+                        <div class="hidden standard-timepicker">
+                            <p class="standard-timepicker" >{{trans('messages.time-picker-massage')}}</p>
+                        </div>
+					@else
+                        <div class="hidden icd-ajax-autocomplete">
+                            <p class="icd-ajax-autocomplete" >{{trans('messages.ajax-autocomplete')}}</p>
                         </div>
                     @endif
                 </div>
                 <div class="col-md-12 actions-row {{($measure->measure_type_id >= 4)? 'hidden':''}}">
-                    <a class="btn btn-default add-another-range" href="javascript:void(0);" 
+                    <a class="btn btn-default add-another-range" href="javascript:void(0);"
                         data-measure-id="{{$measure->id}}">
                     <span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure-range')}}</a>
                 </div>
@@ -170,7 +182,7 @@
     </div>
 </div>
 <div class="col-md-1">
-    <button class="col-md-12 close" aria-hidden="true" type="button" 
+    <button class="col-md-12 close" aria-hidden="true" type="button"
         title="{{trans('messages.delete')}}">×</button>
 </div>
 </div>

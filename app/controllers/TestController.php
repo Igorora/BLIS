@@ -398,7 +398,8 @@ class TestController extends \BaseController {
             $testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
             $initialMeasureVal=$testResult->result;
             $inputName = "m_" . $measure->id;
-            $inputVal=$measure->measure_type_id==Measure::AUTOCOMPLETE ? implode(", " , Input::get($inputName)) : Input::get($inputName);
+            $inputVal=$measure->measure_type_id==Measure::AUTOCOMPLETE ||
+                $measure->measure_type_id > 7 ? implode(", " , Input::get($inputName)) : Input::get($inputName);
             $audit = false;
             //Log in Audit if the values have changed
             if ($testResult->result != $inputVal) {

@@ -165,6 +165,7 @@ return array(
 	'largetext-measure-config-input-message' => 'A text area will appear for results entry',
     'date-picker-massage' => 'A date picker will appear for results entry',
     'time-picker-massage' => 'A time picker will appear for results entry',
+    'ajax-autocomplete' => 'A multi select searchable autocomplete will appear for result',
     'list-measures' => 'List Measures',
     'measure' => 'Measure|Measures',
     'measure-age-range' => 'Age Range',
@@ -332,13 +333,13 @@ return array(
     'success-saving-results' => 'The results have been successfully saved!',
     'success-verifying-results' => 'The results have been successfully verified!',
     'test-results' => 'Results',
-	
+
 				/**
      *   Tests Rec
      */
 					'success-Lab-request-submited'=>'Lab request submited for testing',
-					
-					
+
+
     /**
      *   Access Controls
      */

@@ -73,7 +73,11 @@ class TestDataSeeder extends DatabaseSeeder {
             array("id" => "4", "name" => "Free Text"),
             array("id" => "5", "name" => "Large Text"),
             array("id" => "6", "name" => "Date picker"),
-            array("id" => "7", "name" => "Time picker")
+            array("id" => "7", "name" => "Time picker"),
+            array("id" => "8", "name" => "Diagnoses autocomplete"),
+            array("id" => "9", "name" => "Medicines autocomplete"),
+            array("id" => "10", "name" => "Symptoms autocomplete"),
+            array("id" => "11", "name" => "Signs autocomplete")
         );
 
         foreach ($measureTypes as $measureType) {
