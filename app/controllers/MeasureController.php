@@ -65,7 +65,7 @@ class MeasureController extends \BaseController {
 
                     
                  }
-            }else if( $measure->isAlphanumeric() || $measure->isAutocomplete() ) {
+            }else if( $measure->isAlphanumeric() || $measure->isAutocomplete()) {
                 $val['val'] = $data['val'];
                 $val['interpretation'] = $data['interpretation'];
                 for ($i=0; $i < count($val['val']); $i++) { 
@@ -97,7 +97,9 @@ class MeasureController extends \BaseController {
             $measure->unit = $data['unit'];
             $measure->description = $data['description'];
             $measure->save();
-            if (!($measureTypeId == Measure::FREETEXT || $measureTypeId == Measure::LARGETEXT || $measureTypeId == Measure::DATE_PICKER || $measureTypeId == Measure::TIME_PICKER)) {
+            if (($measureTypeId == Measure::NUMERIC || 
+					$measureTypeId == Measure::ALPHANUMERIC || 
+					$measureTypeId == Measure::AUTOCOMPLETE)) {
                 if ($measureTypeId == Measure::NUMERIC){
                     $val['agemin'] = $data['agemin'];
                     $val['agemax'] = $data['agemax'];

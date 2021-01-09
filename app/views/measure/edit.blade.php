@@ -157,15 +157,15 @@
                             <p class="largetextInput" >{{trans('messages.largetext-measure-config-input-message')}}</p>
                         </div>
                     @elseif ($measure->measure_type_id == 6 )
-                        <div class="hidden standard-datepicker">
+                        <div class=" standard-datepicker">
                             <p class="standard-datepicker" >{{trans('messages.date-picker-massage')}}</p>
                         </div>
                     @elseif ($measure->measure_type_id == 7 )
-                        <div class="hidden standard-timepicker">
+                        <div class=" standard-timepicker">
                             <p class="standard-timepicker" >{{trans('messages.time-picker-massage')}}</p>
                         </div>
 					@else
-                        <div class="hidden icd-ajax-autocomplete">
+                        <div class=" icd-ajax-autocomplete">
                             <p class="icd-ajax-autocomplete" >{{trans('messages.ajax-autocomplete')}}</p>
                         </div>
                     @endif
