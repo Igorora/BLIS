@@ -7,7 +7,7 @@ class Symptom extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'sysmptoms';
+	protected $table = 'symptoms';
 
 
 
