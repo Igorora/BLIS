@@ -127,6 +127,7 @@
                                         array('class' => 'icd-ajax form-control result-interpretation-trigger',
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-icd' => URL::route('icd10.'.$measure->measureType->id),
+										'data-icd-type' => $measure->measureType->id,
                                         'data-measureid' => $measure->id, 'multiple' => 'multiple'
                                         ))
                                     }}

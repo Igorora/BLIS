@@ -41,7 +41,7 @@ class TestController extends \BaseController {
             }
         } else {
             // List all the active tests
-            $tests = Test::orderBy('id', 'DESC')->limit(200)->groupBy('id');
+            $tests = Test::orderBy('id', 'DESC')->groupBy('id');
         }
 
         // Create Test Statuses array. Include a first entry for ALL
@@ -398,8 +398,7 @@ class TestController extends \BaseController {
             $testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
             $initialMeasureVal=$testResult->result;
             $inputName = "m_" . $measure->id;
-            $inputVal=$measure->measure_type_id==Measure::AUTOCOMPLETE ||
-                $measure->measure_type_id > 7 ? implode(" ** " , Input::get($inputName)) : Input::get($inputName);
+            $inputVal=is_array(Input::get($inputName)) ? implode(" ** " , Input::get($inputName)) : Input::get($inputName);
             $audit = false;
             //Log in Audit if the values have changed
             if ($testResult->result != $inputVal) {

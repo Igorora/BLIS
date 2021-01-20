@@ -457,12 +457,16 @@ class Test extends Eloquent
 					{
 						$q->where(function($q) use ($searchString){
 							$q->where('external_patient_number', '=', $searchString )
-							  ->orWhere('patient_number', '=', $searchString );
+							  ->orWhere('patient_number', 'like', '%' . $searchString . '%' );
 						});
 					}
 					else
 					{
-						$q->where('name', 'like', '%' . $searchString . '%');
+						//$q->where('name', 'like', '%' . $searchString . '%');
+						$q->where(function($q) use ($searchString){
+							$q->where('name', 'like', '%' . $searchString . '%' )
+							  ->orWhere('patient_number', 'like', '%' . $searchString . '%' );
+						});
 					}
 				});
 			})

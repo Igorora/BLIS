@@ -1050,6 +1050,7 @@ $(document).ready(function() {
         placeholder: "Type three character...",
         minimumInputLength: 3,
         multiple: true,
+		tags: true,
         ajax: {
             url: function(params) {
                 return $(this).data('icd') + '/' + params.term;
