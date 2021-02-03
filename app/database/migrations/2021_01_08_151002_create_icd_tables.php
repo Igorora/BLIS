@@ -19,6 +19,7 @@ class CreateIcdTables extends Migration {
 			$table->primary('id');
 
 		});
+		DB::statement('ALTER TABLE signs ADD FULLTEXT search_sign (id)');
 		Schema::create('medicines', function(Blueprint $table)
 		{
 			$table->string('id',250)->unsigned();
@@ -26,6 +27,7 @@ class CreateIcdTables extends Migration {
 			$table->primary('id');
 
 		});
+		DB::statement('ALTER TABLE medicines ADD FULLTEXT search_med (id)');
 		Schema::create('icd10_diags', function(Blueprint $table)
 		{
 			$table->string('id',250)->unsigned();
@@ -33,6 +35,7 @@ class CreateIcdTables extends Migration {
 			$table->primary('id');
 
 		});
+		DB::statement('ALTER TABLE icd10_diags ADD FULLTEXT search_diag (id)');
 		Schema::create('symptoms', function(Blueprint $table)
 		{
 			$table->string('id',250)->unsigned();
@@ -40,6 +43,7 @@ class CreateIcdTables extends Migration {
 			$table->primary('id');
 
 		});
+		DB::statement('ALTER TABLE symptoms ADD FULLTEXT search_symp (id)');
 
 	}
 
@@ -50,10 +54,22 @@ class CreateIcdTables extends Migration {
 	 */
 	public function down()
 	{
-            Schema::dropIfExists('symptoms');
-            Schema::dropIfExists('icd10_diags');
-            Schema::dropIfExists('medicines');
-            Schema::dropIfExists('signs');
+		Schema::table('symptoms', function($table) {
+			$table->dropIndex('search_symp');
+		});
+		Schema::table('icd10_diags', function($table) {
+			$table->dropIndex('search_diag');
+		});
+		Schema::table('medicines', function($table) {
+			$table->dropIndex('search_med');
+		});
+		Schema::table('signs', function($table) {
+			$table->dropIndex('search_sign');
+		});
+		Schema::dropIfExists('symptoms');
+		Schema::dropIfExists('icd10_diags');
+		Schema::dropIfExists('medicines');
+		Schema::dropIfExists('signs');
 	}
 
 }

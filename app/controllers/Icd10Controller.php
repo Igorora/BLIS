@@ -6,41 +6,41 @@ class Icd10Controller extends BaseController {
 
 	public function getDiags($term = '')
 	{
-		$diags = Diag::where('id','LIKE','%' .$term. '%')
-					->orWhere('text', 'LIKE', '%' .$term. '%')
-					->orderBy('text', 'ASC')
-					->get()
-					->toJson();
-
-		return $diags;
+		return static::makeQuery('Diag', $term);
 	}
 	public function getMeds($term = '')
 	{
-		$meds = Medicine::where('id','LIKE','%' .$term. '%')
-					->orWhere('text', 'LIKE', '%' .$term. '%')
-					->orderBy('text', 'ASC')
-					->get();
-		return $meds->toJson();//json_encode(['results' => $meds->toJson(), 'total' => $meds->count()]);
+		return static::makeQuery('Medicine', $term);
 	}
 	public function getSymps($term = '')
 	{
-		$symps = Symptom::where('id','LIKE','%' .$term. '%')
-					->orWhere('text', 'LIKE', '%' .$term. '%')
-					->orderBy('text', 'ASC')
-					->get()
-					->toJson();
-
-		return $symps;
+		return static::makeQuery('Symptom', $term);
 	}
 	public function getSigns($term = '')
 	{
-		$signs = Sign::where('id','LIKE','%' .$term. '%')
-					->orWhere('text', 'LIKE', '%' .$term. '%')
-					->orderBy('text', 'ASC')
-					->get()
-					->toJson();
+		return static::makeQuery('Sign', $term);
+	}
 
-		return $signs;
+	/**
+	 * Make a full text search query
+	 *
+	 * @param String $modelName Elloquent model name
+	 * @param String $searchTerm term to search for
+	 * @return Json Json formatted result of query
+	 */
+	private static function makeQuery($modelName, $searchTerm)
+	{
+		$columns = [
+			'id' => 'id',
+			'text' => 'text',
+			'score' => DB::raw('(match (id) against (\''.$searchTerm.'*'.'\' in boolean mode)) as score')
+		];
+		$results = $modelName::select($columns)
+			->whereRaw('match (id) against (\''.$searchTerm.'*'.'\' in boolean mode)')
+			->orderBy('score', 'desc')
+			->get()
+			->toJson();
+		return $results;
 	}
 
 }
