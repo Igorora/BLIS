@@ -1042,12 +1042,17 @@ $(document).ready(function() {
 
     }
 
-    $('.select2').select2({
-        tags: true
+    
+    $('.select2').each(function() {
+        $(this).select2({
+            tags: true,
+            placeholder: "Select or tag" + ($(this).attr('multiple') ? " all" : " one") + " that apply..."
+        });
+
     });
 
     $('.icd-ajax').select2({
-        placeholder: "Type three character...",
+        placeholder: "Type at least three characters and select or tag all that apply...",
         minimumInputLength: 3,
         multiple: true,
 		tags: true,

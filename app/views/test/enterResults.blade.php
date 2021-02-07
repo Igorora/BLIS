@@ -130,7 +130,7 @@
                                 @elseif ( $measure->isAlphanumeric())
                                     <?php
                                     $measure_values = array();
-                                    $measure_values[''] = 'Select result';
+                                    $measure_values[''] = '';
                                     foreach ($measure->measureRanges as $range) {
                                         $measure_values[$range->alphanumeric] = $range->alphanumeric;
                                     }
@@ -144,14 +144,17 @@
                                     }}
                                 @elseif ($measure->isAutocomplete() )
                                     <?php
-                                    $measure_values = array();
-                                    $measure_values[''] = 'Select result';
+                                    $selected = $ans ? explode(" ** ",$ans) : null;
+                                    $measure_values = !empty($selected) ? array_combine ($selected, $selected) : [];
+                                    
                                     foreach ($measure->measureRanges as $range) {
                                         $measure_values[$range->alphanumeric] = $range->alphanumeric;
                                     }
+                                   
+                                   
                                     ?>
                                     {{ Form::label($fieldName , $measure->name) }}
-                                    {{ Form::select($fieldName.'[]', $measure_values, array_intersect(explode(', ',$ans), $measure_values),
+                                    {{ Form::select($fieldName.'[]', $measure_values,  $selected,
                                         array('class' => 'select2 form-control result-interpretation-trigger',
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-measureid' => $measure->id, 'multiple' => 'multiple'
@@ -162,10 +165,11 @@
                                         $measure->isSympAutocomplete() ||
                                         $measure->isSignAutocomplete() )
                                     <?php
-                                    $measure_values = [];
+                                        $selected = $ans ? explode(" ** ",$ans) : null;
+                                        $measure_values = !empty($selected) ? array_combine ($selected, $selected) : [];
                                     ?>
                                     {{ Form::label($fieldName , $measure->name) }}
-                                    {{ Form::select($fieldName.'[]', $measure_values, array_intersect(explode(', ',$ans), $measure_values),
+                                    {{ Form::select($fieldName.'[]', $measure_values, $selected,
                                         array('class' => 'icd-ajax form-control result-interpretation-trigger',
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-icd' => URL::route('icd10.'.$measure->measureType->id),
