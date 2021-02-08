@@ -445,7 +445,7 @@ class TestController extends \BaseController {
 
 
 		$test->interpretation = Input::get('interpretation');
-		$nonreportedtests=$test->testResults()->where('result','=','')->orWhere('result','=',null)->count();
+		$nonreportedtests = $test->testResults()->where('result','=','')->count() + $test->testResults()->whereNull('result')->count();
 		if($nonreportedtests == 0){
 			//dd($reportedtests);
 			if (!($test->isVerified() || $test->isCompleted())){
