@@ -30,6 +30,7 @@ class Icd10Controller extends BaseController {
 	 */
 	private static function makeQuery($modelName, $searchTerm)
 	{
+		$searchTerm = preg_replace('/(\w+)/', '+$1', $searchTerm);
 		$columns = [
 			'id' => 'id',
 			'text' => 'text',
